@@ -1,12 +1,14 @@
 
 import mongoose from 'mongoose'
-const uri = "mongodb+srv://devpeter:Mag1@cluster0.to9arvf.mongodb.net/devpeter?retryWrites=true&w=majority";
+const uri = "mongodb+srv://banko:Mag1@cluster0.to9arvf.mongodb.net/banko?retryWrites=true&w=majority";
 
-mongoose.connect(uri)
-    .then((result) =>{
-+        app.listen(8000)
-        console.log("Connected")
-    })
-    .catch((err) =>{
-        console.log(err)
-    })
+const connectDB = async () => {
+    try {
+        await mongoose.connect(uri);
+        console.log("Connected to MongoDB");
+    } catch (err) {
+        console.error("Failed to connect to MongoDB:", err);
+    }
+};
+
+export default connectDB;
