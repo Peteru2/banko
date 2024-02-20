@@ -4,8 +4,6 @@ import axios from "axios"
 
 
 
-
-
 const Login = ({close}) => {
 
 
@@ -22,8 +20,8 @@ const handleSuccess = () =>{
 const handleRetry = () => {
     setSuccess(false);
     setIcon(false)
+    setFormMessage("")
 
-    // setFormMessage("");
   };
     const [formData, setFormData] = useState({
         name: '',
@@ -51,7 +49,6 @@ const handleRetry = () => {
       const newErrors = {};
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
       const phoneRegex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-
    
             if (formData.name.trim() === '') {
 
@@ -72,37 +69,33 @@ const handleRetry = () => {
                 }
                 else {
                     setIcon(true)
-                    axios.post('http://127.0.0.1/api/quoteform/submit', formData)
+                    axios.post('http://localhost:8000', formData)
                     .then(response => {
-                        // Handle success
-                        console.log('Success:', response.data);
                         setFormData({
                             name: '',
                             email: '',
                             phoneNumber: '',
                             message:'',
                         })
-                        console.log('Success:', response.message);
-
+                        if(response.data.error == "Exist" ){
+                            setFormMessage("Error:Email Already Exist")
+                    }
+                    else{
                         setFormMessage("Quote Submitted Successfully")
-
                         setSuccess(true)
+                    }
+                       
                     })
                     .catch(error => {
                         // Handle error
                         console.error('Error:', error.message);
                         setSuccess(true)
-
                         setFormMessage(error.message)
 
-                        // Display your error message here
                     });
-                    
-                  
-                    // close()
                 }
+
                 setErrors(newErrors);
-                console.log(formData)
             if (Object.keys(newErrors).length === 0) {
                 setErrors({});
             }
@@ -182,10 +175,10 @@ const handleRetry = () => {
                                 </div>
                             </div>
 
-                            <button  type="submit"  className="bg-gray border-[1px]  mt-4 border-private bg-opacity-30 hover:bg-opacity-90  text-white  py-1 px-3 rounded-md ">{icon ?( <span>Submitting <i class="fas fa-spinner fa-spin"></i></span>):( <span className="text-private">Submit</span>  )}</button>
+                            <button  type="submit"  className="bg-gray border-[1px]  mt-4 border-private bg-opacity-30 hover:bg-opacity-90  text-white  py-1 px-3 rounded-md ">{icon ?( <span>Submitting <i className="fas fa-spinner fa-spin"></i></span>):( <span className="text-private">Submit</span>  )}</button>
                                 
                         </form>
-                        <div className= {`font-roboto text-black ${success?"":"hidden"}`}> 
+                        <div > 
                         <h2 className={`mb-2 font-bold ${formMessage && formMessage.includes("Error") ? "text-red" : "hidden text-black"}`}>
                         {formMessage}
                                  </h2>
@@ -194,7 +187,7 @@ const handleRetry = () => {
                                  </h2>
                         
                         <button className={`bg-private w-full border-[1px] text-white rounded-[4px]  mt-3 ${formMessage && formMessage.includes("Successfully") ? "text-green" : "hidden"}`} onClick={handleSuccess}>Close</button>
-                        {/* <button className={`border-gray border-[1px] rounded-[4px] w-[50px] ${formMessage && formMessage.includes("Error") ? "text-green" : "hidden"}`}  onClick={handleRetry}>Retry</button> */}
+                        <button className={`border-gray border-[1px] rounded-[4px] w-[50px] ${formMessage && formMessage.includes("Error") ? "text-green" : "hidden"}`}  onClick={handleRetry}>Retry</button>
 
                     </div>
                     </div>

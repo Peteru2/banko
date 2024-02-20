@@ -1,6 +1,6 @@
 
-import mongoose from 'mongoose'
-const uri = "mongodb+srv://banko:Mag1@cluster0.to9arvf.mongodb.net/banko?retryWrites=true&w=majority";
+import mongoose from 'mongoose';
+const uri = "mongodb+srv://banko:Banko1@cluster0.to9arvf.mongodb.net/banko?retryWrites=true&w=majority";
 
 const connectDB = async () => {
     try {
