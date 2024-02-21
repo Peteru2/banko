@@ -72,11 +72,11 @@ const Post_login = async (req, res) => {
         const user = await Login.findOne({ email: email });
         
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+           return res.status(404).json({ message: ' User not found' });
         }
         
         if (password !== user.password) {
-            return res.status(401).json({ error: 'Invalid password' });
+            return res.status(401).json({ message: 'Invalid password' });
         }
 
         const token = jwt.sign({ userId: user._id, email: user.email }, secretKey, { expiresIn: '1h' }); // Token expires in 1 hour

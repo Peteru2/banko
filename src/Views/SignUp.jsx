@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios"
 import Logo from "../assets/image/Logo.png"
+import SideView from "../component/sideView";
 
 const SignUp = () => {
 
@@ -111,6 +112,10 @@ const handleRetry = () => {
       }
     return ( 
                 <>
+
+                <div className="flex">
+
+                
                     <section className="mx-10 h-screen  flex  items-center ">
                         <div>
                         <div>
@@ -220,7 +225,8 @@ const handleRetry = () => {
                     </div>
                     </section>
 
-                 
+            <SideView />
+                    </div>
                     
                 </>
      );

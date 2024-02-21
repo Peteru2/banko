@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Logo from "../assets/image/Logo.png"
+import SideView from "../component/sideView";
 
 
 
@@ -67,23 +68,39 @@ const handleRetry = () => {
                     setIcon(true)
                     axios.post('http://localhost:8000/Login', formData)
                     .then(response => {
-                            console.log(formData)
                             console.log(response.data.token)
-                            console.log(response.data.message)
-                            toast.success(response.data.message, {
-                                position: "top-right",
-                              }); 
-
+                                toast.success(response.data.message, {
+                                    position: "top-right",
+                                  }); 
+                        
                         setFormData({
                             email: '',
                             password:'',
                         })
-                       
-                       
                     })
-                    .catch(error => {
-                        // Handle error
-                        console.error('Error:', error.message);
+                    .catch(error => {   
+                        if (error.response) {
+                            
+                            if (error.response.status === 404) {
+                                toast.error(error.response.data.message, {
+                                    position: "top-right",
+                                  }); 
+                            } else if (error.response.status === 401) {
+                                toast.error(error.response.data.message, {
+                                    position: "top-right",
+                                  }); 
+                            } else {
+                                toast.error(error.response.data.message, {
+                                    position: "top-right",
+                                  }); 
+                            }
+                          } else if (error.request) {
+                            // The request was made but no response was received
+                            console.log('No response received from server');
+                          } else {
+                            // Something else happened while setting up the request
+                            console.log('Error:', error.message);
+                          }
                         setSuccess(true)
                         setFormMessage(error.message)
 
@@ -97,6 +114,7 @@ const handleRetry = () => {
       }
     return ( 
                 <>
+                <div className="flex">
                     <section className="mx-10 h-screen   flex  items-center ">
                         <div>
                         <div>
@@ -162,6 +180,8 @@ const handleRetry = () => {
                     </div>
                     </div>
                     </section>
+                    <SideView />
+                    </div>
 
                     <ToastContainer />
                     
