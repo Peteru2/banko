@@ -80,7 +80,7 @@ const Post_login = async (req, res) => {
         }
 
         const token = jwt.sign({ userId: user._id, email: user.email }, secretKey, { expiresIn: '1h' }); // Token expires in 1 hour
-        res.status(200).json({ success: 'Exist', token: token });
+        res.status(200).json({ success: 'Exist', token: token, message: 'User logged In Succesfully' });
 
     } catch (error) {
         console.error('Error:', error);

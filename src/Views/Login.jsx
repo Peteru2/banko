@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios"
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import Logo from "../assets/image/Logo.png"
 
 
@@ -67,18 +69,16 @@ const handleRetry = () => {
                     .then(response => {
                             console.log(formData)
                             console.log(response.data.token)
+                            console.log(response.data.message)
+                            toast.success(response.data.message, {
+                                position: "top-right",
+                              }); 
+
                         setFormData({
                             email: '',
                             password:'',
                         })
-                        if(response.data.success == "Exist" ){
-                            setFormMessage("Success: User Logged in succesfully")
-                            setSuccess(true)
-
-                    }
-                    else{
-                        setFormMessage("Error in Login")
-                    }
+                       
                        
                     })
                     .catch(error => {
@@ -163,7 +163,7 @@ const handleRetry = () => {
                     </div>
                     </section>
 
-                 
+                    <ToastContainer />
                     
                 </>
      );
