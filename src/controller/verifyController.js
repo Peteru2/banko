@@ -53,9 +53,9 @@ const Post_login = async (req, res) => {
     try {
         const {  email, password } = req.body;
         
-        const check =  await Login.findOne({email:email, password: password})
+        const check =  await Login.findOne({email:email})
         if (check){
-            return res.status(201).json({success:"Exist", message: 'Login created successfully' })
+            return res.status(201).json({success:"Exist", message: 'Login created Successfully' })
         }   
     } catch (error) {
         console.error('Error:', error);

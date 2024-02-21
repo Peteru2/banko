@@ -21,7 +21,7 @@ const handleRetry = () => {
 
   };
     const [formData, setFormData] = useState({
-        
+    
         email: '',
         password:'',
 
@@ -43,8 +43,7 @@ const handleRetry = () => {
             e.preventDefault();
       const newErrors = {};
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-      const phoneRegex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-   
+    
 
     //   console.log(formData)
             
@@ -60,21 +59,21 @@ const handleRetry = () => {
                     newErrors.password = 'Password must not be less than 8 characters';
                 }
                 else {
-                    console.log(formData)
                     setIcon(true)
                     axios.post('http://localhost:8000/Login', formData)
                     .then(response => {
+                            console.log(formData)
                         setFormData({
                             email: '',
                             password:'',
                         })
                         if(response.data.success == "Exist" ){
-                            setFormMessage(response.data.message+ "Logged In")
+                            setFormMessage("Success: User Logged in succesfully")
                             setSuccess(true)
 
                     }
                     else{
-                        setFormMessage("Error in Login in")
+                        setFormMessage("Error in Login")
                     }
                        
                     })
@@ -147,11 +146,11 @@ const handleRetry = () => {
                         <h2 className={`mb-2 font-bold ${formMessage && formMessage.includes("Error") ? "text-red" : "hidden text-black"}`}>
                         {formMessage}
                                  </h2>
-                                 <h2 className={`mb-2 font-bold ${formMessage && formMessage.includes("Successfully") ? "text-green" : "text-black hidden"}`}>
+                                 <h2 className={`mb-2 font-bold ${formMessage && formMessage.includes("Success") ? "text-green" : "text-black hidden"}`}>
                         {formMessage}
                                  </h2>
                         
-                        <button className={`bg-private w-full border-[1px] text-white rounded-[4px]  mt-3 ${formMessage && formMessage.includes("Successfully") ? "text-green" : "hidden"}`} onClick={handleSuccess}>Close</button>
+                        <button className={`bg-private w-full border-[1px] text-white rounded-[4px]  mt-3 ${formMessage && formMessage.includes("Success") ? "text-green" : "hidden"}`} onClick={handleSuccess}>Close</button>
                         <button className={`border-gray border-[1px] rounded-[4px] w-[50px] ${formMessage && formMessage.includes("Error") ? "text-green" : "hidden"}`}  onClick={handleRetry}>Retry</button>
 
                     </div>
