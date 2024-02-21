@@ -1,5 +1,8 @@
 import { useState } from "react";
 import axios from "axios"
+import { Link } from "react-router-dom";
+import Logo from "../assets/image/Logo.png"
+
 
 
 const Login = () => {
@@ -63,6 +66,7 @@ const handleRetry = () => {
                     axios.post('http://localhost:8000/Login', formData)
                     .then(response => {
                             console.log(formData)
+                            console.log(response.data.token)
                         setFormData({
                             email: '',
                             password:'',
@@ -93,23 +97,25 @@ const handleRetry = () => {
       }
     return ( 
                 <>
-                    <section className="mx-10 flex  items-center ">
+                    <section className="mx-10 h-screen   flex  items-center ">
                         <div>
                         <div>
-                            <h2 className="text-[20px] text-private font-bold    font-playfair">banko.</h2>
+                        <h2 className="text-[26px] text-private font-bold  flex  font-playfair">
+                                <img src={Logo} className="w-8 mr-2" alt="banko Logo" />
+                                Banko.</h2>
                         </div>
-                        <form onSubmit={handleSubmit}  className={`font-roboto w-[350px] text-black`}>
+                        <form onSubmit={handleSubmit}  className={`font-roboto w-[350px]  text-black`}>
                             <div className="flex  ">
                                 <div>
                             <h2 className="my-2 text-black font-roboto text-private text-[28px]">Log in to your account</h2>
-                            <h2 className="my- text-black font-roboto font-bold text-[16px]">Don't have an account? Sign Up</h2>
+                            <h2 className="my- text-black font-roboto font-bold  text-public text-opacity-80 text-[16px]">Don't have an account? <span className="text-blue"><Link to={'/SignUp'}>Sign Up</Link></span></h2>
                             </div>
                             <button className="ml-auto cursor-pointer" onClick={(e) => { e.preventDefault(); close(); }}><i className="fa fa-times"></i></button>
                             </div>
                         
                            
 
-                            <div className="mb-6">  
+                            <div className="mb-6 mt-10">  
                             <label className="  label flex text-[14px] font-bold">
                             <span>Email</span> <span className={`ml-auto text-red text-[14px] ${errors.email? "blink-error":""}`}> {errors.email}</span>
                         </label> 

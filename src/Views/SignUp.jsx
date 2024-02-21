@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios"
-
+import Logo from "../assets/image/Logo.png"
 
 const SignUp = () => {
 
@@ -111,10 +111,12 @@ const handleRetry = () => {
       }
     return ( 
                 <>
-                    <section className="mx-10 flex  items-center ">
+                    <section className="mx-10 h-screen  flex  items-center ">
                         <div>
                         <div>
-                            <h2 className="text-[20px] text-private font-bold    font-playfair">banko.</h2>
+                            <h2 className="text-[26px] text-private font-bold  flex  font-playfair">
+                                <img src={Logo} className="w-8 mr-2" alt="banko Logo" />
+                                Banko.</h2>
                         </div>
                         <form onSubmit={handleSubmit}  className={`font-roboto w-[350px] text-black`}>
                             <div className="flex  ">
@@ -124,7 +126,7 @@ const handleRetry = () => {
                             </div>
                             <button className="ml-auto cursor-pointer" onClick={(e) => { e.preventDefault(); close(); }}><i className="fa fa-times"></i></button>
                             </div>
-                        <div className="mb-6">  
+                        <div className="mb-3">  
                         
                         <label className=" mt-4 label flex text-[14px] font-bold">
                             <span>Firstname</span> <span className={`ml-auto text-red text-[14px] ${errors.firstname? "blink-error":""}`}> {errors.firstname}</span>
@@ -141,7 +143,7 @@ const handleRetry = () => {
                                 </div>
                             </div>
 
-                            <div className="mb-6">  
+                            <div className="mb-3">  
                         
                         <label className=" mt-4 label flex text-[14px] font-bold">
                             <span>Lastname</span> <span className={`ml-auto text-red text-[14px] ${errors.lastname? "blink-error":""}`}> {errors.lastname}</span>
@@ -158,8 +160,8 @@ const handleRetry = () => {
                                 </div>
                             </div>
 
-                            <div className="mb-6">  
-                            <label className="  label flex text-[14px] font-bold">
+                            <div className="mb-3">  
+                            <label className="  mt-4 label flex text-[14px] font-bold">
                             <span>Email</span> <span className={`ml-auto text-red text-[14px] ${errors.email? "blink-error":""}`}> {errors.email}</span>
                         </label> 
                                 <div className="flex items-center border border-gray rounded-[5px] px-3  mt-1 py-2">
@@ -172,8 +174,8 @@ const handleRetry = () => {
                                 </div>
                             </div>
 
-                            <div className="mb-6">  
-                            <label className="label flex text-[14px] font-bold">
+                            <div className="mb-3">  
+                            <label className="  mt-4 label flex text-[14px] font-bold">
                             <span>Phone Number</span> <span className={`ml-auto text-red text-[14px] ${errors.phoneNumber? "blink-error":""}`}> {errors.phoneNumber}</span>
                         </label> 
                                 <div className="flex items-center border border-gray rounded-[5px] px-3 mt-1  py-2">
@@ -186,8 +188,8 @@ const handleRetry = () => {
                                 </div>
                             </div>
 
-                            <div className="mb-6">  
-                            <label className=" label flex text-[14px] font-bold">
+                            <div className="mb-3">  
+                            <label className="  mt-4 label flex text-[14px] font-bold">
                             <span>Password</span> <span className={`ml-auto text-red text-[14px] ${errors.password? "blink-error":""}`}> {errors.password}</span>
                         </label> 
                         <div className="flex items-center border border-gray rounded-[5px] px-3 mt-1  py-2">
