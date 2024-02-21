@@ -10,7 +10,7 @@ function App() {
       <section >
         <Router>
           <Routes>
-            <Route path={'/'} element={<Login />} />
+            <Route path={'/SignUp'} element={<Login />} />
           </Routes>
         </Router>
         </section>

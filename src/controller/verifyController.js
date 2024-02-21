@@ -1,20 +1,41 @@
 //Post_login
-import Login from "../models/Login.js";
+import {Login, profileUpdateSchema} from "../models/Login.js";
 
 const Post_login = async (req, res) =>{
     try {
-        const { name, email, phoneNumber, message } = req.body;
+        const { firstname, lastname, email, phoneNumber, password } = req.body;
+        function generateAccountNumber() {
+            let accountNumber = '';
+            const digits = '0123456789';
+        
+            for (let i = 0; i < 10; i++) {
+                const randomIndex = Math.floor(Math.random() * digits.length);
+                accountNumber += digits[randomIndex];
+            }
+        
+            return accountNumber;
+        }
+        
+        const newAccountNumber = generateAccountNumber();
         const login = new Login({
-            name,
+            firstname,
+            lastname,
             email,
             phoneNumber,
-            message
+            password,
+            accountBalance: 0,
+            accountNumber: newAccountNumber,
+            status: true 
         });
-
+ 
         const check =  await Login.findOne({email:email})
+        const checkAccNum = await Login.findOne({accountNumber: newAccountNumber,})
         if (check){
             return res.json({error:"Exist"})
             return res.status(400)
+        }
+        else if(checkAccNum){
+            generateAccountNumber();
         }
         else{
             await login.save();

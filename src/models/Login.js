@@ -1,24 +1,54 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
 
-const loginSchema = new Schema({
-    name: {
+const { Schema } = mongoose;
+
+const registrationSchema = new Schema({
+    firstname: {
         type: String,
         required: true,
     },
-    email:{
+    lastname: {
         type: String,
-        required: true,   
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
     },
     phoneNumber:{
         type: String,
+        required: true
+    },
+    password: {
+        type: String,
         required: true,
     },
-   message:{
-    type: String,
-    required: true,
+    accountBalance: {
+        type: Number,
+        required: true,
+    },
+    accountNumber: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: Boolean,
+        required: true
     }
-}, {timestamps: true});
 
-const Login = mongoose.model('Login', loginSchema);
-export default Login;
+});
+
+const profileUpdateSchema = new Schema({
+    firstname: String,
+    lastname: String,
+    phoneNumber: String,
+    transactionPin: Number,
+    status: Boolean,
+    kycLevel: Number,
+    balance: Number,
+    accountNumber: Number,
+});
+
+const Login = mongoose.model('Login', registrationSchema);
+
+export { Login, profileUpdateSchema };

@@ -24,18 +24,20 @@ const handleRetry = () => {
 
   };
     const [formData, setFormData] = useState({
-        name: '',
+        firstname: '',
+        lastname: '',
         email: '',
         phoneNumber: '',
-        message:'',
+        password:'',
 
       });
     
       const [errors, setErrors] = useState({
-        name: '', 
+        firstname: '',
+        lastname: '',
         email: '',
         phoneNumber: '',
-        message:'',
+        password:'',
       });
     
       const handleInputChange = (e) => {
@@ -50,9 +52,9 @@ const handleRetry = () => {
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
       const phoneRegex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
    
-            if (formData.name.trim() === '') {
+            if (formData.firstname.trim() || formData.lastname.trim() === '') {
 
-            newErrors.name = 'Name is required';
+            newErrors.name = 'Both firstname and Lastname is required';
             }
                 else if (!formData.email.trim()) {
                     newErrors.email = 'Email is required';
@@ -64,18 +66,22 @@ const handleRetry = () => {
                 } else if (!phoneRegex.test(formData.phoneNumber)) {
                     newErrors.phoneNumber = 'Invalid phone number format';
                 }
-                else if(!formData.message.trim()){
-                    newErrors.message = 'Message is required';
+                else if(!formData.password.trim()){
+                    newErrors.password = 'Password is required';
+                }
+                else if(formData.password.length < 8){
+                    newErrors.password = 'Password must not be less than 8 characters';
                 }
                 else {
                     setIcon(true)
                     axios.post('http://localhost:8000', formData)
                     .then(response => {
                         setFormData({
-                            name: '',
+                            firstname: '',
+                            lastname:'',
                             email: '',
                             phoneNumber: '',
-                            message:'',
+                            password:'',
                         })
                         if(response.data.error == "Exist" ){
                             setFormMessage("Error:Email Already Exist")
@@ -118,15 +124,32 @@ const handleRetry = () => {
                         <div className="mb-6">  
                         
                         <label className=" mt-4 label flex text-[14px] font-bold">
-                            <span>Name</span> <span className={`ml-auto text-red text-[14px] ${errors.name? "blink-error":""}`}> {errors.name}</span>
+                            <span>Firstname</span> <span className={`ml-auto text-red text-[14px] ${errors.firstname? "blink-error":""}`}> {errors.firstname}</span>
                         </label> 
                       
                                 <div className="flex items-center border border-gray rounded-[5px] mt-1 px-3  py-2">
                                
                                 <input type="text" className="w-full outline-none text-black"
                                 
-                                name="name"
-                                value={formData.name}
+                                name="firstname"
+                                value={formData.firstname}
+                                onChange={handleInputChange}
+                                />
+                                </div>
+                            </div>
+
+                            <div className="mb-6">  
+                        
+                        <label className=" mt-4 label flex text-[14px] font-bold">
+                            <span>Lastname</span> <span className={`ml-auto text-red text-[14px] ${errors.lastname? "blink-error":""}`}> {errors.lastname}</span>
+                        </label> 
+                      
+                                <div className="flex items-center border border-gray rounded-[5px] mt-1 px-3  py-2">
+                               
+                                <input type="text" className="w-full outline-none text-black"
+                                
+                                name="lastname"
+                                value={formData.lastname}
                                 onChange={handleInputChange}
                                 />
                                 </div>
@@ -162,17 +185,16 @@ const handleRetry = () => {
 
                             <div className="mb-6">  
                             <label className=" label flex text-[14px] font-bold">
-                            <span>Your Message</span> <span className={`ml-auto text-red text-[14px] ${errors.message? "blink-error":""}`}> {errors.message}</span>
+                            <span>Password</span> <span className={`ml-auto text-red text-[14px] ${errors.password? "blink-error":""}`}> {errors.password}</span>
                         </label> 
-                                <div className="flex items-center border border-gray rounded-[5px]  px-3 mt-1  py-2">
+                        <div className="flex items-center border border-gray rounded-[5px] px-3 mt-1  py-2">
                                
-                                <textarea type="text" name="message" 
-                                className="w-full outline-none text-black" 
-                                value={formData.message}
-                                onChange={handleInputChange}
-                               
-                               />
-                                </div>
+                               <input type="text" 
+                               name="password"
+                               value={formData.password}
+                               onChange={handleInputChange}
+                               className="w-full outline-none text-black"  />
+                               </div>
                             </div>
 
                             <button  type="submit"  className="bg-gray border-[1px]  mt-4 border-private bg-opacity-30 hover:bg-opacity-90  text-white  py-1 px-3 rounded-md ">{icon ?( <span>Submitting <i className="fas fa-spinner fa-spin"></i></span>):( <span className="text-private">Submit</span>  )}</button>

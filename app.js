@@ -23,4 +23,4 @@ app.get('/' ,cors(), (req, res) =>{
    res.send('<p>The Code is working</p>')
 })
 
-app.post('/', loginController.Post_login)
+app.post('/SignUp', loginController.Post_login)
