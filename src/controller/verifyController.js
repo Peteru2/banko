@@ -32,13 +32,13 @@ const Post_login = async (req, res) =>{
         const checkAccNum = await Login.findOne({accountNumber: newAccountNumber,})
         if (check){
             return res.json({error:"Exist"})
-            return res.status(400)
         }
         else if(checkAccNum){
             generateAccountNumber();
         }
         else{
             await login.save();
+            
         }
         res.status(201).json({ message: 'Login created successfully', login });
       
