@@ -1,7 +1,7 @@
 //Post_login
 import {Login, profileUpdateSchema} from "../models/Login.js";
 
-const Post_login = async (req, res) =>{
+const Post_signUp = async (req, res) =>{
     try {
         const { firstname, lastname, email, phoneNumber, password } = req.body;
         function generateAccountNumber() {
@@ -40,12 +40,30 @@ const Post_login = async (req, res) =>{
             await login.save();
             
         }
-        res.status(201).json({ message: 'Login created successfully', login });
+        res.status(201).json({ message: 'Account successfully Created', login });
       
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'An error occurred while creating the account' });
+    }
+}
+
+const Post_login = async (req, res) => {
+
+    try {
+        const {  email, password } = req.body;
+        
+        const check =  await Login.findOne({email:email, password: password})
+        if (check){
+            return res.status(201).json({success:"Exist", message: 'Login created successfully' })
+        }   
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'An error occurred while creating the login' });
     }
-}
 
-export default { Post_login }
+}
+export default { 
+    Post_signUp,
+    Post_login 
+}

@@ -90,7 +90,7 @@ const handleRetry = () => {
                             setFormMessage("Error:Email Already Exist")
                     }
                     else{
-                        setFormMessage("Registration Successfully")
+                        setFormMessage("Registration Successful")
                         setSuccess(true)
                     }
                        
