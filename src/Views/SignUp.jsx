@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios"
 import Logo from "../assets/image/Logo.png"
 import SideView from "../component/sideView";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
 
@@ -87,17 +89,29 @@ const handleRetry = () => {
                             phoneNumber: '',
                             password:'',
                         })
-                        if(response.data.error == "Exist" ){
-                            setFormMessage("Error:Email Already Exist")
-                    }
-                    else{
-                        setFormMessage("Registration Successful")
-                        setSuccess(true)
-                    }
+                        toast.success(response.data.message, {
+                            position: "top-right",
+                          }); 
                        
                     })
                     .catch(error => {
-                        // Handle error
+                        if (error.response) {
+
+                             if (error.response.status === 401) {
+                                toast.error(error.response.data.error, {
+                                    position: "top-right",
+                                  }); 
+                            } else {
+                                toast.error(error.response.data.error, {
+                                    position: "top-right",
+                                  }); 
+                            }
+                          } else if (error.request) {
+                           
+                            console.log('No response received from server');
+                          } else {
+                            console.log('Error:', error.message);
+                          }
                         console.error('Error:', error.message);
                         setSuccess(true)
                         setFormMessage(error.message)
@@ -227,6 +241,7 @@ const handleRetry = () => {
 
             <SideView />
                     </div>
+                    <ToastContainer />
                     
                 </>
      );

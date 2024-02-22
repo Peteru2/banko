@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan'
 import connectDB from './db.js'
-import loginController from "./src/controller/verifyController.js"
+import loginController from "./src/Backend/controller/verifyController.js"
+import authMiddleware from './src/Backend/auth.js';
 
 const app = express();
 
@@ -19,9 +20,6 @@ connectDB()
     })
 
 
-app.get('/' ,cors(), (req, res) =>{
-   res.send('<p>The Code is working</p>')
-})
-
+app.get('/' ,authMiddleware, loginController.Get_user)
 app.post('/SignUp', loginController.Post_signUp)
 app.post('/Login', loginController.Post_login)

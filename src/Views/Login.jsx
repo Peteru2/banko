@@ -5,12 +5,13 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Logo from "../assets/image/Logo.png"
 import SideView from "../component/sideView";
+import { useNavigate } from 'react-router-dom';
 
 
 
 const Login = () => {
 
-
+const navigate = useNavigate();
 const [success, setSuccess] = useState()
 const [icon, setIcon] = useState(false)
 const [formMessage, setFormMessage] =useState("chess")
@@ -68,11 +69,13 @@ const handleRetry = () => {
                     setIcon(true)
                     axios.post('http://localhost:8000/Login', formData)
                     .then(response => {
+                        const { token } = response.data;
+                        localStorage.setItem('token', token);
                             console.log(response.data.token)
                                 toast.success(response.data.message, {
                                     position: "top-right",
                                   }); 
-                        
+                                  navigate('/')
                         setFormData({
                             email: '',
                             password:'',
