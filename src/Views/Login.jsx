@@ -85,11 +85,11 @@ const handleRetry = () => {
                         if (error.response) {
                             
                             if (error.response.status === 404) {
-                                toast.error(error.response.data.message, {
+                                toast.error(error.response.data.error, {
                                     position: "top-right",
                                   }); 
                             } else if (error.response.status === 401) {
-                                toast.error(error.response.data.message, {
+                                toast.error(error.response.data.error, {
                                     position: "top-right",
                                   }); 
                             } else {

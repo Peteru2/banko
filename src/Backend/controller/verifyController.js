@@ -54,12 +54,12 @@ const Post_login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await Login.findOne({ email: email });
-        const passwordMatch = await bcrypt.compare(password, user.password);
 
         
         if (!user) {
-           return res.status(404).json({ message: ' User not found' });
+           return res.status(404).json({ error: ' User not found' });
         }
+        const passwordMatch = await bcrypt.compare(password, user.password);
         
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Invalid password' });
