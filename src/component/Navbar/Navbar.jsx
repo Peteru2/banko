@@ -5,7 +5,7 @@ const Navbar = () => {
 
     return ( 
         <>
-            <nav className="bg-white w-full h-16 flex items-center font-roboto px-6">
+            <nav className="bg-white w-full h-16 flex items-center font-roboto ">
                 <div>
                    <h2 className="text-[30px]">Wallet</h2>
                 </div>

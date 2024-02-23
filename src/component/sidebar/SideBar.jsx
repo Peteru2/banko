@@ -50,10 +50,12 @@ const SideBar = () => {
                     <h2 className="text-[26px] text-private font-bold  flex  font-playfair">
                                 <img src={Logo} className="w-8 mr-2" alt="banko Logo" />
                                 Banko.</h2>
+                       
                     </div>
 
             <div>
                 <div className=" text-black text-opacity-30 mt-12">
+
                     {navSideList.map((item,index) =>{
                         const isActive = location.pathname === item.url;
                         return(

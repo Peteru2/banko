@@ -17,14 +17,20 @@ const AccDetails = () => {
       }, []);
     return ( 
         <>
-       
-                {userData && (
+       <div className="flex items-center">
+        <h4 className='bg-private text-[20px] mr-4 px-3 rounded-[2px]'>₦</h4>
+
+        <div>        
+             {userData && (
                     <div>
-                    <p>Name: {userData.firstname + ' '+ userData.lastname}</p>
-                    <p>Email: {userData.email}</p>
+                    <p className="font-bold"> {userData.firstname + ' '+ userData.lastname}</p>
+                    <p className='text-gray text-xs'>KYC LEVEL {userData.kycLevel} </p>
                     </div>
                 )}
                 
+        </div>
+       </div>
+
         </>
      );
 }

@@ -34,21 +34,11 @@ const registrationSchema = new Schema({
     status: {
         type: Boolean,
         required: true
-    }
-
-});
-
-const profileUpdateSchema = new Schema({
-    firstname: String,
-    lastname: String,
-    phoneNumber: String,
+    },
     transactionPin: Number,
-    status: Boolean,
     kycLevel: Number,
-    balance: Number,
-    accountNumber: Number,
 });
+
 
 const Login = mongoose.model('Login', registrationSchema);
-
-export { Login, profileUpdateSchema };
+export { Login };

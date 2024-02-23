@@ -1,5 +1,5 @@
 //Post_login
-import {Login, profileUpdateSchema} from "../models/Login.js";
+import {Login} from "../models/Login.js";
 import jwt from "jsonwebtoken";
 const secretKey = 'your-secret-key';
 import bcrypt from "bcryptjs"
@@ -28,7 +28,9 @@ const Post_signUp = async (req, res) =>{
             password: hashedPassword,
             accountBalance: 0,
             accountNumber: newAccountNumber,
-            status: true 
+            status: true,
+            kycLevel: 1,
+            transactionPin: 0, 
         });
  
         const check =  await Login.findOne({email:email})
