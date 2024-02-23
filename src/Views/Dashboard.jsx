@@ -15,11 +15,11 @@ const Dashboard = () => {
         const response = await api.get('/');
         setUserData(response.data.token);
       } catch (error) {
-        if (error.response.status === 401) {
+        if (error && error.response && error.response.status === 401) {
           // Token expired, redirect to login page
           navigate('/login');
         } else {
-          console.error('Failed to fetch user data:', error.response.data.error);
+          console.error('Failed to fetch user data:',error.response.data.error);
         }
       }
     };
