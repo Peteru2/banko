@@ -1,0 +1,18 @@
+.sideBar{
+    height: 100%;
+   
+    position: fixed;
+    width: 16%;
+   
+}
+.Sidebar-border{
+    background: rgba(255, 255, 0, .3);
+    border-radius: 0px 8px 8px 0px;
+
+
+}
+.logout{
+    position: absolute;
+    bottom: 0;
+    width: 100%
+}
