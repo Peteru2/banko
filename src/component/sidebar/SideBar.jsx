@@ -1,14 +1,16 @@
 import React from 'react'
 import Logo from "../../assets/image/Logo.png"
-
+import { useNavigate } from 'react-router-dom';
+// import Logout from '../Logout';
 
 import { Link, useLocation } from "react-router-dom";
 const SideBar = () => {
+    const navigate = useNavigate()
     const navSideList = [
         {
             title: "Dashboard",
             url: "/",
-            icon1: 'p',
+            icon1: 'P',
         },
         {
             title: "Activity",
@@ -40,7 +42,8 @@ const SideBar = () => {
     const location = useLocation()
 
     const handleLogout = () =>{
-       logout()
+        localStorage.removeItem('token');
+       navigate('/login');
     }
     
     return ( 
@@ -59,10 +62,11 @@ const SideBar = () => {
                     {navSideList.map((item,index) =>{
                         const isActive = location.pathname === item.url;
                         return(
-                    <div key={index} className={`flex text-sm pl-12 mr-[40px] my-6 py-4 cursor-pointer  ${location.pathname === item.url ? "Sidebar-border text-public" :""} `}>
+                    <div key={index} className={` text-sm pl-12 mr-[40px] my-6 py-4 cursor-pointer  ${location.pathname === item.url ? "Sidebar-border text-public" :""} `}>
                       <Link to={item.url} className="flex items-center outline-none"> 
-                      <p className='mr-5 items-center'>{item.icon1}</p>
-                      <p className={location.pathname === item.url ? "text-public" :"red"}>{item.title}</p></Link>
+                      <p className='mr-5'>{item.icon1}</p>
+                      <p className={location.pathname === item.url ? "text-public" :"red"}>{item.title}</p>
+                      </Link>
                     </div>
 
                     )

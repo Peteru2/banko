@@ -1,5 +1,6 @@
-const handleLogout = () => {
-    localStorage.removeItem('token');
-    // Redirect user to login page
-    // Example: history.push('/login');
+import { useNavigate } from "react-router-dom";
+const Logout = () => {
+  
   };
+
+  export default Logout;

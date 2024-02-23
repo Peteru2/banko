@@ -3,11 +3,14 @@ import api from '../../component/api.js'
 const AccDetails = () => {
   const [userData, setUserData] = useState(null);
 
+
+
     useEffect(() => {
         const fetchData = async () => {
           try {
             const response = await api.get('/');
             setUserData(response.data.user);
+           
           } catch (error) {
             console.error('Failed to fetch user data:', error.response.data.error);
           }
@@ -24,10 +27,9 @@ const AccDetails = () => {
              {userData && (
                     <div>
                     <p className="font-bold"> {userData.firstname + ' ' + userData.lastname}</p>
-                    <p className='text-gray text-xs'>KYC LEVEL {userData.kycLevel} </p>
+                    <p className='text-gray text-xs'>KYC LEVEL { userData.kycLevel } </p>
                     </div>
                 )}
-                
         </div>
 
         <div className='flex items-center bg-white shadow-md p-4 rounded-[10px] text-private ml-10'>
