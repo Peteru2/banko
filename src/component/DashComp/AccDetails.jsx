@@ -23,11 +23,17 @@ const AccDetails = () => {
         <div>        
              {userData && (
                     <div>
-                    <p className="font-bold"> {userData.firstname + ' '+ userData.lastname}</p>
+                    <p className="font-bold"> {userData.firstname + ' ' + userData.lastname}</p>
                     <p className='text-gray text-xs'>KYC LEVEL {userData.kycLevel} </p>
                     </div>
                 )}
                 
+        </div>
+
+        <div className='flex items-center bg-white shadow-md p-4 rounded-[10px] text-private ml-10'>
+            <i className='fa fa-heart'></i> 
+            <div className = "mx-4">{userData.kycLevel === 1?(<h2>Upgrade to Level 2</h2>):(<h2>Upgraded</h2>)}</div>
+            <span><i className='fa fa-sort-up rotate-90'></i></span>
         </div>
        </div>
 

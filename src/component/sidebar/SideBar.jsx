@@ -62,7 +62,7 @@ const SideBar = () => {
                     <div key={index} className={`flex text-sm pl-12 mr-[40px] my-6 py-4 cursor-pointer  ${location.pathname === item.url ? "Sidebar-border text-public" :""} `}>
                       <Link to={item.url} className="flex items-center outline-none"> 
                       <p className='mr-5 items-center'>{item.icon1}</p>
-                      <p className={location.pathname === item.url ? "text-vintage" :"red"}>{item.title}</p></Link>
+                      <p className={location.pathname === item.url ? "text-public" :"red"}>{item.title}</p></Link>
                     </div>
 
                     )

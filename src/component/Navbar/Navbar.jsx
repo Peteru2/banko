@@ -17,7 +17,7 @@ const Navbar = () => {
                         <img src={ProImg} alt="profileImage"
                          className="fa fa-bell text-black mr-1 w-8 h-8  rounded-full"
                          />
-                         <span>:</span>
+                         <span className="mx-1"><i className="fa fa-ellipsis-v"></i></span>
                         </div>
                        
                 </div>
