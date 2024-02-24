@@ -8,7 +8,10 @@ const AccDetails = () => {
           try {
             const response = await api.get('/');
             setUserData(response.data.user);
-           
+
+           if (response && response.data.user.transactionPin === 0) {  
+            console.log("Things ")
+          }
           } catch (error) {
             console.error('Failed to fetch user data:', error.response.data.error);
           }
@@ -36,6 +39,8 @@ const AccDetails = () => {
             <div className="mx-4">{userData?.kycLevel === 1 ? <h2>Upgrade to Level 2</h2> : <h2>Upgraded</h2>}</div>
             <span><i className='fa fa-sort-up rotate-90'></i></span>
         </div>
+
+        <h2>{userData && userData.transactionPin}</h2>
        </div>
 
         </>
