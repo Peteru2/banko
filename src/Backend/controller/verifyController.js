@@ -89,12 +89,26 @@ const Get_user = async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   };
-  
+
+  const UpdateTransPin =  async (res, req) =>{
+    try {
+        
+        const { transactionPin } = req.body;
+        await Login.findByIdAndUpdate(req.user.userId, { transactionPin });
+    
+        res.status(200).json({ message: 'Transaction pin updated successfully' });
+      } catch (error) {
+        console.error('Failed to update transaction pin:', error);
+        res.status(500).json({ error: 'Failed to update transaction pin' });
+      }
+  }
+   
 
 
 export default { 
     Post_signUp,
     Post_login,
-    Get_user
+    Get_user,
+    UpdateTransPin
 
 }

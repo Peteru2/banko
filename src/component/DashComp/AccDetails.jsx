@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import api from '../../component/api.js'
 const AccDetails = () => {
   const [userData, setUserData] = useState(null);
+  const [transactionPin, setTransactionPin] = useState('');
+  const [showPinInput, setShowPinInput] = useState(false); 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -9,8 +11,10 @@ const AccDetails = () => {
             const response = await api.get('/');
             setUserData(response.data.user);
 
-           if (response && response.data.user.transactionPin === 0) {  
+           if (response.data.user.transactionPin === 0) {  
             console.log("Things ")
+            setShowPinInput(true)
+            
           }
           } catch (error) {
             console.error('Failed to fetch user data:', error.response.data.error);
@@ -20,12 +24,44 @@ const AccDetails = () => {
         fetchData();
       }, []);
   
+
+      const handlePinInputChange = (e) => {
+        setTransactionPin(e.target.value);
+        
+      };
+    
+      const numericRegex = /^\d+$/;
+
+      const handleSubmitPin = async () => {
+        if (!numericRegex.test(transactionPin)){
+            console.log("Not a number format")
+        }
+        if(transactionPin.length < 3){
+            console.log("Invalid ")
+        }
+        try {
+         
+           
+          await api.put('/updateTransactionPin', { transactionPin });
+          setShowPinInput(false); // Hide the pin input field after submitting
+          // Optionally, you can fetch user data again to update the state with the latest data
+        } catch (error) {
+          console.error('Failed to update transaction pin:', error.response.data.error);
+        }
+      };
       return ( 
         <>
+        {showPinInput && (
+        <div >
+          <input type="text" value={transactionPin} onChange={handlePinInputChange} className='border-2' />
+          <button onClick={handleSubmitPin}>Submit</button>
+        </div>
+      )}
        <div className="flex items-center">
         <h4 className='bg-private text-[20px] mr-4 px-3 rounded-[2px]'>₦</h4>
 
-        <div>        
+        <div>       
+
              {userData && (
                     <div>
                     <p className="font-bold"> {userData.firstname + ' ' + userData.lastname}</p>

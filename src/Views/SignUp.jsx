@@ -144,7 +144,7 @@ const handleRetry = () => {
                             <h2 className="my-2 text-black font-roboto text-private text-[28px]">Create your account</h2>
                             <h2 className="my- text-black font-roboto font-bold  text-public text-opacity-80 text-[16px]">Have an account? <span className="text-blue"><Link to={'/Login'}>Login in now</Link></span></h2>
                             </div>
-                            <button className="ml-auto cursor-pointer" onClick={(e) => { e.preventDefault(); close(); }}><i className="fa fa-times"></i></button>
+                           
                             </div>
                         <div className="mb-3">  
                         
