@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import api from '../../component/api.js'
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+
 const AccDetails = () => {
   const [userData, setUserData] = useState(null);
   const [transactionPin, setTransactionPin] = useState('');
@@ -36,19 +40,31 @@ const AccDetails = () => {
         e.preventDefault()
         if(transactionPin.trim()  === ''){
             console.log("NUmber must be filled")
+            toast.error("No Pin was entered", {
+                position: "top-right",
+              })
         }
         else if (!numericRegex.test(transactionPin)){
             console.log("Not a number format")
+            toast.error("Invalid Pin Format", {
+                position: "top-right",
+              })
         }
-    //    else  if(transactionPin.length < 3){
-    //         console.log("Invalid ")
-    //     }
+       else  if(transactionPin.length < 4){
+            console.log("Invalid ")
+            toast.error("Pin must not be less than four", {
+                position: "top-right",
+              })
+        }
         else{
             console.log(transactionPin )
             try {
                 const response = await api.put('/updateTransactionPin', { transactionPin });
                 console.log(response);
             setShowPinInput(false); 
+            toast.success("Transaction Pin updated", {
+                position: "top-right",
+              })
             } catch (error) {
             console.error('Failed to update transaction pin');
             }
@@ -62,7 +78,7 @@ const AccDetails = () => {
                 <h2 className='text-19px'>Set Your Transaction Pin</h2>
           <input type="text" value={transactionPin} name="transactionPin" onChange={handlePinInputChange} placeholder='Enter Your Pin' className='border-[1px] border-gray rounded-md w-full py-1 px-2  my-2 ' />
           </div>
-          <button className="bg-private rounded-md w-full text-center py-2">Set</button>
+          <button className="bg-private rounded-md w-full text-center font-bold  py-2">Set</button>
         </form>
       {/* )} */}
        <div className="flex items-center">
@@ -86,7 +102,8 @@ const AccDetails = () => {
 
         {/* <h2>{userData && userData.transactionPin}</h2> */}
        </div>
-
+                <div className={`${showPinInput?"overlay":""} `}></div>
+                <ToastContainer />
         </>
      );
 }
