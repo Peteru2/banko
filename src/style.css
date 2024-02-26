@@ -8,11 +8,27 @@
 .Sidebar-border{
     background: rgba(255, 255, 0, .3);
     border-radius: 0px 8px 8px 0px;
-
-
 }
 .logout{
     position: absolute;
     bottom: 0;
     width: 100%
 }
+
+.modal{
+    position: fixed!important;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    transform: translate(-50%,-50%) scale(0)  ;
+    transition: 200ms ease-in-out;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 10px 5px 40px 14px rgba(38.81, 136.75, 227.16, 0.13);
+    z-index: 999;
+    border-radius: 20px;
+  }
+
+  .modal-show {
+    transform: translate(-50%, -50%) scale(1);
+  }

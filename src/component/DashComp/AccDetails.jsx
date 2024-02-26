@@ -17,7 +17,7 @@ const AccDetails = () => {
             
           }
           } catch (error) {
-            console.error('Failed to fetch user data:', error.response.data.error);
+            console.error('Failed to fetch user data:');
           }
         };
     
@@ -32,31 +32,39 @@ const AccDetails = () => {
     
       const numericRegex = /^\d+$/;
 
-      const handleSubmitPin = async () => {
-        if (!numericRegex.test(transactionPin)){
+      const handleSubmitPin = async (e) => {
+        e.preventDefault()
+        if(transactionPin.trim()  === ''){
+            console.log("NUmber must be filled")
+        }
+        else if (!numericRegex.test(transactionPin)){
             console.log("Not a number format")
         }
-        if(transactionPin.length < 3){
-            console.log("Invalid ")
-        }
-        try {
-         
-           
-          await api.put('/updateTransactionPin', { transactionPin });
-          setShowPinInput(false); // Hide the pin input field after submitting
-          // Optionally, you can fetch user data again to update the state with the latest data
-        } catch (error) {
-          console.error('Failed to update transaction pin:', error.response.data.error);
-        }
+    //    else  if(transactionPin.length < 3){
+    //         console.log("Invalid ")
+    //     }
+        else{
+            console.log(transactionPin )
+            try {
+                const response = await api.put('/updateTransactionPin', { transactionPin });
+                console.log(response);
+            setShowPinInput(false); 
+            } catch (error) {
+            console.error('Failed to update transaction pin');
+            }
+    }
       };
       return ( 
         <>
-        {showPinInput && (
-        <div >
-          <input type="text" value={transactionPin} onChange={handlePinInputChange} className='border-2' />
-          <button onClick={handleSubmitPin}>Submit</button>
-        </div>
-      )}
+        {/* {showPinInput && ( */}
+        <form  onSubmit={handleSubmitPin} className={ `modal font-roboto ${showPinInput? "modal-show":""}`}>
+            <div>
+                <h2 className='text-19px'>Set Your Transaction Pin</h2>
+          <input type="text" value={transactionPin} name="transactionPin" onChange={handlePinInputChange} placeholder='Enter Your Pin' className='border-[1px] border-gray rounded-md w-full py-1 px-2  my-2 ' />
+          </div>
+          <button className="bg-private rounded-md w-full text-center py-2">Set</button>
+        </form>
+      {/* )} */}
        <div className="flex items-center">
         <h4 className='bg-private text-[20px] mr-4 px-3 rounded-[2px]'>₦</h4>
 
@@ -76,7 +84,7 @@ const AccDetails = () => {
             <span><i className='fa fa-sort-up rotate-90'></i></span>
         </div>
 
-        <h2>{userData && userData.transactionPin}</h2>
+        {/* <h2>{userData && userData.transactionPin}</h2> */}
        </div>
 
         </>
