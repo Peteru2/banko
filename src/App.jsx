@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignUp from './Views/SignUp';
 import Login from './Views/Login';
 import Dashboard from './Views/Dashboard';
+import TransPinForm from './component/DashComp/TransPinForm';
 import "./style.css"
 
 function App() {
@@ -15,7 +16,9 @@ function App() {
           <Routes>
           <Route path={'/'} element={<Dashboard />} />
             <Route path={'/SignUp'} element={<SignUp />} />
-            <Route path={'/Login'} element={<Login />} />\
+            <Route path={'/Login'} element={<Login />} />
+            <Route path={'/Trans'} element={<TransPinForm />} />
+
           </Routes>
         </Router>
         </section>

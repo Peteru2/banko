@@ -93,8 +93,8 @@ const Get_user = async (req, res) => {
     const UpdateTransPin =  async (req, res) =>{ 
         try {
             
-            const { transactionPin } = req.body;
-            await Login.findByIdAndUpdate(req.user.userId, { transactionPin });
+            const { pin } = req.body;
+            await Login.findByIdAndUpdate(req.user.userId, { transactionPin:pin });
         
             res.status(200).json({ message: 'Transaction pin updated successfully' });
         } catch (error) {

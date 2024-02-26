@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../../component/api.js'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import TransPinForm from './TransPinForm.jsx';
 
 
 const AccDetails = () => {
@@ -36,49 +37,28 @@ const AccDetails = () => {
     
       const numericRegex = /^\d+$/;
 
-      const handleSubmitPin = async (e) => {
-        e.preventDefault()
-        if(transactionPin.trim()  === ''){
-            console.log("NUmber must be filled")
-            toast.error("No Pin was entered", {
-                position: "top-right",
-              })
+      const handleSubmitPin = async (pin) => {
+        try {
+          // Make API call to send PIN data to the backend
+          const response = await api.put('/updateTransactionPin', { pin });
+          setShowPinInput(false); 
+          toast.success("Transaction Pin updated", {
+            position: "top-right",
+          })
+          console.log(response.data); // Log the response from the backend
+        } catch (error) {
+          console.error('Failed to update transaction pin:', error);
         }
-        else if (!numericRegex.test(transactionPin)){
-            console.log("Not a number format")
-            toast.error("Invalid Pin Format", {
-                position: "top-right",
-              })
-        }
-       else  if(transactionPin.length < 4){
-            console.log("Invalid ")
-            toast.error("Pin must not be less than four", {
-                position: "top-right",
-              })
-        }
-        else{
-            console.log(transactionPin )
-            try {
-                const response = await api.put('/updateTransactionPin', { transactionPin });
-                console.log(response);
-            setShowPinInput(false); 
-            toast.success("Transaction Pin updated", {
-                position: "top-right",
-              })
-            } catch (error) {
-            console.error('Failed to update transaction pin');
-            }
-    }
       };
+     
       return ( 
         <>
         {/* {showPinInput && ( */}
         <form  onSubmit={handleSubmitPin} className={ `modal font-roboto ${showPinInput? "modal-show":""}`}>
             <div>
                 <h2 className='text-19px'>Set Your Transaction Pin</h2>
-          <input type="text" value={transactionPin} name="transactionPin" onChange={handlePinInputChange} placeholder='Enter Your Pin' className='border-[1px] border-gray rounded-md w-full py-1 px-2  my-2 ' />
-          </div>
-          <button className="bg-private rounded-md w-full text-center font-bold  py-2">Set</button>
+                <TransPinForm  onSubmit={handleSubmitPin} />
+        `` </div>
         </form>
       {/* )} */}
        <div className="flex items-center">
