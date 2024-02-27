@@ -1,13 +1,10 @@
-import React, { useState, useRef } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 
-
-const PinInputField = ({ value, onChange, onFocusNext, onFocusPrev }) => {
+const PinInputField = forwardRef(({ value, onChange, onFocusNext, onFocusPrev }, ref) => {
   const inputRef = useRef(null);
 
   const handleInputChange = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const newValue = e.target.value;
     if (newValue === '' || /^\d+$/.test(newValue)) {
       onChange(newValue);
@@ -17,12 +14,17 @@ const PinInputField = ({ value, onChange, onFocusNext, onFocusPrev }) => {
     }
   };
 
-  const handleKeyDown = (e) => {
-    
+  const handleKeyDown = (e) => {    
     if (e.key === 'Backspace' && value === '') {
       onFocusPrev();
     }
   };
+
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current.focus();
+    }
+  }));
 
   return (
     <input
@@ -32,14 +34,18 @@ const PinInputField = ({ value, onChange, onFocusNext, onFocusPrev }) => {
       value={value}
       onChange={handleInputChange}
       onFocus={() => inputRef.current.select()}
-      className='border-[1px] w-full border-gray flex rounded-md  outline-none py-1 px-2 mx-2  my-2 '
+      className='border-[1px] w-full border-gray text-center flex rounded-md  outline-none py-1 px-2 mx-2  my-2 '
       onKeyDown={handleKeyDown}
     />
   );
-};
+});
+
+
+
 
 const TransPinForm = ({ onSubmit }) => {
   const [pinValues, setPinValues] = useState(['', '', '', '']);
+  const inputRefs = useRef(Array(4).fill(null));
 
   const handlePinChange = (index, value) => {
     const newPinValues = [...pinValues];
@@ -48,69 +54,46 @@ const TransPinForm = ({ onSubmit }) => {
   };
 
   const handleFocusNext = (index) => {
-    if (index < 3) {
-      document.getElementById(`pinInput${index + 1}`).focus();
+    if (index < 3 && inputRefs.current[index + 1]) {
+      inputRefs.current[index + 1].focus();
     }
   };
 
   const handleFocusPrev = (index) => {
-    if (index > 0) {
-      document.getElementById(`pinInput${index - 1}`).focus();
+    if (index > 0 && inputRefs.current[index - 1]) {
+      inputRefs.current[index - 1].focus();
     }
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (pinValues.every((value) => value !== '')) {
       const pin = pinValues.join('');
-      onSubmit(pin); // Call the onSubmit function passed from the parent component
+      onSubmit(pin);
     } else {
-      toast.error("Please fill in all PIN fields.", {
-        position: "top-right",
-      })
+      console.log("Please fill in all PIN fields.");
     }
   };
 
   return (
-    <>    <div>
-         <div className="flex ">
-      <PinInputField
-        value={pinValues[0]}
-        onChange={(value) => handlePinChange(0, value)}
-        onFocusNext={() => handleFocusNext(0)}
-        onFocusPrev={() => handleFocusPrev(0)}
-      />
-    
-    <PinInputField
-        id="pinInput1"
-        value={pinValues[1]}
-        onChange={(value) => handlePinChange(1, value)}
-        onFocusNext={() => handleFocusNext(1)}
-        onFocusPrev={() => handleFocusPrev(1)}
-        className="flex w-2"
-      />
-      <PinInputField
-        id="pinInput2"
-        value={pinValues[2]}
-        onChange={(value) => handlePinChange(2, value)}
-        onFocusNext={() => handleFocusNext(2)}
-        onFocusPrev={() => handleFocusPrev(2)}
-      />
-      <PinInputField
-        id="pinInput3"
-        value={pinValues[3]}
-        onChange={(value) => handlePinChange(3, value)}
-        onFocusPrev={() => handleFocusPrev(3)}
-      />
-     
-
+    <>
+      <div>
+        <div className="flex ">
+          {[0, 1, 2, 3].map((index) => (
+            <PinInputField
+              key={index}
+              ref={(el) => inputRefs.current[index] = el}
+              value={pinValues[index]}
+              onChange={(value) => handlePinChange(index, value)}
+              onFocusNext={() => handleFocusNext(index)}
+              onFocusPrev={() => handleFocusPrev(index)}
+            />
+          ))}
+        </div>
+        <button className="bg-private rounded-md w-full text-center font-bold py-2" onClick={handleSubmit}>Submit</button>
+       
       </div>
-
-      <button className="bg-private rounded-md w-full text-center font-bold  py-2" onClick={handleSubmit}>Submit</button>
-    </div>
-                <ToastContainer />
-                </>
-
+    </>
   );
 };
 

@@ -30,13 +30,6 @@ const AccDetails = () => {
       }, []);
   
 
-      const handlePinInputChange = (e) => {
-        setTransactionPin(e.target.value);
-        
-      };
-    
-      const numericRegex = /^\d+$/;
-
       const handleSubmitPin = async (pin) => {
         try {
           // Make API call to send PIN data to the backend
@@ -58,7 +51,7 @@ const AccDetails = () => {
             <div>
                 <h2 className='text-19px'>Set Your Transaction Pin</h2>
                 <TransPinForm  onSubmit={handleSubmitPin} />
-        `` </div>
+         </div>
         </form>
       {/* )} */}
        <div className="flex items-center">
