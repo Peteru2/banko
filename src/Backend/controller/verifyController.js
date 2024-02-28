@@ -1,5 +1,5 @@
 //Post_login
-import {Login} from "../models/Login.js";
+import {User} from "../models/Login.js";
 import jwt from "jsonwebtoken";
 const secretKey = 'your-secret-key';
 import bcrypt from "bcryptjs"
@@ -20,7 +20,7 @@ const Post_signUp = async (req, res) =>{
         }
         const hashedPassword = await bcrypt.hash(password, 10); 
         const newAccountNumber = generateAccountNumber();
-        const login = new Login({
+        const login = new User({
             firstname,
             lastname,
             email,
@@ -31,10 +31,11 @@ const Post_signUp = async (req, res) =>{
             status: true,
             kycLevel: 1,
             transactionPin: 0, 
+            bvn:0
         });
  
-        const check =  await Login.findOne({email:email})
-        const checkAccNum = await Login.findOne({accountNumber: newAccountNumber,})
+        const check =  await User.findOne({email:email})
+        const checkAccNum = await User.findOne({accountNumber: newAccountNumber,})
         if (check){
             return res.status(401).json({error:"This email already exist"})
         }
@@ -55,8 +56,7 @@ const Post_signUp = async (req, res) =>{
 const Post_login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await Login.findOne({ email: email });
-
+        const user = await User.findOne({ email: email });
         
         if (!user) {
            return res.status(404).json({ error: ' User not found' });
@@ -66,8 +66,6 @@ const Post_login = async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Invalid password' });
         }
-                
-
         const token = jwt.sign({ userId: user._id, email: user.email }, secretKey, { expiresIn: '1h' }); // Token expires in 1 hour
         res.status(200).json({ success: 'Exist', token: token, message: 'User logged In Succesfully' });
 
@@ -79,7 +77,7 @@ const Post_login = async (req, res) => {
 
 const Get_user = async (req, res) => {
     try {
-      const user = await Login.findById(req.user.userId);
+      const user = await User.findById(req.user.userId);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
@@ -90,25 +88,48 @@ const Get_user = async (req, res) => {
     }
   };
 
-    const UpdateTransPin =  async (req, res) =>{ 
-        try {
-            
-            const { pin } = req.body;
-            await Login.findByIdAndUpdate(req.user.userId, { transactionPin:pin });
-        
-            res.status(200).json({ message: 'Transaction pin updated successfully' });
-        } catch (error) {
-            console.error('Failed to update transaction pin:', error);
-            res.status(500).json({ error: 'Failed to update transaction pin' });
-        }
-    }
-   
+  const UpdateTransPin = async (req, res) => { 
+    try {
+        const { pin } = req.body;
+        const hashedPin = await bcrypt.hash(pin, 10);
 
+       
+        await User.findByIdAndUpdate(req.user.userId, { transactionPin: hashedPin });
+
+        res.status(200).json({ message: 'Transaction pin updated successfully' });
+    } catch (error) {
+        console.error('Failed to update transaction pin:', error);
+        res.status(500).json({ error: 'Failed to update transaction pin' });
+    }
+}
+
+const UpdateKyc = async (req, res) => { 
+    try {
+        const { kyc } = req.body;
+        const hashedPin = await bcrypt.hash(kyc, 10);
+
+        await User.findByIdAndUpdate(req.user.userId, { bvn: hashedPin });
+
+        const user = await User.findById(req.user.userId);
+        if (user && user.bvn !== '0') {
+            // Update the KYC level
+            await Login.findByIdAndUpdate(req.user.userId, { kycLevel: 2 });
+        }
+
+        res.status(200).json({ message: 'Transaction pin updated successfully' });
+    } catch (error) {
+        console.error('Failed to update transaction pin:', error);
+        res.status(500).json({ error: 'Failed to update transaction pin' });
+    }
+}
+   
+    
 
 export default { 
     Post_signUp,
     Post_login,
     Get_user,
     UpdateTransPin,
+    UpdateKyc,
 
 }

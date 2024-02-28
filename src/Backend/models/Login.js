@@ -35,10 +35,11 @@ const registrationSchema = new Schema({
         type: Boolean,
         required: true
     },
-    transactionPin: Number,
-    kycLevel: Number,
+    transactionPin: String,
+    kycLevel: String,
+    bvn: String
 });
 
 
-const Login = mongoose.model('Login', registrationSchema);
-export { Login };
+const User = mongoose.model('Login', registrationSchema);
+export { User };
