@@ -41,5 +41,5 @@ const registrationSchema = new Schema({
 });
 
 
-const User = mongoose.model('Login', registrationSchema);
+const User = mongoose.model('User', registrationSchema);
 export { User };
