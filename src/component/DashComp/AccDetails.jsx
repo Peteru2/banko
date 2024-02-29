@@ -25,6 +25,15 @@ const AccDetails = () => {
           } catch (error) {
             console.error('Failed to fetch user data:');
           }
+
+
+          try{
+            const response = await api.get('/balance');
+            console.log(response.data.balance)
+          }
+          catch (error) {
+            console.error('Failed to fetch user data:');
+          }
         };
     
         fetchData();

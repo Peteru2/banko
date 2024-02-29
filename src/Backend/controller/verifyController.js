@@ -1,5 +1,8 @@
 //Post_login
-import {User} from "../models/Login.js";
+import {User} from "../models/User.js";
+import {Wallet} from "../models/Wallet.js"
+import {Transaction} from "../models/Transaction.js"
+
 import jwt from "jsonwebtoken";
 const secretKey = 'your-secret-key';
 import bcrypt from "bcryptjs"
@@ -20,7 +23,7 @@ const Post_signUp = async (req, res) =>{
         }
         const hashedPassword = await bcrypt.hash(password, 10); 
         const newAccountNumber = generateAccountNumber();
-        const login = new User({
+        const user = new User({
             firstname,
             lastname,
             email,
@@ -36,6 +39,8 @@ const Post_signUp = async (req, res) =>{
  
         const check =  await User.findOne({email:email})
         const checkAccNum = await User.findOne({accountNumber: newAccountNumber,})
+        const wallet = new Wallet({ user: user._id });
+
         if (check){
             return res.status(401).json({error:"This email already exist"})
         }
@@ -43,9 +48,10 @@ const Post_signUp = async (req, res) =>{
             generateAccountNumber();
         }
         else{
-            await login.save();   
+            await user.save();   
+            await wallet.save();
         }
-        res.status(201).json({ message: 'Account successfully Created', login });
+        res.status(201).json({ message: 'Account successfully Created', user });
       
     } catch (error) {
         console.error('Error:', error);
@@ -122,7 +128,19 @@ const UpdateKyc = async (req, res) => {
         res.status(500).json({ error: 'Failed to update transaction pin' });
     }
 }
-   
+
+const GetBalance = async (req, res) => {
+        try {
+          const wallet = await Wallet.findOne({ user: req.user.userId });
+          if (!wallet) {
+            return res.status(404).json({ error: 'Wallet not found' });
+          }
+          res.json({ balance: wallet.balance });
+        } catch (error) {
+          res.status(500).json({ error: 'Internal server error' });
+        }
+     
+}
     
 
 export default { 
@@ -131,5 +149,6 @@ export default {
     Get_user,
     UpdateTransPin,
     UpdateKyc,
+    GetBalance
 
 }

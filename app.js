@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan'
 import connectDB from './db.js'
-import loginController from "./src/Backend/controller/verifyController.js"
+import Controller from "./src/Backend/controller/verifyController.js"
 import authMiddleware from './src/Backend/auth.js';
 
 const app = express();
@@ -20,8 +20,9 @@ connectDB()
     })
 
 
-app.get('/' ,authMiddleware, loginController.Get_user)
-app.post('/SignUp', loginController.Post_signUp)
-app.post('/Login', loginController.Post_login)
-app.put('/updateTransactionPin', authMiddleware, loginController.UpdateTransPin)
-app.put('/updatekyc', authMiddleware, loginController.UpdateKyc)
+app.get('/' ,authMiddleware, Controller.Get_user)
+app.post('/SignUp', Controller.Post_signUp)
+app.post('/Login', Controller.Post_login)
+app.put('/updateTransactionPin', authMiddleware, Controller.UpdateTransPin)
+app.put('/updatekyc', authMiddleware, Controller.UpdateKyc)
+app.get('/balance', authMiddleware, Controller.GetBalance)
