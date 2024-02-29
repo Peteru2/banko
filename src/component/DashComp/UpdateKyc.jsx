@@ -6,8 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const UpdateKyc = () => {
   const [bvn, setBVN] = useState('');
-  const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,22 +27,25 @@ const UpdateKyc = () => {
             try {
             // Send a request to update the BVN PIN
             const response = await api.put('/updatekyc', { bvn });
-            toast.success("Invalid BVN Pin", {
+            toast.success("BVN Updated Successfully", {
                 position: "top-right",
               })
-              close()
-            setSuccessMessage(response.data.message);
-            setError(null);
+             
             } catch (error) {
-            setError(error.response.data.error);
-            setSuccessMessage('');
+                toast.error(error.response.data.error, {
+                    position: "top-right",
+                  })
+           
             }   
   }
 };
 
   return (
     <div>
-      <h2 className='text-center font-bold'>Your BVN</h2>
+        <div className="flex w-full">
+      <h2 className=' font-bold'>Enter Your BVN</h2>
+      <span className="ml-auto" ><i className="fa fa-times"></i></span>
+      </div>
       <form onSubmit={handleSubmit}>
         <div>
           <input
@@ -62,8 +63,8 @@ const UpdateKyc = () => {
         <button className="text-center w-full bg-private text-white rounded-md py-2" type="submit ">Update</button>
       </form>
 
+     
       <ToastContainer   />
-
     </div>
   );
 };

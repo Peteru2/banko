@@ -79,11 +79,11 @@ const AccDetails = () => {
         </div>
         
       <div  className={ `modal font-roboto ${bvn? "modal-show":""}`} >
-           <UpdateKyc close = {bvn} />
+           <UpdateKyc />
         </div>
         {/* <h2>{userData && userData.transactionPin}</h2> */}
        </div>
-                <div className={`${showPinInput?"overlay":""} `}></div>
+                <div className={`${showPinInput || bvn?"overlay":""} `}></div>
                 <ToastContainer />
         </>
      );
