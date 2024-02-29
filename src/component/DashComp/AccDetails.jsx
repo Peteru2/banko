@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import api from '../../component/api.js'
-import { toast, ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+  import { toast, ToastContainer } from 'react-toastify';
+  import "react-toastify/dist/ReactToastify.css";
 import TransPinForm from './TransPinForm.jsx';
+import UpdateKyc from './UpdateKyc.jsx';
 
 
 const AccDetails = () => {
   const [userData, setUserData] = useState(null);
-  const [transactionPin, setTransactionPin] = useState('');
+  const [bvn, setBvn] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false); 
 
     useEffect(() => {
@@ -16,7 +17,7 @@ const AccDetails = () => {
             const response = await api.get('/');
             setUserData(response.data.user);
 
-           if (response.data.user.transactionPin === 0) {  
+           if (response.data.user.transactionPin == "0") {  
             console.log("Things ")
             setShowPinInput(true)
             
@@ -44,6 +45,9 @@ const AccDetails = () => {
         }
       };
      
+      const handleUpdateBvn = () =>{
+          setBvn(true)
+      } 
       return ( 
         <>
         {/* {showPinInput && ( */}
@@ -67,12 +71,16 @@ const AccDetails = () => {
                 )}
         </div>
 
+
         <div className='flex items-center bg-white shadow-md p-4 rounded-[10px] text-private ml-10'>
             <i className='fa fa-heart'></i> 
-            <div className="mx-4">{userData?.kycLevel === 1 ? <h2>Upgrade to Level 2</h2> : <h2>Upgraded</h2>}</div>
+            <div className="mx-4">{userData?.kycLevel == "1" ? <h2><button onClick={handleUpdateBvn} >Upgrade to Level 2</button></h2> : <h2>Upgraded</h2>}</div>
             <span><i className='fa fa-sort-up rotate-90'></i></span>
         </div>
-
+        
+      <div  className={ `modal font-roboto ${bvn? "modal-show":""}`} >
+           <UpdateKyc close = {bvn} />
+        </div>
         {/* <h2>{userData && userData.transactionPin}</h2> */}
        </div>
                 <div className={`${showPinInput?"overlay":""} `}></div>
