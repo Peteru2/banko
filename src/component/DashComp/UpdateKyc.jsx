@@ -4,7 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 
-const UpdateKyc = () => {
+const UpdateKyc = ({onClose}) => {
   const [bvn, setBVN] = useState('');
 
   const handleSubmit = async (e) => {
@@ -30,7 +30,8 @@ const UpdateKyc = () => {
             toast.success("BVN Updated Successfully", {
                 position: "top-right",
               })
-             
+              onClose()
+              setBVN('')
             } catch (error) {
                 toast.error(error.response.data.error, {
                     position: "top-right",
@@ -44,7 +45,7 @@ const UpdateKyc = () => {
     <div>
         <div className="flex w-full">
       <h2 className=' font-bold'>Enter Your BVN</h2>
-      <span className="ml-auto" ><i className="fa fa-times"></i></span>
+      <span className="ml-auto" onClick={onClose} ><i className="fa fa-times"></i></span>
       </div>
       <form onSubmit={handleSubmit}>
         <div>
