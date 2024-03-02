@@ -26,3 +26,5 @@ app.post('/Login', Controller.Post_login)
 app.put('/updateTransactionPin', authMiddleware, Controller.UpdateTransPin)
 app.put('/updatekyc', authMiddleware, Controller.UpdateKyc)
 app.get('/balance', authMiddleware, Controller.GetBalance)
+app.post('/transfer', authMiddleware, Controller.Post_transfer)
+

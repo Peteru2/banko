@@ -30,16 +30,19 @@ const Post_signUp = async (req, res) =>{
             phoneNumber,
             password: hashedPassword,
             accountBalance: 0,
-            accountNumber: newAccountNumber,
             status: true,
             kycLevel: 1,
             transactionPin: 0, 
             bvn:0
         });
  
+        const wallet = new Wallet({ 
+            user: user._id,
+            accountNumber: newAccountNumber, 
+        });
         const check =  await User.findOne({email:email})
-        const checkAccNum = await User.findOne({accountNumber: newAccountNumber,})
-        const wallet = new Wallet({ user: user._id });
+        const checkAccNum = await Wallet.findOne({accountNumber: newAccountNumber,})
+       
 
         if (check){
             return res.status(401).json({error:"This email already exist"})
@@ -142,6 +145,42 @@ const GetBalance = async (req, res) => {
      
 }
     
+// Transfer funds from sender's wallet to recipient's wallet using account number
+const Post_transfer = async(req, res) =>{
+    try {
+      const { recipientAccountNumber, amount } = req.body;
+  
+      // Find sender's wallet
+      const senderWallet = await Wallet.findOne({ user: req.user.userId });
+      if (!senderWallet || senderWallet.balance < amount) {
+        return res.status(400).json({ error: 'Insufficient balance' });
+      }
+  
+      // Find recipient's wallet by account number
+      const recipientWallet = await Wallet.findOne({ accountNumber: recipientAccountNumber });
+      if (!recipientWallet) {
+        return res.status(404).json({ error: 'Recipient wallet not found' });
+      }
+  
+      // Update sender's balance
+      senderWallet.balance -= amount;
+      await senderWallet.save();
+  
+      // Update recipient's balance
+      recipientWallet.balance += parseInt(amount);
+      await recipientWallet.save();
+  
+      // Create transaction record
+      const transaction = new Transaction({ sender: senderWallet._id, recipient: recipientWallet._id, amount });
+      await transaction.save();
+  
+      res.json({ message: 'Funds transferred successfully' });
+    } catch (error) {
+      console.error('Failed to transfer funds:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  
 
 export default { 
     Post_signUp,
@@ -149,6 +188,6 @@ export default {
     Get_user,
     UpdateTransPin,
     UpdateKyc,
-    GetBalance
-
+    GetBalance,
+    Post_transfer
 }

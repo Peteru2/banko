@@ -27,10 +27,6 @@ const registrationSchema = new Schema({
         type: Number,
         required: true,
     },
-    accountNumber: {
-        type: Number,
-        required: true
-    },
     status: {
         type: Boolean,
         required: true

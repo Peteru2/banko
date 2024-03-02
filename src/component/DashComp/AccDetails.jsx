@@ -4,12 +4,14 @@ import api from '../../component/api.js'
   import "react-toastify/dist/ReactToastify.css";
 import TransPinForm from './TransPinForm.jsx';
 import UpdateKyc from './UpdateKyc.jsx';
+import TransactionForm from './TransactionForm.jsx';
 
 
 const AccDetails = () => {
   const [userData, setUserData] = useState(null);
   const [bvn, setBvn] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false); 
+  const [acctBalance, setAcctBalance] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,6 +32,7 @@ const AccDetails = () => {
           try{
             const response = await api.get('/balance');
             console.log(response.data.balance)
+            setAcctBalance(response.data.balance)
           }
           catch (error) {
             console.error('Failed to fetch user data:');
@@ -71,7 +74,6 @@ const AccDetails = () => {
         <h4 className='bg-private text-[20px] mr-4 px-3 rounded-[2px]'>₦</h4>
 
         <div>       
-
              {userData && (
                     <div>
                     <p className="font-bold"> {userData.firstname + ' ' + userData.lastname}</p>
@@ -79,18 +81,29 @@ const AccDetails = () => {
                     </div>
                 )}
         </div>
-
-
         <div className='flex items-center bg-white shadow-md p-4 rounded-[10px] text-private ml-10'>
             <i className='fa fa-heart'></i> 
             <div className="mx-4">{userData?.kycLevel == "1" ? <h2><button onClick={handleUpdateBvn} >Upgrade to Level 2</button></h2> : <h2>Upgraded</h2>}</div>
             <span><i className='fa fa-sort-up rotate-90'></i></span>
         </div>
         
+        
       <div  className={ `modal font-roboto ${bvn? "modal-show":""}`} >
            <UpdateKyc  onClose={() => setBvn(false)}  />
         </div>
         {/* <h2>{userData && userData.transactionPin}</h2> */}
+       </div>
+
+       <div className='bg-private font-roboto mt-5 px-6 text-white h-[150px] flex items-center w-[500px] rounded-[20px] py-2'> 
+          <div>
+                <h2 className="text-white text-opacity-80 text-sm">Total Balance</h2>
+                <h2 className="text-[20px]">  ₦{acctBalance && acctBalance}</h2>
+          </div>
+        </div>
+
+
+       <div>
+        <TransactionForm />
        </div>
                 <div className={`${showPinInput || bvn?"overlay":""} `}></div>
                 <ToastContainer />
