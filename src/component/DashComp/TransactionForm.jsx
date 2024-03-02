@@ -61,7 +61,11 @@ const TransactionForm = () => {
           </div>
         </div>
 
-        <div>{trans? (<h2>Your Transaction Pin</h2>): ("")}</div>
+        <div>
+
+          {trans? (<><h2>Your Transaction Pin </h2> </> ("")}
+          
+        </div>
         <button type="submit" className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
       </form>
     </div>

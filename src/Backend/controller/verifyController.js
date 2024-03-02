@@ -148,7 +148,7 @@ const GetBalance = async (req, res) => {
 // Transfer funds from sender's wallet to recipient's wallet using account number
 const Post_transfer = async(req, res) =>{
     try {
-      const { recipientAccountNumber, amount } = req.body;
+      const { recipientAccountNumber, amount, transPin } = req.body;
   
       // Find sender's wallet
       const senderWallet = await Wallet.findOne({ user: req.user.userId });
@@ -164,7 +164,14 @@ const Post_transfer = async(req, res) =>{
       if (!recipientWallet) {
         return res.status(404).json({ error: 'Recipient wallet not found' });
       }
-        res.json({message:"Correct"})
+         res.json({message:"Correct"})
+
+         const userTransPin = await User.findOne({ user: req.user.userId });
+         const pinMatch = await bcrypt.compare(transPin, userTransPin.transactionPin);
+
+         if(!pinMatch) {
+            
+         }
       // Update sender's balance
       senderWallet.balance -= amount;
       await senderWallet.save();
