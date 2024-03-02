@@ -156,12 +156,15 @@ const Post_transfer = async(req, res) =>{
         return res.status(400).json({ error: 'Insufficient balance' });
       }
   
+      if (amount < 50) {
+        return res.status(400).json({ error: 'Minimum amount to transfer is 50' });
+      }
       // Find recipient's wallet by account number
       const recipientWallet = await Wallet.findOne({ accountNumber: recipientAccountNumber });
       if (!recipientWallet) {
         return res.status(404).json({ error: 'Recipient wallet not found' });
       }
-  
+        res.json({message:"Correct"})
       // Update sender's balance
       senderWallet.balance -= amount;
       await senderWallet.save();

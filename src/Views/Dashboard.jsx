@@ -14,11 +14,7 @@ const Dashboard = () => {
       try {
         const response = await api.get('/');
         setUserData(response.data.token);
-        // setTimeout(() => {
-          // if (response&&response.data.user.transactionPin === 0) {  
-            console.log("Things are working out fine")
-          // }
-        // }, 2000);
+       
       } catch (error) {
         if (error && error.response && error.response.status === 401) {
           // Token expired, redirect to login page

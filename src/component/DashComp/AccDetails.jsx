@@ -4,6 +4,7 @@ import api from '../../component/api.js'
   import "react-toastify/dist/ReactToastify.css";
 import TransPinForm from './TransPinForm.jsx';
 import UpdateKyc from './UpdateKyc.jsx';
+import { Link } from 'react-router-dom';
 import TransactionForm from './TransactionForm.jsx';
 
 
@@ -20,7 +21,6 @@ const AccDetails = () => {
             setUserData(response.data.user);
 
            if (response.data.user.transactionPin == "0") {  
-            console.log("Things ")
             setShowPinInput(true)
             
           }
@@ -62,6 +62,7 @@ const AccDetails = () => {
       } 
       return ( 
         <>
+        <div className="font-roboto">
         {/* {showPinInput && ( */}
         <form  onSubmit={handleSubmitPin} className={ `modal font-roboto ${showPinInput? "modal-show":""}`}>
             <div>
@@ -70,7 +71,7 @@ const AccDetails = () => {
          </div>
         </form>
       {/* )} */}
-       <div className="flex items-center">
+       <div className="flex items-center ">
         <h4 className='bg-private text-[20px] mr-4 px-3 rounded-[2px]'>₦</h4>
 
         <div>       
@@ -87,26 +88,28 @@ const AccDetails = () => {
             <span><i className='fa fa-sort-up rotate-90'></i></span>
         </div>
         
-        
-      <div  className={ `modal font-roboto ${bvn? "modal-show":""}`} >
-           <UpdateKyc  onClose={() => setBvn(false)}  />
-        </div>
-        {/* <h2>{userData && userData.transactionPin}</h2> */}
+        <Link to ={"/Transfer"}>
+              <div className='bg-white shadow-md rounded-[10px] text-private font-roboto mx-4 p-4'>
+                <h2>Transfer Funds</h2>
+              </div>
+        </Link>
+      
        </div>
 
        <div className='bg-private font-roboto mt-5 px-6 text-white h-[150px] flex items-center w-[500px] rounded-[20px] py-2'> 
           <div>
                 <h2 className="text-white text-opacity-80 text-sm">Total Balance</h2>
-                <h2 className="text-[20px]">  ₦{acctBalance && acctBalance}</h2>
+                <h2 className="text-[20px]">  ₦{acctBalance && acctBalance.toLocaleString()}</h2>
           </div>
         </div>
 
-
-       <div>
-        <TransactionForm />
-       </div>
+<div  className={ `modal font-roboto ${bvn? "modal-show":""}`} >
+           <UpdateKyc  onClose={() => setBvn(false)}  />
+        </div>
+    
                 <div className={`${showPinInput || bvn?"overlay":""} `}></div>
                 <ToastContainer />
+                </div>
         </>
      );
 }
