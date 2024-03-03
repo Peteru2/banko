@@ -167,12 +167,15 @@ const Post_transfer = async(req, res) =>{
       else{
          res.json({message:"Correct"})
         }
-         const userTransPin = await User.findOne({ user: req.user.userId });
-         const pinMatch =  await bcrypt.compare(transPin, userTransPin.transactionPin);
+        const userTransPin = await User.findOne({ user: req.user.userId });
+            if (!userTransPin) {
+            return res.status(404).json({ error: 'Transaction Pin not found' });
+            }
 
-         if(!pinMatch) {
-            return res.status(404).json({ error: 'Transaction Pin Incorrect' });
-         }
+            const pinMatch = await bcrypt.compare(transPin, userTransPin.transactionPin);
+            if (!pinMatch) {
+            return res.status(400).json({ error: 'Transaction Pin Incorrect' });
+            }
          
       // Update sender's balance
       senderWallet.balance -= amount;
