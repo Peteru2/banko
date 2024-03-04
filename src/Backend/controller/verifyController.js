@@ -147,7 +147,7 @@ const GetBalance = async (req, res) => {
     
 const Check_transfer = async(req, res) =>{
     try {
-      const { recipientAccountNumber, amount, transPin } = req.body;
+      const { recipientAccountNumber, amount } = req.body;
       // Find sender's wallet
       const senderWallet = await Wallet.findOne({ user: req.user.userId });
       if (!senderWallet || senderWallet.balance < amount) {
