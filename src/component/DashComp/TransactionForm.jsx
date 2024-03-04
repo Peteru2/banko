@@ -9,14 +9,26 @@ const TransactionForm = () => {
   const [transPin, setTransPin] = useState('');
   const [trans, setTrans] = useState(false)
 
+  const handleSubmitVal = async (e) => {
+    e.preventDefault();
+    try {
+      // Send a request to transfer funds
+      const response = await api.post('/val_transfer', {  recipientAccountNumber, amount });
+      toast.success(response.data.message);
+      if(response.data.message=="Funds transferred successfully"){
+        setTrans(true)
+      }
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Send a request to transfer funds
       const response = await api.post('/transfer', {  recipientAccountNumber, amount, transPin });
-      if(response.data.message=="Correct"){
-        setTrans(true)
-      }
+     
       toast.success(response.data.message);
       // Clear the form after successful transaction
       // setRecipientAcctNumber('');
@@ -26,11 +38,12 @@ const TransactionForm = () => {
     }
   };
 
+  
   return (
     <div className="w-full flex mt-[50px] justify-center font-roboto">
       <div className='bg-white shadow-md rounded-[12px] p-8 w-[400px]'>
       <h2 className='text-center font-bold text-private'>Transfer Funds</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className='my-4'>
           <label htmlFor="recipientId" className='text-sm text-black text-opacity-50'>Recipient Account:</label>
           <div className='w-full'>
@@ -76,11 +89,11 @@ const TransactionForm = () => {
               />
               </div>
           </div>  
-           <button type="submit" className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
+           <button onClick={handleSubmit} className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
 
         </div>
 
-        <button type="submit" className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
+        <button  onClick={handleSubmitVal} className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
       </form>
     </div>
     <div className={`${trans?"overlay":""} `}></div>

@@ -145,7 +145,31 @@ const GetBalance = async (req, res) => {
      
 }
     
-// Transfer funds from sender's wallet to recipient's wallet using account number
+const Check_transfer = async(req, res) =>{
+    try {
+      const { recipientAccountNumber, amount, transPin } = req.body;
+      // Find sender's wallet
+      const senderWallet = await Wallet.findOne({ user: req.user.userId });
+      if (!senderWallet || senderWallet.balance < amount) {
+        return res.status(400).json({ error: 'Insufficient balance' });
+      }
+  
+      if (amount < 50) {
+        return res.status(400).json({ error: 'Minimum amount to transfer is 50' });
+      }
+      // Find recipient's wallet by account number
+      const recipientWallet = await Wallet.findOne({ accountNumber: recipientAccountNumber });
+      if (!recipientWallet) {
+        return res.status(404).json({ error: 'Recipient wallet not found' });
+      }
+      res.json({ message: 'Funds transferred successfully' });
+      
+    } catch (error) {
+      console.error('Failed to transfer funds:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
 const Post_transfer = async(req, res) =>{
     try {
       const { recipientAccountNumber, amount, transPin } = req.body;
@@ -164,13 +188,11 @@ const Post_transfer = async(req, res) =>{
       if (!recipientWallet) {
         return res.status(404).json({ error: 'Recipient wallet not found' });
       }
-      else{
-         res.json({message:"Correct"})
-        }
+     
         const userTransPin = await User.findOne({ user: req.user.userId });
             if (!userTransPin) {
             return res.status(404).json({ error: 'Transaction Pin not found' });
-            }
+ x            }
 
             const pinMatch = await bcrypt.compare(transPin, userTransPin.transactionPin);
             if (!pinMatch) {
@@ -204,5 +226,6 @@ export default {
     UpdateTransPin,
     UpdateKyc,
     GetBalance,
+    Check_transfer,
     Post_transfer
 }
