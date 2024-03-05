@@ -189,7 +189,9 @@ const Post_transfer = async(req, res) =>{
         return res.status(404).json({ error: 'Recipient wallet not found' });
       }
      
-        const userTransPin = await User.findOne({ user: req.user.userId });
+        const userTransPin = await User.findById( req.user.userId);
+        console.log(userTransPin)
+
             if (!userTransPin) {
             return res.status(404).json({ error: 'Transaction Pin not found' });
  x            }
