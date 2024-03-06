@@ -162,7 +162,7 @@ const Check_transfer = async(req, res) =>{
       if (!recipientWallet) {
         return res.status(404).json({ error: 'Recipient wallet not found' });
       }
-      res.json({ message: 'Funds transferred successfully' });
+      res.json({ mes: 'success' });
       
     } catch (error) {
       console.error('Failed to transfer funds:', error);
@@ -220,6 +220,18 @@ const Post_transfer = async(req, res) =>{
     }
   }
   
+  const Transfer_history = async( req, res) =>{
+    try {
+        const transferHistory= await Transaction.findById(req.user.userId);
+        if (!transferHistory) {
+          return res.status(404).json({ error: 'No history found' });
+        }
+        res.json({ transferHistory });
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    };
 
 export default { 
     Post_signUp,
@@ -229,5 +241,6 @@ export default {
     UpdateKyc,
     GetBalance,
     Check_transfer,
-    Post_transfer
+    Post_transfer,
+    Transfer_history
 }

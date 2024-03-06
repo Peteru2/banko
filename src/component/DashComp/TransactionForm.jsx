@@ -15,7 +15,7 @@ const TransactionForm = () => {
       // Send a request to transfer funds
       const response = await api.post('/val_transfer', {  recipientAccountNumber, amount });
       toast.success(response.data.message);
-      if(response.data.message=="Funds transferred successfully"){
+      if(response.data.mes=="success"){
         setTrans(true)
       }
     } catch (error) {
@@ -30,9 +30,14 @@ const TransactionForm = () => {
       const response = await api.post('/transfer', {  recipientAccountNumber, amount, transPin });
      
       toast.success(response.data.message);
+      if(response.data.message == "Funds transferred successfully"){
+        setTrans(false)
+        setRecipientAcctNumber('');
+        setAmount('');
+        setTransPin('');
+      }
       // Clear the form after successful transaction
-      // setRecipientAcctNumber('');
-      // setAmount('');
+      
     } catch (error) {
       toast.error(error.response.data.error);
     }

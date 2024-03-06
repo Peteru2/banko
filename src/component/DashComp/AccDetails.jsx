@@ -94,6 +94,13 @@ const AccDetails = () => {
               </div>
         </Link>
       
+      <Link to={"/Transaction-details"}>
+             
+              <div className='bg-white shadow-md rounded-[10px] text-private font-roboto mx-4 p-4'>
+                <h2>Transfer History</h2>
+              </div>
+             
+      </Link>
        </div>
 
        <div className='bg-private font-roboto mt-5 px-6 text-white h-[150px] flex items-center w-[500px] rounded-[20px] py-2'> 

@@ -28,5 +28,7 @@ app.put('/updatekyc', authMiddleware, Controller.UpdateKyc)
 app.get('/balance', authMiddleware, Controller.GetBalance)
 app.post('/val_transfer', authMiddleware, Controller.Check_transfer)
 app.post('/transfer', authMiddleware, Controller.Post_transfer)
+app.post('/trans-history', authMiddleware, Controller.Transfer_history)
+
 
 
