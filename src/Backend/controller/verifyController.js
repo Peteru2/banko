@@ -221,9 +221,14 @@ const Post_transfer = async(req, res) =>{
   }
   
   const Transfer_history = async( req, res) =>{
+
     try {
-        const transferHistory= await Transaction.findById(req.user.userId);
-        if (!transferHistory) {
+
+        const transferHistory = await Transaction.find({
+            $or: [{ sender: req.user.userId }, { recipient: req.user.userId }]
+          }).populate('sender recipient', 'user');
+
+        if (!transferHistory || transferHistory.length === 0) {
           return res.status(404).json({ error: 'No history found' });
         }
         res.json({ transferHistory });
@@ -231,6 +236,7 @@ const Post_transfer = async(req, res) =>{
         console.error('Error fetching user data:', error);
         res.status(500).json({ error: 'Internal server error' });
       }
+
     };
 
 export default { 

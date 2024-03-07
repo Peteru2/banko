@@ -94,7 +94,7 @@ const AccDetails = () => {
               </div>
         </Link>
       
-      <Link to={"/Transaction-details"}>
+      <Link to={"/trans-history"}>
              
               <div className='bg-white shadow-md rounded-[10px] text-private font-roboto mx-4 p-4'>
                 <h2>Transfer History</h2>
