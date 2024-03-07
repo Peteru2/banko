@@ -181,7 +181,7 @@ const Post_transfer = async(req, res) =>{
       }
   
       if (amount < 50) {
-        return res.status(400).json({ error: 'Minimum amount to transfer is 50' });
+        return res.status(400).json({ error: 'Minimum amount transferable is 50' });
       }
       // Find recipient's wallet by account number
       const recipientWallet = await Wallet.findOne({ accountNumber: recipientAccountNumber });
@@ -224,12 +224,14 @@ const Post_transfer = async(req, res) =>{
 
     try {
 
+        const userID = req.user.userId;
+
         const transferHistory = await Transaction.find({
-            $or: [{ sender: req.user.userId }, { recipient: req.user.userId }]
+            $or: [{ sender: userID }, { recipient: userId }]
           }).populate('sender recipient', 'user');
 
           console.log(transferHistory)
-          
+
         if (!transferHistory || transferHistory.length === 0) {
           return res.status(404).json({ error: 'No history found' });
         }
