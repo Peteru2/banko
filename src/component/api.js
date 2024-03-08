@@ -1,7 +1,11 @@
 import axios from 'axios';
+import io from 'socket.io-client';
+
+const baseURL = 'http://localhost:8000';
+const socket = io(baseURL); // Create a Socket.IO client instance
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000', 
+  baseURL: baseURL,
 });
 
 api.interceptors.request.use((config) => {
@@ -11,5 +15,9 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+api.getSocket = () => {
+  return socket;
+};
 
 export default api;

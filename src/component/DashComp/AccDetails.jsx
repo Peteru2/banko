@@ -5,7 +5,10 @@ import api from '../../component/api.js'
 import TransPinForm from './TransPinForm.jsx';
 import UpdateKyc from './UpdateKyc.jsx';
 import { Link } from 'react-router-dom';
-import TransactionForm from './TransactionForm.jsx';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:8000');
+
 
 
 const AccDetails = () => {
@@ -40,18 +43,30 @@ const AccDetails = () => {
         };
     
         fetchData();
-      }, []);
-  
 
+        socket.on('kycLevelUpdated', (data) => {
+          setUserData(prevUserData => ({
+            ...prevUserData,
+            kycLevel: data.kycLevel
+          }));
+          console.log(userData.kycLevel)
+        });
+
+      return () => {
+        socket.off('kycLevelUpdated');
+      };
+
+    }, []);
+  
       const handleSubmitPin = async (pin) => {
         try {
-          // Make API call to send PIN data to the backend
+        
           const response = await api.put('/updateTransactionPin', { pin });
           setShowPinInput(false); 
           toast.success("Transaction Pin updated", {
             position: "top-right",
           })
-          console.log(response.data); // Log the response from the backend
+          console.log(response.data); 
         } catch (error) {
           console.error('Failed to update transaction pin:', error);
         }
@@ -84,7 +99,12 @@ const AccDetails = () => {
         </div>
         <div className='flex items-center bg-white shadow-md p-4 rounded-[10px] text-private ml-10'>
             <i className='fa fa-heart'></i> 
-            <div className="mx-4">{userData?.kycLevel == "1" ? <h2><button onClick={handleUpdateBvn} >Upgrade to Level 2</button></h2> : <h2>Upgraded</h2>}</div>
+            <div className="mx-4">
+                {userData && userData.kycLevel === "1" ?
+                  <h2><button onClick={handleUpdateBvn}>Upgrade to Level 2</button></h2> :
+                  <h2>Upgraded</h2>
+                }
+    </div>
             <span><i className='fa fa-sort-up rotate-90'></i></span>
         </div>
         

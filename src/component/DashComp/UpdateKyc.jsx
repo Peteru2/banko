@@ -27,9 +27,10 @@ const UpdateKyc = ({onClose}) => {
             try {
             // Send a request to update the BVN PIN
             const response = await api.put('/updatekyc', { bvn });
-            toast.success("BVN Updated Successfully", {
-                position: "top-right",
-              })
+            // toast.success("BVN Updated Successfully", {
+            //     position: "top-right",
+            //   })
+            console.log("Bvn Updated")
               onClose()
               setBVN('')
             } catch (error) {
@@ -45,7 +46,7 @@ const UpdateKyc = ({onClose}) => {
     <div>
         <div className="flex w-full">
       <h2 className=' font-bold'>Enter Your BVN</h2>
-      <span className="ml-auto" onClick={onClose} ><i className="fa fa-times"></i></span>
+      <span className="ml-auto" onClick={onClose} ><i className="fa fa-times cursor-pointer"></i></span>
       </div>
       <form onSubmit={handleSubmit}>
         <div>

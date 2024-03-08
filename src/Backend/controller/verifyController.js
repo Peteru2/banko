@@ -2,6 +2,7 @@
 import {User} from "../models/User.js";
 import {Wallet} from "../models/Wallet.js"
 import {Transaction} from "../models/Transaction.js"
+import { io } from "../server.js";
 
 import jwt from "jsonwebtoken";
 const secretKey = 'your-secret-key';
@@ -105,6 +106,9 @@ const Get_user = async (req, res) => {
        
         await User.findByIdAndUpdate(req.user.userId, { transactionPin: hashedPin });
 
+        // Emit a Socket.IO event to notify connected clients about the pin update
+        io.emit('transactionPinUpdated', { userId: req.user.userId });
+
         res.status(200).json({ message: 'Transaction pin updated successfully' });
     } catch (error) {
         console.error('Failed to update transaction pin:', error);
@@ -112,25 +116,31 @@ const Get_user = async (req, res) => {
     }
 }
 
-const UpdateKyc = async (req, res) => { 
-    try {
-        const { bvn } = req.body;
-        const hashedPin = await bcrypt.hash(bvn, 10);
+    const UpdateKyc = async (req, res) => { 
 
-        await User.findByIdAndUpdate(req.user.userId, { bvn: hashedPin });
 
-        const user = await User.findById(req.user.userId);
-        if (user && user.bvn !== '0') {
-            // Update the KYC level
-            await User.findByIdAndUpdate(req.user.userId, { kycLevel: 2 });
+        try {
+            const { bvn } = req.body;
+            const hashedPin = await bcrypt.hash(bvn, 10);
+    
+            await User.findByIdAndUpdate(req.user.userId, { bvn: hashedPin });
+            
+    
+            const user = await User.findById(req.user.userId);
+            if (user && user.bvn !== '0') {
+                // Update the KYC level
+                await User.findByIdAndUpdate(req.user.userId, { kycLevel: 2 });
+                io.emit('kycLevelUpdated', { userId: req.user.userId, kycLevel: 2 });
+                console.log('kycLevelUpdated event emitted:', { userId: req.user.userId, kycLevel: 2 });
+            }
+    
+            res.status(200).json({ message: 'Transaction pin updated successfully' });
+        
+        } catch (error) {
+            console.error('Failed to update transaction pin:', error);
+            res.status(500).json({ error: 'Failed to update transaction pin' });
         }
-
-        res.status(200).json({ message: 'Transaction pin updated successfully' });
-    } catch (error) {
-        console.error('Failed to update transaction pin:', error);
-        res.status(500).json({ error: 'Failed to update transaction pin' });
     }
-}
 
 const GetBalance = async (req, res) => {
         try {
@@ -227,7 +237,7 @@ const Post_transfer = async(req, res) =>{
         const userID = req.user.userId;
 
         const transferHistory = await Transaction.find({
-            $or: [{ sender: userID }, { recipient: userId }]
+            $or: [{ sender: userID }, { recipient: userID }]
           }).populate('sender recipient', 'user');
 
           console.log(transferHistory)
