@@ -26,7 +26,7 @@ const TransHistory = () => {
             {transHis && transHis.map(transaction => 
                 <div >
                     <p>
-                        {transaction.sender.firstname} {transaction.sender.lastname}  sent {transaction.amount} to {transaction.recipient.firstname} {transaction.recipient.lastname} 
+                        {transaction.sender.firstname} {transaction.sender.lastname}  sent ₦{transaction.amount} to {transaction.recipient.firstname} {transaction.recipient.lastname} 
                     </p>
                 </div>
             )}
