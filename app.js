@@ -35,10 +35,12 @@ io.on('connection', socket => {
   socket.emit('welcome', 'Welcome to the server!');
 });
 
-app.all('*', authMiddleware)
-app.get('/', authMiddleware, Controller.Get_user);
+
 app.post('/SignUp', Controller.Post_signUp);
 app.post('/Login', Controller.Post_login);
+app.all('*', authMiddleware)
+
+app.get('/', authMiddleware, Controller.Get_user);
 app.put('/updateTransactionPin', authMiddleware, Controller.UpdateTransPin);
 app.put('/updatekyc', authMiddleware, Controller.UpdateKyc);
 app.get('/balance', authMiddleware, Controller.GetBalance);

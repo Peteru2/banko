@@ -9,7 +9,7 @@ const TransHistory = () => {
           try {
             const response = await api.get('/trans-history');
             setTransHis(response.data.transferHistory);
-            console.log(transHis + "This is super story")
+            console.log(response.data.transferHistory)
 
           } catch (error) {
             console.error('Failed to fetch user data:');
@@ -22,9 +22,14 @@ const TransHistory = () => {
 
     return ( 
         <>
-          <h2>This is the your transaction History</h2>
-          <h2>{transHis.recipient}
-</h2>
+        <h2>This is your transaction History</h2>
+            {transHis && transHis.map((transaction, index) => (
+                <div key={index}>
+                    <p>
+                        {transaction.sender} {transaction.sender} sent {transaction.amount} to {transaction.recipient} {transaction.recipient}
+                    </p>
+                </div>
+            ))}
         </>
      );
 }
