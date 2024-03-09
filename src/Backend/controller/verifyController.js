@@ -238,9 +238,9 @@ const Post_transfer = async(req, res) =>{
       console.log(userID)
 
         const transferHistory = await Transaction.find({
-            $or: [{ sender: userID }, { recipient: userID }]
-          })
-          console.log(transferHistory[0].sender)
+             sender: userID 
+        })
+          console.log(transferHistory)
 
         if (!transferHistory || transferHistory.length === 0) {
           return res.status(404).json({ error: 'No history found' });
