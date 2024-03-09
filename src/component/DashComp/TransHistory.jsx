@@ -23,13 +23,13 @@ const TransHistory = () => {
     return ( 
         <>
         <h2>This is your transaction History</h2>
-            {transHis && transHis.map((transaction, index) => (
-                <div key={index}>
+            {transHis && transHis.map(transaction => 
+                <div >
                     <p>
-                        {transaction.sender}  sent {transaction.amount} to {transaction.recipient} 
+                        {transaction.sender.firstname} {transaction.sender.lastname}  sent {transaction.amount} to {transaction.recipient.firstname} {transaction.recipient.lastname} 
                     </p>
                 </div>
-            ))}
+            )}
         </>
      );
 }

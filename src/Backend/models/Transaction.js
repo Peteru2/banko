@@ -3,9 +3,23 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
  const TransactionSchema = new Schema({
-    sender: { type: String, ref: 'Wallet', required: true },
-    recipient: { type: String, ref: 'Wallet', required: true },
-    amount: { type: Number, required: true },
+    sender: { type: Schema.Types.ObjectId, 
+      ref: 'User', 
+      required: true },
+    recipient: { type: Schema.Types.ObjectId, 
+      ref: 'User', 
+      required: true },
+    amount: { type: Number, 
+      required: true },
+    status: {
+      type: String,
+      enum: ['Success', 'Failed'],
+      default: 'Success'
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    }
    
   });
 

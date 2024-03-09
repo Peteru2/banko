@@ -33,7 +33,8 @@ const registrationSchema = new Schema({
     },
     transactionPin: String,
     kycLevel: String,
-    bvn: String
+    bvn: String,
+    accountNumber:String
 });
 
 

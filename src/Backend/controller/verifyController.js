@@ -34,7 +34,8 @@ const Post_signUp = async (req, res) =>{
             status: true,
             kycLevel: 1,
             transactionPin: 0, 
-            bvn:0
+            bvn:0,
+            accountNumber:0
         });
  
         const wallet = new Wallet({ 
@@ -158,6 +159,7 @@ const GetBalance = async (req, res) => {
 const Check_transfer = async(req, res) =>{
     try {
       const { recipientAccountNumber, amount } = req.body;
+      console.log(req.body.userId)
       // Find sender's wallet
       const senderWallet = await Wallet.findOne({ user: req.user.userId });
       if (!senderWallet || senderWallet.balance < amount) {
@@ -200,11 +202,20 @@ const Post_transfer = async(req, res) =>{
       }
      
         const userTransPin = await User.findById( req.user.userId);
-        console.log(userTransPin)
+       
+    if (userTransPin.accountNumber === "0") {
+      await User.findByIdAndUpdate(req.user.userId, { accountNumber: senderWallet.accountNumber });
+    }
+
+    // Update recipient's account number if it is 0
+    const recipientUser = await User.findById(recipientWallet.user);
+    if (recipientUser.accountNumber === "0") {
+      await User.findByIdAndUpdate(recipientWallet.user, { accountNumber: recipientWallet.accountNumber });
+    }
 
             if (!userTransPin) {
             return res.status(404).json({ error: 'Transaction Pin not found' });
- x            }
+             }
 
             const pinMatch = await bcrypt.compare(transPin, userTransPin.transactionPin);
             if (!pinMatch) {
@@ -220,7 +231,8 @@ const Post_transfer = async(req, res) =>{
       await recipientWallet.save();
   
       // Create transaction record
-      const transaction = new Transaction({ sender: senderWallet._id, recipient: recipientWallet._id, amount });
+      
+      const transaction = new Transaction({ sender: senderWallet.user, recipient: recipientWallet.user, amount, status });
       await transaction.save();
   
       res.json({ message: 'Funds transferred successfully' });
@@ -238,8 +250,8 @@ const Post_transfer = async(req, res) =>{
       console.log(userID)
 
         const transferHistory = await Transaction.find({
-             sender: userID 
-        })
+            $or: [{ sender: userID }, { recipient: userID }]
+          }).populate('sender recipient');
           console.log(transferHistory)
 
         if (!transferHistory || transferHistory.length === 0) {
