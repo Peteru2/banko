@@ -8,7 +8,7 @@ import Controller from './src/Backend/controller/verifyController.js';
 import authMiddleware from './src/Backend/auth.js';
 
 const app = express();
-const server = http.createServer(app); // Create HTTP server
+const server = http.createServer(app); 
 const io = new Server(server, {
     cors: {
       origin: "http://localhost:5173", 
@@ -31,10 +31,11 @@ connectDB().then(() => {
 io.on('connection', socket => {
   console.log('A user connected');
 
-  // Example: Emit a 'welcome' event to the connected client
+ 
   socket.emit('welcome', 'Welcome to the server!');
 });
 
+app.all('*', authMiddleware)
 app.get('/', authMiddleware, Controller.Get_user);
 app.post('/SignUp', Controller.Post_signUp);
 app.post('/Login', Controller.Post_login);

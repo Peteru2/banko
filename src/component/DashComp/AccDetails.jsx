@@ -18,6 +18,9 @@ const AccDetails = () => {
   const [acctBalance, setAcctBalance] = useState(null)
 
     useEffect(() => {
+      socket.on('welcome', message =>{
+        console.log(message)
+      })
         const fetchData = async () => {
           try {
             const response = await api.get('/');
