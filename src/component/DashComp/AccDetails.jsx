@@ -7,6 +7,7 @@ import UpdateKyc from './UpdateKyc.jsx';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 import TransHistory from './TransHistory.jsx';
+import TransactionForm from './TransactionForm.jsx';
 
 const socket = io('http://localhost:8000');
 
@@ -18,6 +19,8 @@ const AccDetails = () => {
   const [showPinInput, setShowPinInput] = useState(false); 
   const [acctBalance, setAcctBalance] = useState(null)
   const [transacHis, setTransacHis] = useState(false)
+  const [transfer, setTransfer] = useState(false)
+
 
 
     useEffect(() => {
@@ -84,6 +87,9 @@ const AccDetails = () => {
       const handleShowTransacHis = () =>{
         setTransacHis(his => !his);
       } 
+      const handleTransfer = () =>{
+        setTransfer(trans => !trans)
+      }
       return ( 
         <>
         <div className="font-roboto">
@@ -117,21 +123,29 @@ const AccDetails = () => {
             <span><i className='fa fa-sort-up rotate-90'></i></span>
         </div>
         
-        <Link to ={"/Transfer"}>
-              <div className='bg-white shadow-md rounded-[10px] text-private font-roboto mx-4 p-4'>
+        <div>
+              <div onClick={handleTransfer} className='bg-white shadow-md cursor-pointer rounded-[10px] text-private font-roboto mx-4 p-4'>
                 <h2>Transfer Funds</h2>
               </div>
-        </Link>
-      
+
+              <div  className={ `genModal font-roboto ${transfer? "modal-show w-full":""}`} >
+                <h2 onClick={handleTransfer} className='absolute top-0 cursor-pointer'><i className="fa fa-arrow-left"> </i></h2>
+        <TransactionForm />
+        </div>
+
+        </div>
+        
+          <div onClick={handleShowTransacHis} className='bg-white shadow-md rounded-[10px] cursor-pointer text-private font-roboto mx-4 p-4'>
+               <h2>Transfer History</h2>
+              </div>
+
         <div  className={ `genModal font-roboto ${transacHis? "modal-show w-full":""}`} >
                 <h2 onClick ={handleShowTransacHis} className='absolute top-0 cursor-pointer'><i className="fa fa-arrow-left"> </i></h2>
           <TransHistory />
         </div>
       
              
-              <div onClick={handleShowTransacHis} className='bg-white shadow-md rounded-[10px] cursor-pointer text-private font-roboto mx-4 p-4'>
-                <h2>Transfer History</h2>
-              </div>
+              
              
       
        </div>
