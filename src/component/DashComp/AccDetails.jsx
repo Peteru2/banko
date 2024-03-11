@@ -82,7 +82,7 @@ const AccDetails = () => {
           setBvn(true)
       } 
       const handleShowTransacHis = () =>{
-            setTransacHis(true)
+        setTransacHis(his => !his);
       } 
       return ( 
         <>
@@ -124,6 +124,7 @@ const AccDetails = () => {
         </Link>
       
         <div  className={ `genModal font-roboto ${transacHis? "modal-show w-full":""}`} >
+                <h2 onClick ={handleShowTransacHis} className='absolute top-0'><i className="fa fa-arrow-left"> </i></h2>
           <TransHistory />
         </div>
       

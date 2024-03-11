@@ -30,8 +30,8 @@
   }
   .genModal{
     position: fixed!important;
-    top: 50%;
-    left: 50%;
+    top: 0%;
+    left: 0%;
     height: 100%;
     /* width: 300px; */
     transform: translate(-50%,-50%) scale(0)  ;
@@ -45,6 +45,9 @@
 
   .modal-show {
     transform: translate(-50%, -50%) scale(1);
+    left: 50%;
+    top: 50%
+
   }
   .overlay {
     display: block;
