@@ -124,12 +124,12 @@ const AccDetails = () => {
         </Link>
       
         <div  className={ `genModal font-roboto ${transacHis? "modal-show w-full":""}`} >
-                <h2 onClick ={handleShowTransacHis} className='absolute top-0'><i className="fa fa-arrow-left"> </i></h2>
+                <h2 onClick ={handleShowTransacHis} className='absolute top-0 cursor-pointer'><i className="fa fa-arrow-left"> </i></h2>
           <TransHistory />
         </div>
       
              
-              <div onClick={handleShowTransacHis} className='bg-white shadow-md rounded-[10px] text-private font-roboto mx-4 p-4'>
+              <div onClick={handleShowTransacHis} className='bg-white shadow-md rounded-[10px] cursor-pointer text-private font-roboto mx-4 p-4'>
                 <h2>Transfer History</h2>
               </div>
              
