@@ -6,6 +6,7 @@ import TransPinForm from './TransPinForm.jsx';
 import UpdateKyc from './UpdateKyc.jsx';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
+import TransHistory from './TransHistory.jsx';
 
 const socket = io('http://localhost:8000');
 
@@ -16,6 +17,8 @@ const AccDetails = () => {
   const [bvn, setBvn] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false); 
   const [acctBalance, setAcctBalance] = useState(null)
+  const [transacHis, setTransacHis] = useState(false)
+
 
     useEffect(() => {
       socket.on('welcome', message =>{
@@ -78,6 +81,9 @@ const AccDetails = () => {
       const handleUpdateBvn = () =>{
           setBvn(true)
       } 
+      const handleShowTransacHis = () =>{
+            setTransacHis(true)
+      } 
       return ( 
         <>
         <div className="font-roboto">
@@ -117,13 +123,16 @@ const AccDetails = () => {
               </div>
         </Link>
       
-      <Link to={"/trans-history"}>
+        <div  className={ `genModal font-roboto ${transacHis? "modal-show w-full":""}`} >
+          <TransHistory />
+        </div>
+      
              
-              <div className='bg-white shadow-md rounded-[10px] text-private font-roboto mx-4 p-4'>
+              <div onClick={handleShowTransacHis} className='bg-white shadow-md rounded-[10px] text-private font-roboto mx-4 p-4'>
                 <h2>Transfer History</h2>
               </div>
              
-      </Link>
+      
        </div>
 
        <div className='bg-private font-roboto mt-5 px-6 text-white h-[150px] flex items-center w-[500px] rounded-[20px] py-2'> 
