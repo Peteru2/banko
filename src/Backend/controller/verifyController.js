@@ -169,6 +169,10 @@ const Check_transfer = async(req, res) =>{
       if (amount < 50) {
         return res.status(400).json({ error: 'Minimum amount to transfer is 50' });
       }
+      if(senderWallet.accountNumber == recipientAccountNumber){
+        return res.status(400).json({ error: 'You cannot not transfer to self' });
+      }
+  
       // Find recipient's wallet by account number
       const recipientWallet = await Wallet.findOne({ accountNumber: recipientAccountNumber });
       if (!recipientWallet) {
@@ -232,7 +236,7 @@ const Post_transfer = async(req, res) =>{
   
       // Create transaction record
       
-      const transaction = new Transaction({ sender: senderWallet.user, recipient: recipientWallet.user, amount, status });
+      const transaction = new Transaction({ sender: senderWallet.user, recipient: recipientWallet.user, amount, status: "Successful" });
       await transaction.save();
   
       res.json({ message: 'Funds transferred successfully' });

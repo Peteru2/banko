@@ -13,7 +13,7 @@ const { Schema } = mongoose;
       required: true },
     status: {
       type: String,
-      enum: ['Success', 'Failed'],
+      enum: ['Successful', 'Failed'],
       default: 'Success'
     },
     date: {
