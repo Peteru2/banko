@@ -29,7 +29,7 @@ connectDB().then(() => {
 
 // Socket.IO logic
 io.on('connection', socket => {
-  console.log('A user connected');
+  console.log('A user connected', socket.id);
 
  
   socket.emit('welcome', 'Welcome to the server!');
