@@ -50,15 +50,22 @@ const UpdateKyc = ({onClose, setUserData, socket}) => {
   
  
 };
-useEffect(() =>{
-  socket.on('receiveUserData', (data) => {
-    setUserData((previousData) => [...previousData,{
-         kycLevel: data
-    }]);
-
-    // console.log(userData)
-  }, [socket]);
-})
+// useEffect(() => {
+//   socket.on('receiveUserData', (data) => {
+//     setUserData((previousData) => {
+//       // Initialize previousData as an empty array if it's null
+//       const newData = Array.isArray(previousData) ? [...previousData] : [];
+//       // Add new data to the array
+//       newData.push({ kycLevel: data.kycLevel });
+//       return newData;
+//     });
+//   });
+  
+//   // Clean up the event listener when the component unmounts
+//   return () => {
+//     socket.off('receiveUserData');
+//   };
+// }, [setUserData, socket]);
 
   return (
     <div>

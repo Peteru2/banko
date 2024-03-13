@@ -12,7 +12,7 @@ import TransactionForm from './TransactionForm.jsx';
 const socket = io.connect('http://localhost:8000');
 
 const AccDetails = () => {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState(null);
   const [bvn, setBvn] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false); 
   const [acctBalance, setAcctBalance] = useState(null)
@@ -28,7 +28,6 @@ const AccDetails = () => {
         const fetchData = async () => {
           try {
             const userResponse = await api.get('/');
-            socket.emit("userData",userResponse)
             setUserData(userResponse.data.user);
             
             const response = await api.get('/balance');
@@ -43,18 +42,13 @@ const AccDetails = () => {
             console.error('Failed to fetch user data:');
           }
 
+          console.log(userData)
+
         };
-    
-        console.log(userData)
-       
 
         fetchData();
 
-      return () => {
-        socket.off('receiveUserData');
-      };
-
-    }, [socket]);
+    }, []);
   
       const handleSubmitPin = async (pin) => {
         try {
@@ -79,6 +73,9 @@ const AccDetails = () => {
       const handleTransfer = () =>{
         setTransfer(trans => !trans)
       }
+      
+      
+
       return ( 
         <>
         <div className="font-roboto">
