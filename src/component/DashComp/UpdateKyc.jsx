@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../api';
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import io from 'socket.io-client';
 
 
-const UpdateKyc = ({onClose}) => {
+
+
+const UpdateKyc = ({onClose, setUserData, socket}) => {
   const [bvn, setBVN] = useState('');
 
   const handleSubmit = async (e) => {
@@ -25,22 +28,37 @@ const UpdateKyc = ({onClose}) => {
     }
     else{
             try {
-            // Send a request to update the BVN PIN
+            
             const response = await api.put('/updatekyc', { bvn });
-            // toast.success("BVN Updated Successfully", {
-            //     position: "top-right",
-            //   })
-            console.log("Bvn Updated")
+            const userResponse = await api.get('/');
+
+              // toast.success(response.data.message, {
+              //   position: "top-right",
+              // })
+            await socket.emit("userData", userResponse)
+            console.log("KYC Level Upgraded")
               onClose()
               setBVN('')
+            
             } catch (error) {
                 toast.error(error.response.data.error, {
                     position: "top-right",
                   })
-           
             }   
   }
+
+  
+ 
 };
+useEffect(() =>{
+  socket.on('receiveUserData', (data) => {
+    setUserData((previousData) => [...previousData,{
+         kycLevel: data
+    }]);
+
+    // console.log(userData)
+  }, [socket]);
+})
 
   return (
     <div>

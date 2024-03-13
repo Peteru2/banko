@@ -117,9 +117,8 @@ const Get_user = async (req, res) => {
     }
 }
 
-    const UpdateKyc = async (req, res) => { 
-
-
+   
+const UpdateKyc = async (req, res) => { 
         try {
             const { bvn } = req.body;
             const hashedPin = await bcrypt.hash(bvn, 10);
@@ -130,12 +129,10 @@ const Get_user = async (req, res) => {
             const user = await User.findById(req.user.userId);
             if (user && user.bvn !== '0') {
                 // Update the KYC level
-                await User.findByIdAndUpdate(req.user.userId, { kycLevel: 2 });
-                io.emit('kycLevelUpdated', { userId: req.user.userId, kycLevel: 2 });
-                console.log('kycLevelUpdated event emitted:', { userId: req.user.userId, kycLevel: 2 });
+                await User.findByIdAndUpdate(req.user.userId, { kycLevel: 2 })
             }
     
-            res.status(200).json({ message: 'Transaction pin updated successfully' });
+            res.status(200).json({ message: 'KYC Level Upgraded successfully' });
         
         } catch (error) {
             console.error('Failed to update transaction pin:', error);
@@ -251,12 +248,10 @@ const Post_transfer = async(req, res) =>{
     try {
 
         const userID = req.user.userId;
-      console.log(userID)
 
         const transferHistory = await Transaction.find({
             $or: [{ sender: userID }, { recipient: userID }]
           }).populate('sender recipient');
-          console.log(transferHistory)
 
         if (!transferHistory || transferHistory.length === 0) {
           return res.status(404).json({ error: 'No history found' });

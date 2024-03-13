@@ -9,12 +9,10 @@ import io from 'socket.io-client';
 import TransHistory from './TransHistory.jsx';
 import TransactionForm from './TransactionForm.jsx';
 
-const socket = io('http://localhost:8000');
-
-
+const socket = io.connect('http://localhost:8000');
 
 const AccDetails = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
   const [bvn, setBvn] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false); 
   const [acctBalance, setAcctBalance] = useState(null)
@@ -22,50 +20,41 @@ const AccDetails = () => {
   const [transfer, setTransfer] = useState(false)
 
 
-
+  
     useEffect(() => {
       socket.on('welcome', message =>{
         console.log(message)
       })
         const fetchData = async () => {
           try {
-            const response = await api.get('/');
-            setUserData(response.data.user);
+            const userResponse = await api.get('/');
+            socket.emit("userData",userResponse)
+            setUserData(userResponse.data.user);
+            
+            const response = await api.get('/balance');
+            console.log(response.data.balance)
+            setAcctBalance(response.data.balance)
 
            if (response.data.user.transactionPin == "0") {  
-            setShowPinInput(true)
-            
+            setShowPinInput(true)  
           }
+
           } catch (error) {
             console.error('Failed to fetch user data:');
           }
 
-
-          try{
-            const response = await api.get('/balance');
-            console.log(response.data.balance)
-            setAcctBalance(response.data.balance)
-          }
-          catch (error) {
-            console.error('Failed to fetch user data:');
-          }
         };
     
+        console.log(userData)
+       
+
         fetchData();
 
-        socket.on('kycLevelUpdated', (data) => {
-          setUserData(prevUserData => ({
-            ...prevUserData,
-            kycLevel: data.kycLevel
-          }));
-          console.log(userData.kycLevel)
-        });
-
       return () => {
-        socket.off('kycLevelUpdated');
+        socket.off('receiveUserData');
       };
 
-    }, []);
+    }, [socket]);
   
       const handleSubmitPin = async (pin) => {
         try {
@@ -115,10 +104,9 @@ const AccDetails = () => {
         <div className='flex items-center bg-white shadow-md p-4 rounded-[10px] text-private ml-10'>
             <i className='fa fa-heart'></i> 
             <div className="mx-4">
-                {userData && userData.kycLevel === "1" ?
-                  <h2><button onClick={handleUpdateBvn}>Upgrade to Level 2</button></h2> :
-                  <h2>Upgraded</h2>
-                }
+              
+                  <h2><button onClick={handleUpdateBvn}>Upgrade to Level 2</button></h2> 
+                 
     </div>
             <span><i className='fa fa-sort-up rotate-90'></i></span>
         </div>
@@ -158,7 +146,7 @@ const AccDetails = () => {
         </div>
 
 <div  className={ `modal font-roboto ${bvn? "modal-show":""}`} >
-           <UpdateKyc  onClose={() => setBvn(false)}  />
+           <UpdateKyc  onClose={() => setBvn(false)}  userData = {userData} socket={socket} setUserData={setUserData}/>
         </div>
     
                 <div className={`${showPinInput || bvn?"overlay":""} `}></div>
