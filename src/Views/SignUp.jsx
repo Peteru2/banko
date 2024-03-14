@@ -5,13 +5,14 @@ import SideView from "../component/sideView";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import api from "../component/api";
 
 const SignUp = () => {
 
-
-const [success, setSuccess] = useState()
 const [icon, setIcon] = useState(false)
 const [formMessage, setFormMessage] =useState("chess")
+const [userId, setUserId] = useState('');
+const [otp, setOtp] = useState('');
 
 const handleSuccess = () =>{
         setSuccess(false);
@@ -93,7 +94,8 @@ const handleRetry = () => {
                         toast.success(response.data.message, {
                             position: "top-right",
                           }); 
-                       
+                          console.log(response.data.user._id)
+                          setUserId(response.data.userId);
                     })
                     .catch(error => {
                         if (error.response) {
@@ -125,6 +127,14 @@ const handleRetry = () => {
                 setErrors({});
             }
       }
+      const handleVerify = async () => {
+        try {
+          await api.post('/verify', { userId, otp });
+          setMessage('Verification successful. You can now login.');
+        } catch (error) {
+          console.error('Failed to verify:', error);
+        }
+      };
     return ( 
                 <>
 
@@ -240,6 +250,12 @@ const handleRetry = () => {
                     </div>
                     </section>
 
+                    {userId && (
+        <>
+          <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
+          <button onClick={handleVerify}>Verify OTP</button>
+        </>
+      )}
             <SideView />
                     </div>
                     <ToastContainer />

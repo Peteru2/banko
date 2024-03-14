@@ -3,10 +3,12 @@ import SideBar from '../component/sidebar/SideBar';
 import Navbar from '../component/Navbar/Navbar';
 import AccDetails from '../component/DashComp/AccDetails';
 import api from '../component/api.js'
-import { useEffect, } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import Loader from '../component/DashComp/Loader.jsx';
 
 const Dashboard = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate(); 
 
   useEffect(() => {
@@ -25,8 +27,14 @@ const Dashboard = () => {
         // }
       }
     };
-
     fetchData();
+
+    const loadingTimeout = setTimeout(() => {
+      setIsLoading(false);
+    },9000 );
+
+    // Clear the timeout if the component unmounts
+    return () => clearTimeout(loadingTimeout);
   }, []);
 
 
@@ -37,7 +45,8 @@ const Dashboard = () => {
               <SideBar />
               <div className='ml-[220px] px-6'>
                 <Navbar />
-                <AccDetails />
+                {isLoading ? (<Loader />) :  (
+                <AccDetails />)}
             </div>
                 </div>
         </>

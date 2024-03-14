@@ -6,57 +6,92 @@ import { io } from "../server.js";
 
 import jwt from "jsonwebtoken";
 const secretKey = 'your-secret-key';
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
+import nodemailer from 'nodemailer';
+import { v4 as uuidv4 } from 'uuid';
+
+const users = {};
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'polalekan526@gmail.com',
+    pass: 'Magnisium-12'
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
 
 const Post_signUp = async (req, res) =>{
     try {
+      const userId = uuidv4();
+      const otp = Math.floor(1000 + Math.random() * 9000).toString();
         const { firstname, lastname, email, phoneNumber, password } = req.body;
-        function generateAccountNumber() {
-            let accountNumber = '';
-            const digits = '0123456789';
-        
-            for (let i = 0; i < 10; i++) {
-                const randomIndex = Math.floor(Math.random() * digits.length);
-                accountNumber += digits[randomIndex];
-            }
-        
-            return accountNumber;
-        }
-        const hashedPassword = await bcrypt.hash(password, 10); 
-        const newAccountNumber = generateAccountNumber();
-        const user = new User({
-            firstname,
-            lastname,
-            email,
-            phoneNumber,
-            password: hashedPassword,
-            accountBalance: 0,
-            status: true,
-            kycLevel: 1,
-            transactionPin: 0, 
-            bvn:0,
-            accountNumber:0
+        users[userId] = { email, otp };
+        const mailOptions = {
+          from: 'polalekan526@gmail.com',
+          to: email,
+          subject: 'Verify your account',
+          text: `Your OTP is: ${otp}. Please use this OTP to verify your account.`
+        };
+      
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.error('Error sending OTP:', error);
+            res.status(500).json({ error: 'Failed to send OTP' });
+          } else {
+            console.log('OTP sent:', info.response);
+            res.json({ userId });
+          }
         });
+
+        // function generateAccountNumber() {
+        //     let accountNumber = '';
+        //     const digits = '0123456789';
+        
+        //     for (let i = 0; i < 10; i++) {
+        //         const randomIndex = Math.floor(Math.random() * digits.length);
+        //         accountNumber += digits[randomIndex];
+        //     }
+        
+        //     return accountNumber;
+        // }
+        // const hashedPassword = await bcrypt.hash(password, 10); 
+        // const newAccountNumber = generateAccountNumber();
+        // const user = new User({
+        //     firstname,
+        //     lastname,
+        //     email,
+        //     phoneNumber,
+        //     password: hashedPassword,
+        //     accountBalance: 0,
+        //     status: true,
+        //     kycLevel: 1,
+        //     transactionPin: 0, 
+        //     bvn:0,
+        //     accountNumber:0
+        // });
  
-        const wallet = new Wallet({ 
-            user: user._id,
-            accountNumber: newAccountNumber, 
-        });
-        const check =  await User.findOne({email:email})
-        const checkAccNum = await Wallet.findOne({accountNumber: newAccountNumber,})
+        // const wallet = new Wallet({ 
+        //     user: user._id,
+        //     accountNumber: newAccountNumber, 
+        // });
+        // const check =  await User.findOne({email:email})
+        // const checkAccNum = await Wallet.findOne({accountNumber: newAccountNumber,})
        
 
-        if (check){
-            return res.status(401).json({error:"This email already exist"})
-        }
-        else if(checkAccNum){
-            generateAccountNumber();
-        }
-        else{
-            await user.save();   
-            await wallet.save();
-        }
-        res.status(201).json({ message: 'Account successfully Created', user });
+        // if (check){
+        //     return res.status(401).json({error:"This email already exist"})
+        // }
+        // else if(checkAccNum){
+        //     generateAccountNumber();
+        // }
+        // else{
+        //     await user.save();   
+        //     await wallet.save();
+        // }
+        res.status(201).json({ message: 'Account successfully Created'});
       
     } catch (error) {
         console.error('Error:', error);

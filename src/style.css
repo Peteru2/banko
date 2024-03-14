@@ -61,3 +61,25 @@
     /* backdrop-filter: blur(2px); */
     /* transition: transform 0.3s ease, opacity 0.3s ease; */
   }
+  .skeleton-loader {
+    background-color: white; /* Placeholder background color */
+    border-radius: 4px; /* Rounded corners for the placeholders */
+    overflow: hidden; /* Hide overflowing content */
+  }
+  
+  .skeleton-line {
+  
+    margin: 8px 0; /* Margin between lines */
+    background: linear-gradient(90deg, rgba(179, 236, 177, 0.1) 25%, rgba(207, 241, 14, 0.1) 50%, rgba(152, 240, 213, 0.1) 75%); /* Shimmering animation effect */
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite; /* Animation duration and repetition */
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
