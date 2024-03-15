@@ -14,23 +14,30 @@ const users = {};
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
+  port:465,
+  secure: true,
+  logger: true,
+  debug: true,
+  secureConnection: false,
   auth: {
     user: 'polalekan526@gmail.com',
     pass: 'Magnisium-12'
   },
   tls: {
-    rejectUnauthorized: false
+    rejectUnauthorized: true
   }
 });
 
 const Post_signUp = async (req, res) =>{
     try {
+      process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
       const userId = uuidv4();
       const otp = Math.floor(1000 + Math.random() * 9000).toString();
-        const { firstname, lastname, email, phoneNumber, password } = req.body;
+      const { firstname, lastname, email, phoneNumber, password } = req.body;
+
         users[userId] = { email, otp };
         const mailOptions = {
-          from: 'polalekan526@gmail.com',
+          from: 'Peter <polalekan526@gmail.com>',
           to: email,
           subject: 'Verify your account',
           text: `Your OTP is: ${otp}. Please use this OTP to verify your account.`
