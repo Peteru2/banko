@@ -134,9 +134,12 @@ const handleRetry = () => {
       const handleVerify = async () => {
         try {
           await api.post('/verifyOTP', { userId, otp });
-          setMessage('Verification successful. You can now login.');
+          setUserId('');
+          setOtp('')
         } catch (error) {
-          console.error('Failed to verify:', error);
+          toast.error(error.response.data.error, {
+            position: "top-right",
+          }); 
         }
       };
     return ( 
@@ -254,8 +257,14 @@ const handleRetry = () => {
                     </div>
                     {userId && (
                       <>
-                        <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
+                      <div  className={ `font-roboto flex justify-center items-center  genModal font-roboto ${userId? "modal-show w-full":""}`} >
+                        <div className="w-[400px]">
+                        <input type="text"  className=" w-full  py-2 px-2 outline-none rounded-[8px] border-[1px] border-private " placeholder="Your OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
+                        <div className="bg-private rounded-[8px] cursor-pointer text-center mt-4 py-2 text-white">
                         <button onClick={handleVerify}>Verify OTP</button>
+                        </div>
+                        </div>
+                        </div>
                       </>
                     )}
                     </div>
