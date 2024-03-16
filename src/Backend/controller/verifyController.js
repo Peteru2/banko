@@ -140,7 +140,7 @@ const verifyOTP = async(req, res) =>{
     if(otp !== OTP){
         return res.status(401).json({error: "Invalid OTP"})
     }
-    res.json({ user });
+    res.json({ user, message:"Account verified, please proceed to log in" });
     console.log("OTP working");
   } catch (error) {
     console.error('Error fetching user data:', error);

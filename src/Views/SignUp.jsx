@@ -53,11 +53,8 @@ const handleRetry = () => {
       const newErrors = {};
       const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
       const phoneRegex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-   
 
-    //   console.log(formData)
             if (formData.firstname.trim()  === '' ) {
-
             newErrors.firstname = 'First name is required';
             }
             else if(formData.lastname.trim()  === '' ){
@@ -97,7 +94,6 @@ const handleRetry = () => {
                           console.log(response.data.user._id)
                           setUserId(response.data.user._id);
                           setIcon(false)
-
                     })
                     .catch(error => {
                         if (error.response) {
@@ -112,30 +108,31 @@ const handleRetry = () => {
                                 toast.error(error.response.data.error, {
                                     position: "top-right",
                                   }); 
-                            setIcon(false)
-
+                          setIcon(false)
                             }
                           } else if (error.request) {
                             console.log('No response received from server');
                              setIcon(false)
-
                           } else {
                             console.log('Error:', error.message);
                             setIcon(false)
                           }
                     });
                 }
-
                 setErrors(newErrors);
             if (Object.keys(newErrors).length === 0) {
                 setErrors({});
             }
       }
+
       const handleVerify = async () => {
         try {
           await api.post('/verifyOTP', { userId, otp });
           setUserId('');
-          setOtp('')
+          setOtp('');
+          toast.success(response.data.message, {
+            position: "top-right",
+          });
         } catch (error) {
           toast.error(error.response.data.error, {
             position: "top-right",
@@ -144,10 +141,7 @@ const handleRetry = () => {
       };
     return ( 
                 <>
-
-                <div className="flex">
-
-                
+                <div className="flex">  
                     <section className="mx-10 h-screen  flex  items-center ">
                         <div>
                         <div>
@@ -161,14 +155,13 @@ const handleRetry = () => {
                             <h2 className="my-2 text-black font-roboto text-private text-[28px]">Create your account</h2>
                             <h2 className="my- text-black font-roboto font-bold  text-public text-opacity-80 text-[16px]">Have an account? <span className="text-blue"><Link to={'/Login'}>Login in now</Link></span></h2>
                             </div>
-                           
+                   
                             </div>
                         <div className="mb-3">  
                         
                         <label className=" mt-4 label flex text-[14px] font-bold">
                             <span>Firstname</span> <span className={`ml-auto text-red text-[14px] ${errors.firstname? "blink-error":""}`}> {errors.firstname}</span>
                         </label> 
-                      
                                 <div className="flex items-center border border-gray rounded-[5px] mt-1 px-3  py-2">
                                
                                 <input type="text" className="w-full outline-none text-black"
@@ -187,9 +180,7 @@ const handleRetry = () => {
                         </label> 
                       
                                 <div className="flex items-center border border-gray rounded-[5px] mt-1 px-3  py-2">
-                               
                                 <input type="text" className="w-full outline-none text-black"
-                                
                                 name="lastname"
                                 value={formData.lastname}
                                 onChange={handleInputChange}
@@ -269,8 +260,6 @@ const handleRetry = () => {
                     )}
                     </div>
                     </section>
-
-                   
             <SideView />
                     </div>
                     <ToastContainer />
