@@ -40,6 +40,8 @@ io.on('connection', socket => {
 
 app.post('/SignUp', Controller.Post_signUp);
 app.post('/Login', Controller.Post_login);
+app.post('/verifyOTP', Controller.verifyOTP);
+
 app.all('*', authMiddleware)
 
 app.get('/', authMiddleware, Controller.Get_user);

@@ -7,98 +7,98 @@ import { io } from "../server.js";
 import jwt from "jsonwebtoken";
 const secretKey = 'your-secret-key';
 import bcrypt from "bcryptjs";
-import nodemailer from 'nodemailer';
-import { v4 as uuidv4 } from 'uuid';
+// import nodemailer from 'nodemailer';
+// import { v4 as uuidv4 } from 'uuid';
 
-const users = {};
+// const users = {};
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  port:465,
-  secure: true,
-  logger: true,
-  debug: true,
-  secureConnection: false,
-  auth: {
-    user: 'polalekan526@gmail.com',
-    pass: 'Magnisium-12'
-  },
-  tls: {
-    rejectUnauthorized: true
-  }
-});
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   port:465,
+//   secure: true,
+//   logger: true,
+//   debug: true,
+//   secureConnection: false,
+//   auth: {
+//     user: 'polalekan526@gmail.com',
+//     pass: 'zwophkdrfdzkbgon'
+//   },
+//   tls: {
+//     rejectUnauthorized: true
+//   }
+// });
+// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 const Post_signUp = async (req, res) =>{
     try {
-      process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-      const userId = uuidv4();
-      const otp = Math.floor(1000 + Math.random() * 9000).toString();
+      // const userId = uuidv4();
+      // const otp = Math.floor(1000 + Math.random() * 9000).toString();
       const { firstname, lastname, email, phoneNumber, password } = req.body;
 
-        users[userId] = { email, otp };
-        const mailOptions = {
-          from: 'Peter <polalekan526@gmail.com>',
-          to: email,
-          subject: 'Verify your account',
-          text: `Your OTP is: ${otp}. Please use this OTP to verify your account.`
-        };
+        // users[userId] = { email, otp };
+        // const mailOptions = {
+        //   from: 'Peter <polalekan526@gmail.com>',
+        //   to: email,
+        //   subject: 'Verify your account',
+        //   text: `Your OTP is: ${otp}. Please use this OTP to verify your account.`
+        // };
       
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            console.error('Error sending OTP:', error);
-            res.status(500).json({ error: 'Failed to send OTP' });
-          } else {
-            console.log('OTP sent:', info.response);
-            res.json({ userId });
-          }
-        });
+        // transporter.sendMail(mailOptions, (error, info) => {
+        //   if (error) {
+        //     console.error('Error sending OTP:', error);
+        //     res.status(500).json({ error: 'Failed to send OTP' });
+        //   } else {
+        //     console.log('OTP sent:', info.response);
+        //     res.json({ userId });
+        //   }
+        // });
 
-        // function generateAccountNumber() {
-        //     let accountNumber = '';
-        //     const digits = '0123456789';
+        function generateAccountNumber() {
+            let accountNumber = '';
+            const digits = '0123456789';
         
-        //     for (let i = 0; i < 10; i++) {
-        //         const randomIndex = Math.floor(Math.random() * digits.length);
-        //         accountNumber += digits[randomIndex];
-        //     }
+            for (let i = 0; i < 10; i++) {
+                const randomIndex = Math.floor(Math.random() * digits.length);
+                accountNumber += digits[randomIndex];
+            }
         
-        //     return accountNumber;
-        // }
-        // const hashedPassword = await bcrypt.hash(password, 10); 
-        // const newAccountNumber = generateAccountNumber();
-        // const user = new User({
-        //     firstname,
-        //     lastname,
-        //     email,
-        //     phoneNumber,
-        //     password: hashedPassword,
-        //     accountBalance: 0,
-        //     status: true,
-        //     kycLevel: 1,
-        //     transactionPin: 0, 
-        //     bvn:0,
-        //     accountNumber:0
-        // });
+            return accountNumber;
+        }
+        const hashedPassword = await bcrypt.hash(password, 10); 
+        const newAccountNumber = generateAccountNumber();
+        const user = new User({
+            firstname,
+            lastname,
+            email,
+            phoneNumber,
+            password: hashedPassword,
+            accountBalance: 0,
+            status: true,
+            kycLevel: 1,
+            transactionPin: 0, 
+            bvn:0,
+            accountNumber:0
+        });
  
-        // const wallet = new Wallet({ 
-        //     user: user._id,
-        //     accountNumber: newAccountNumber, 
-        // });
-        // const check =  await User.findOne({email:email})
-        // const checkAccNum = await Wallet.findOne({accountNumber: newAccountNumber,})
+        const wallet = new Wallet({ 
+            user: user._id,
+            accountNumber: newAccountNumber, 
+        });
+        const check =  await User.findOne({email:email})
+        const checkAccNum = await Wallet.findOne({accountNumber: newAccountNumber,})
        
 
-        // if (check){
-        //     return res.status(401).json({error:"This email already exist"})
-        // }
-        // else if(checkAccNum){
-        //     generateAccountNumber();
-        // }
-        // else{
-        //     await user.save();   
-        //     await wallet.save();
-        // }
-        res.status(201).json({ message: 'Account successfully Created'});
+        if (check){
+            return res.status(401).json({error:"This email already exist"})
+        }
+        else if(checkAccNum){
+            generateAccountNumber();
+        }
+        else{
+            await user.save();   
+            await wallet.save();
+        }
+        res.status(201).json({ message: 'Account successfully Created', user});
       
     } catch (error) {
         console.error('Error:', error);
@@ -127,6 +127,27 @@ const Post_login = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while logging in' });
     }
 };
+
+const verifyOTP = async(req, res) =>{
+  try {
+    const { userId, otp } = req.body
+    const user = await User.findById(userId);
+    const OTP = "083345";
+  
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    if(otp !== OTP){
+        return res.status(401).json({error: "Invalid OTP"})
+    }
+    res.json({ user });
+    console.log("OTP working");
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
+}
 
 const Get_user = async (req, res) => {
     try {
@@ -309,6 +330,7 @@ const Post_transfer = async(req, res) =>{
 export default { 
     Post_signUp,
     Post_login,
+    verifyOTP,
     Get_user,
     UpdateTransPin,
     UpdateKyc,

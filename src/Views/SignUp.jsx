@@ -10,7 +10,7 @@ import api from "../component/api";
 const SignUp = () => {
 
 const [icon, setIcon] = useState(false)
-const [formMessage, setFormMessage] =useState("chess")
+const [formMessage, setFormMessage] = useState("chess")
 const [userId, setUserId] = useState('');
 const [otp, setOtp] = useState('');
 
@@ -95,7 +95,9 @@ const handleRetry = () => {
                             position: "top-right",
                           }); 
                           console.log(response.data.user._id)
-                          setUserId(response.data.userId);
+                          setUserId(response.data.user._id);
+                          setIcon(false)
+
                     })
                     .catch(error => {
                         if (error.response) {
@@ -104,21 +106,23 @@ const handleRetry = () => {
                                 toast.error(error.response.data.error, {
                                     position: "top-right",
                                   }); 
+                              setIcon(false)
+
                             } else {
                                 toast.error(error.response.data.error, {
                                     position: "top-right",
                                   }); 
+                            setIcon(false)
+
                             }
                           } else if (error.request) {
-                           
                             console.log('No response received from server');
+                             setIcon(false)
+
                           } else {
                             console.log('Error:', error.message);
+                            setIcon(false)
                           }
-                        console.error('Error:', error.message);
-                        setSuccess(true)
-                        setFormMessage(error.message)
-
                     });
                 }
 
@@ -129,7 +133,7 @@ const handleRetry = () => {
       }
       const handleVerify = async () => {
         try {
-          await api.post('/verify', { userId, otp });
+          await api.post('/verifyOTP', { userId, otp });
           setMessage('Verification successful. You can now login.');
         } catch (error) {
           console.error('Failed to verify:', error);
@@ -246,16 +250,18 @@ const handleRetry = () => {
                         <button className={`bg-private w-full border-[1px] text-white rounded-[4px]  mt-3 ${formMessage && formMessage.includes("Successfully") ? "text-green" : "hidden"}`} onClick={handleSuccess}>Close</button>
                         <button className={`border-gray border-[1px] rounded-[4px] w-[50px] ${formMessage && formMessage.includes("Error") ? "text-green" : "hidden"}`}  onClick={handleRetry}>Retry</button>
 
+
                     </div>
+                    {userId && (
+                      <>
+                        <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
+                        <button onClick={handleVerify}>Verify OTP</button>
+                      </>
+                    )}
                     </div>
                     </section>
 
-                    {userId && (
-        <>
-          <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
-          <button onClick={handleVerify}>Verify OTP</button>
-        </>
-      )}
+                   
             <SideView />
                     </div>
                     <ToastContainer />
