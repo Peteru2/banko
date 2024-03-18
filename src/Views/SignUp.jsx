@@ -127,7 +127,7 @@ const handleRetry = () => {
 
       const handleVerify = async () => {
         try {
-          await api.post('/verifyOTP', { userId, otp });
+         const response =  await api.post('/verifyOTP', { userId, otp });
           setUserId('');
           setOtp('');
           toast.success(response.data.message, {

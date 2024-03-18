@@ -133,12 +133,11 @@ const verifyOTP = async(req, res) =>{
   try {
     const { userId, otp } = req.body
     const user = await User.findById(userId);
-    const OTP = "083345";
-  
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    if(otp !== OTP){
+    if(otp !== process.env.OTP){
         return res.status(401).json({error: "Invalid OTP"})
     }
     res.json({ user, message:"Account verified, please proceed to log in" });

@@ -34,7 +34,7 @@ const AccDetails = () => {
             console.log(response.data.balance)
             setAcctBalance(response.data.balance)
 
-           if (response.data.user.transactionPin == "0") {  
+           if (userResponse.data.user.transactionPin == "0") {  
             setShowPinInput(true)  
           }
 
@@ -80,9 +80,9 @@ const AccDetails = () => {
         <>
         <div className="font-roboto">
         {/* {showPinInput && ( */}
-        <form  onSubmit={handleSubmitPin} className={ `modal font-roboto ${showPinInput? "modal-show":""}`}>
-            <div>
-                <h2 className='text-19px'>Set Your Transaction Pin</h2>
+        <form  onSubmit={handleSubmitPin} className={ `modal w-[300px]  font-roboto ${showPinInput? "modal-show":""}`}>
+            <div className='bg-white p-4 rounded-[6px] '>
+                <h2 className='text-19px text-center'>Set Your Transaction Pin</h2>
                 <TransPinForm  onSubmit={handleSubmitPin} />
          </div>
         </form>
@@ -115,7 +115,7 @@ const AccDetails = () => {
 
               <div  className={ `genModal font-roboto ${transfer? "modal-show w-full":""}`} >
                 <h2 onClick={handleTransfer} className='absolute top-0 cursor-pointer'><i className="fa fa-arrow-left"> </i></h2>
-        <TransactionForm />
+        <TransactionForm  />
         </div>
 
         </div>

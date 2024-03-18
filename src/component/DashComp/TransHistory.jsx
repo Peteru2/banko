@@ -45,7 +45,12 @@ const TransHistory = () => {
         
             {trans && trans.map(transaction => 
             <>  
-                          {userData && userData._id === transaction.sender._id ?(
+                     {userData && userData.length == 0 ? (
+    
+              <div>
+                <h2 className="font-bold">NO Transaction has been made</h2>
+              </div>
+           ) : ( userData && userData._id === transaction.sender._id ?(
 
               <div className="text-sm my-3">
                       
@@ -76,6 +81,7 @@ const TransHistory = () => {
                   </div>
                 </p>
             </div>
+                            )
                             )}
              
                 

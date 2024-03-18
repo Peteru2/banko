@@ -80,21 +80,25 @@ const TransactionForm = () => {
           </div>
         </div>
 
-        <div className={ `modal font-roboto ${trans? "modal-show":""}`}>
+        <div className={ `modal font-roboto w-[300px] ${trans? "modal-show":""}`}>
 
-            <div>
-              <label className='text-sm text-black text-opacity-50'>Transaction Pin</label>
+            <div className="bg-white p-4 shadow-lg rounded-[8px]">
+              <div className="flex w-full">
+              <label className='text-sm text-black text-opacity-50 text-center '>Transaction Pin</label>
+              <span onClick={()=> setTrans(false)} className="ml-auto cursor-pointer"><i className="fa fa-times"></i></span>
+              </div>
               <div className=''>
               <input
                 type="number" 
                 value={transPin}
                 onChange={(e) => setTransPin(e.target.value)}
-                className="border-[1px] w-full text-sm rounded-[8px] p-2 outline-none border-gray"
+                className="border-[1px] w-full text-sm mt-1 rounded-[8px] p-2 outline-none border-gray"
                 placeholder='Your pin'
               />
               </div>
-          </div>  
            <button onClick={handleSubmit} className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
+
+          </div>  
 
         </div>
 
