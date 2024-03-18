@@ -7,6 +7,8 @@ import { io } from "../server.js";
 import jwt from "jsonwebtoken";
 const secretKey = 'your-secret-key';
 import bcrypt from "bcryptjs";
+import dotenv from 'dotenv';
+dotenv.config()
 // import nodemailer from 'nodemailer';
 // import { v4 as uuidv4 } from 'uuid';
 
@@ -20,15 +22,14 @@ import bcrypt from "bcryptjs";
 //   debug: true,
 //   secureConnection: false,
 //   auth: {
-//     user: 'polalekan526@gmail.com',
-//     pass: 'zwophkdrfdzkbgon'
+//     user: process.env.FROM_EMAIL,
+//     pass: process.env.FROM_EMAIL_PASSWORD
 //   },
 //   tls: {
 //     rejectUnauthorized: true
 //   }
 // });
 // process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-
 const Post_signUp = async (req, res) =>{
     try {
       // const userId = uuidv4();
