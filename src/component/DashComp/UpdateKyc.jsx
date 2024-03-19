@@ -68,8 +68,8 @@ const UpdateKyc = ({onClose, setUserData, socket}) => {
 // }, [setUserData, socket]);
 
   return (
-    <div>
-        <div className="flex w-full">
+    <div className='bg-white w-[250px] p-4 rounded-[8px] shadow-lg'>
+        <div className="flex w-full ">
       <h2 className=' font-bold'>Enter Your BVN</h2>
       <span className="ml-auto" onClick={onClose} ><i className="fa fa-times cursor-pointer"></i></span>
       </div>

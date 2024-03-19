@@ -9,22 +9,22 @@ import Loader from '../component/DashComp/Loader.jsx';
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [userData, setUserData] = useState('')
   const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get('/');
-        setUserData(response.data.token);
+        setUserData(response.data.user);
+        console.log(response.data.user)
        
       } catch (error) {
         if (error && error.response && error.response.status === 401) {
-          // Token expired, redirect to login page
+          
           navigate('/login');
         } 
-        // else {
-        //   console.error('Failed to fetch user data:',error.response.data.error);
-        // }
+        
       }
     };
     fetchData();
@@ -40,7 +40,8 @@ const Dashboard = () => {
 
     return ( 
         <>
-            <div>
+    {userData &&(
+              <div>
 
               <SideBar />
               <div className='ml-[220px] px-6'>
@@ -48,7 +49,9 @@ const Dashboard = () => {
                 {isLoading ? (<Loader />) :  (
                 <AccDetails />)}
             </div>
+
                 </div>
+                )}
         </>
      );
 }
