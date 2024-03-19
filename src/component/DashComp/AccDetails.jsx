@@ -78,6 +78,7 @@ const AccDetails = () => {
 
       return ( 
         <>
+          {userData || acctBalance ?(
         <div className="font-roboto">
         {/* {showPinInput && ( */}
         <form  onSubmit={handleSubmitPin} className={ `modal w-[300px]  font-roboto ${showPinInput? "modal-show":""}`}>
@@ -149,6 +150,9 @@ const AccDetails = () => {
                 <div className={`${showPinInput || bvn?"overlay":""} `}></div>
                 <ToastContainer />
                 </div>
+                ):(<>
+                  <h4 className="font-bold text-center">Loading...</h4>
+              </>)}
         </>
      );
 }
