@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api";
 
 const TransHistory = () => {
-    const [transHis, setTransHis] = useState('')
+    const [transHis, setTransHis] = useState(null)
     const [userData, setUserData] = useState('')
 
 
@@ -23,13 +23,15 @@ const TransHistory = () => {
             const response = await api.get('/trans-history');
 
             setTransHis(response.data.transferHistory);
-            console.log(transHis)
             setUserData(userResponse.data.user);
 
-            console.log(response.data.transferHistory)
-
           } catch (error) {
-            console.error(error.response.data.error + ' Failed to fetch user data:');
+            if(error.response.data.error == "No history found"){
+            
+              setTransHis([])
+              console.log(transHis)
+            }
+           
           }
 
         }
@@ -37,24 +39,22 @@ const TransHistory = () => {
         fetchData();
     }, [])
     const trans = transHis && transHis.slice().reverse();
+
     return ( 
-        <>
-      
+        
+        <>  
         <div className="flex justify-center">
           <div className="shadow-md justify-center w-[400px] px-4">
-        <h2 className="text-center my-4 font-bold text-[19px]"> Transaction History</h2>
+        <h2 className="text-center text-private my-4 font-bold text-[19px]">Transaction History</h2>
         
-            {trans && trans.map(transaction => 
-            <>  
-                     {transHis.length === 0 ? (
-    
+        {transHis.length === 0 ? (
               <div>
-                <h2 className="font-bold">NO Transaction has been made</h2>
+                <h2 className="font-bold text-sm text-center  ">No history found</h2>
               </div>
-           ) : ( userData && userData._id === transaction.sender._id ?(
+           ) :( trans && trans.map(transaction =>  
+                    ( userData && userData._id === transaction.sender._id ?(
 
-              <div className="text-sm my-3">
-                      
+              <div className="text-sm my-3">                      
                       <p>
                         <div className="flex w-full">
                         <h2 className="font-bold text-xs">Money Sent</h2>
@@ -66,11 +66,9 @@ const TransHistory = () => {
                         </div>
                       </p>
                   </div>
-          
                             ):(
 
               <div className="text-sm my-3">
-                
                 <p>
                   <div className="flex w-full">
                   <h2 className="font-bold text-xs">Bank Deposit</h2>
@@ -83,13 +81,7 @@ const TransHistory = () => {
                 </p>
             </div>
                             )
-                            )}
-             
-                
-
-                    
- 
-                </>
+                            ))
  
             )}
             </div>
