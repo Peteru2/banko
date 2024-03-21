@@ -47,11 +47,11 @@ const TransHistory = () => {
           <div className="shadow-md justify-center w-[400px] px-4">
         <h2 className="text-center text-private my-4 font-bold text-[19px]">Transaction History</h2>
         
-        {transHis.length === 0 ? (
+        {transHis && transHis.length === 0 ? (
               <div>
-                <h2 className="font-bold text-sm text-center  ">No history found</h2>
+                <h2 className="font-bold text-sm text-center ">No history found</h2>
               </div>
-           ) :( trans && trans.map(transaction =>  
+           ) :( trans && trans.map(transaction =>   
                     ( userData && userData._id === transaction.sender._id ?(
 
               <div className="text-sm my-3">                      

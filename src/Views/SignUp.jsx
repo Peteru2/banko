@@ -70,6 +70,9 @@ const handleRetry = () => {
                 } else if (!phoneRegex.test(formData.phoneNumber)) {
                     newErrors.phoneNumber = 'Invalid phone number format';
                 }
+                else if (formData.phoneNumber.length !== 11 ) {
+                  newErrors.phoneNumber = 'Invalid phone number';
+              }
                 else if(!formData.password.trim()){
                     newErrors.password = 'Password is required';
                 }
@@ -125,6 +128,7 @@ const handleRetry = () => {
             }
       }
 
+      
       const handleVerify = async () => {
         try {
          const response =  await api.post('/verifyOTP', { userId, otp });

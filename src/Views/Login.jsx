@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
 
 const navigate = useNavigate();
-const [success, setSuccess] = useState()
 const [icon, setIcon] = useState(false)
 const [formMessage, setFormMessage] =useState("chess")
 
@@ -80,6 +79,7 @@ const handleRetry = () => {
                             email: '',
                             password:'',
                         })
+                        setIcon(false)
                     })
                     .catch(error => {   
                         if (error.response) {
@@ -88,25 +88,30 @@ const handleRetry = () => {
                                 toast.error(error.response.data.error, {
                                     position: "top-right",
                                   }); 
+                            setIcon(false)
+
                             } else if (error.response.status === 401) {
                                 toast.error(error.response.data.error, {
                                     position: "top-right",
                                   }); 
+                            setIcon(false)
+
                             } else {
                                 toast.error(error.response.data.message, {
                                     position: "top-right",
                                   }); 
+                            setIcon(false)
+
                             }
                           } else if (error.request) {
                             // The request was made but no response was received
                             console.log('No response received from server');
+                             setIcon(false)
                           } else {
                             // Something else happened while setting up the request
                             console.log('Error:', error.message);
+                            setIcon(false)
                           }
-                        setSuccess(true)
-                        setFormMessage(error.message)
-
                     });
                 }
 

@@ -3,11 +3,11 @@ import {User} from "../models/User.js";
 import {Wallet} from "../models/Wallet.js"
 import {Transaction} from "../models/Transaction.js"
 import { io } from "../server.js";
-
+import convertPhoneToISO from "../utils/index.js"
 import jwt from "jsonwebtoken";
-const secretKey = 'your-secret-key';
 import bcrypt from "bcryptjs";
 import dotenv from 'dotenv';
+
 dotenv.config()
 // import nodemailer from 'nodemailer';
 // import { v4 as uuidv4 } from 'uuid';
@@ -65,13 +65,17 @@ const Post_signUp = async (req, res) =>{
         
             return accountNumber;
         }
+        const formattedPhoneNumber = convertPhoneToISO.convertPhoneToISO(phoneNumber);
+        if (!formattedPhoneNumber) {
+          return res.status(400).json({ error: 'Invalid phone number format' });
+      }
         const hashedPassword = await bcrypt.hash(password, 10); 
         const newAccountNumber = generateAccountNumber();
         const user = new User({
             firstname,
             lastname,
             email,
-            phoneNumber,
+            phoneNumber: formattedPhoneNumber,
             password: hashedPassword,
             accountBalance: 0,
             status: true,
@@ -120,7 +124,7 @@ const Post_login = async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Invalid password' });
         }
-        const token = jwt.sign({ userId: user._id, email: user.email }, secretKey, { expiresIn: '1h' }); // Token expires in 1 hour
+        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' }); // Token expires in 1 hour
         res.status(200).json({ success: 'Exist', token: token, message: 'User logged In Succesfully' });
 
     } catch (error) {
