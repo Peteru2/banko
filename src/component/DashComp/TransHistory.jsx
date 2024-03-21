@@ -23,12 +23,13 @@ const TransHistory = () => {
             const response = await api.get('/trans-history');
 
             setTransHis(response.data.transferHistory);
+            console.log(transHis)
             setUserData(userResponse.data.user);
 
             console.log(response.data.transferHistory)
 
           } catch (error) {
-            console.error('Failed to fetch user data:');
+            console.error(error.response.data.error + ' Failed to fetch user data:');
           }
 
         }
@@ -45,7 +46,7 @@ const TransHistory = () => {
         
             {trans && trans.map(transaction => 
             <>  
-                     {userData && userData.length == 0 ? (
+                     {transHis.length === 0 ? (
     
               <div>
                 <h2 className="font-bold">NO Transaction has been made</h2>

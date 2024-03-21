@@ -80,6 +80,7 @@ const AccDetails = () => {
         <>
           {userData || acctBalance ?(
         <div className="font-roboto">
+          {userData.t}
         {/* {showPinInput && ( */}
         <form  onSubmit={handleSubmitPin} className={ `modal w-[300px]  font-roboto ${showPinInput? "modal-show":""}`}>
             <div className='bg-white p-4 rounded-[6px] '>
