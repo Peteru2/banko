@@ -8,13 +8,14 @@ const TransactionForm = () => {
   const [amount, setAmount] = useState('');
   const [transPin, setTransPin] = useState('');
   const [trans, setTrans] = useState(false)
+  const [userData, setUserData] = useState('')
 
   const handleSubmitVal = async (e) => {
     e.preventDefault();
     try {
       // Send a request to transfer funds
       const response = await api.post('/val_transfer', {  recipientAccountNumber, amount });
-      toast.success(response.data.message);
+      setUserData(response.data.user)
       if(response.data.mes=="success"){
         setTrans(true)
       }
@@ -80,27 +81,32 @@ const TransactionForm = () => {
           </div>
         </div>
 
-        <div className={ `modal font-roboto w-[300px] ${trans? "modal-show":""}`}>
+          {userData && (
 
-            <div className="bg-white p-4 shadow-lg rounded-[8px]">
-              <div className="flex w-full">
-              <label className='text-sm text-black text-opacity-50 text-center '>Transaction Pin</label>
-              <span onClick={()=> setTrans(false)} className="ml-auto cursor-pointer"><i className="fa fa-times"></i></span>
-              </div>
-              <div className=''>
-              <input
-                type="number" 
-                value={transPin}
-                onChange={(e) => setTransPin(e.target.value)}
-                className="border-[1px] w-full text-sm mt-1 rounded-[8px] p-2 outline-none border-gray"
-                placeholder='Your pin'
-              />
-              </div>
-           <button onClick={handleSubmit} className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
+          <div className={ `modal font-roboto w-[300px] ${trans? "modal-show":""}`}>
+
+          <div className="bg-white p-4 shadow-lg rounded-[8px]">
+            <h2 className=" mb-2 text-sm text-black text-opacity-30">Recipient Name: <span className="text-private font-bold uppercase">{userData.firstname + " " + userData.lastname}</span></h2>
+            <div className="flex w-full">
+            <label className='text-sm text-black text-opacity-50 text-center '>Transaction Pin</label>
+            <span onClick={()=> setTrans(false)} className="ml-auto cursor-pointer"><i className="fa fa-times"></i></span>
+            </div>
+            <div className=''>
+            <input
+              type="number" 
+              value={transPin}
+              onChange={(e) => setTransPin(e.target.value)}
+              className="border-[1px] w-full text-sm mt-1 rounded-[8px] p-2 outline-none border-gray"
+              placeholder='Your pin'
+            />
+            </div>
+          <button onClick={handleSubmit} className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
 
           </div>  
 
-        </div>
+          </div>
+          )}
+        
 
         <button  onClick={handleSubmitVal} className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
       </form>

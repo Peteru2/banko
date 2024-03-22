@@ -78,7 +78,7 @@ const AccDetails = () => {
 
       return ( 
         <>
-          {userData || acctBalance ?(
+          {userData && acctBalance ?(
         <div className="font-roboto">
           {userData.t}
         {/* {showPinInput && ( */}

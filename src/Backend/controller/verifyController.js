@@ -78,7 +78,7 @@ const Post_signUp = async (req, res) =>{
             phoneNumber: formattedPhoneNumber,
             password: hashedPassword,
             accountBalance: 0,
-            status: true,
+            status:false,
             kycLevel: 1,
             transactionPin: 0, 
             bvn:0,
@@ -124,6 +124,9 @@ const Post_login = async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Invalid password' });
         }
+        if(!user.status){
+          return res.status(401).json({ error: 'User not verified' });
+        }
         const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' }); // Token expires in 1 hour
         res.status(200).json({ success: 'Exist', token: token, message: 'User logged In Succesfully' });
 
@@ -136,15 +139,16 @@ const Post_login = async (req, res) => {
 const verifyOTP = async(req, res) =>{
   try {
     const { userId, otp } = req.body
-    const user = await User.findById(userId);
+    const userID = await User.findById(userId);
 
-    if (!user) {
+    if (!userID) {
       return res.status(404).json({ error: 'User not found' });
     }
     if(otp !== process.env.OTP){
         return res.status(401).json({error: "Invalid OTP"})
     }
-    res.json({ user, message:"Account verified, please proceed to log in" });
+    await User.findByIdAndUpdate(userID, { status: true });
+    res.json({  message:"Account verified, please proceed to log in" });
     console.log("OTP working");
   } catch (error) {
     console.error('Error fetching user data:', error);
@@ -159,6 +163,7 @@ const Get_user = async (req, res) => {
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
+    
       res.json({ user });
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -223,7 +228,6 @@ const GetBalance = async (req, res) => {
 const Check_transfer = async(req, res) =>{
     try {
       const { recipientAccountNumber, amount } = req.body;
-      console.log(req.body.userId)
       // Find sender's wallet
       const senderWallet = await Wallet.findOne({ user: req.user.userId });
       if (!senderWallet || senderWallet.balance < amount) {
@@ -242,7 +246,10 @@ const Check_transfer = async(req, res) =>{
       if (!recipientWallet) {
         return res.status(404).json({ error: 'Recipient wallet not found' });
       }
-      res.json({ mes: 'success' });
+
+      const recipientId = recipientWallet.user
+      const recipientData = await User.findOne({_id:recipientId})
+      res.json({ mes: 'success', user: recipientData });
       
     } catch (error) {
       console.error('Failed to transfer funds:', error);

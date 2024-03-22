@@ -27,16 +27,15 @@ const TransHistory = () => {
 
           } catch (error) {
             if(error.response.data.error == "No history found"){
-            
               setTransHis([])
               console.log(transHis)
             }
            
           }
-
         }
 
         fetchData();
+        
     }, [])
     const trans = transHis && transHis.slice().reverse();
 

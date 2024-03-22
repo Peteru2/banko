@@ -29,14 +29,13 @@ const registrationSchema = new Schema({
     },
     status: {
         type: Boolean,
-        required: true
+        required: true,
     },
     transactionPin: String,
     kycLevel: String,
     bvn: String,
-    accountNumber:String
-});
-
-
+    accountNumber:String,
+  
+})
 const User = mongoose.model('User', registrationSchema);
 export { User };

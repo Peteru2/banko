@@ -14,6 +14,7 @@ const Login = () => {
 const navigate = useNavigate();
 const [icon, setIcon] = useState(false)
 const [formMessage, setFormMessage] =useState("chess")
+const [status, setStatus] = useState(false)
 
 const handleSuccess = () =>{
         setSuccess(false);
@@ -89,19 +90,17 @@ const handleRetry = () => {
                                     position: "top-right",
                                   }); 
                             setIcon(false)
-
                             } else if (error.response.status === 401) {
                                 toast.error(error.response.data.error, {
                                     position: "top-right",
                                   }); 
-                            setIcon(false)
-
+                             setIcon(false)
+                             setStatus(true)
                             } else {
                                 toast.error(error.response.data.message, {
                                     position: "top-right",
                                   }); 
                             setIcon(false)
-
                             }
                           } else if (error.request) {
                             // The request was made but no response was received
@@ -186,6 +185,11 @@ const handleRetry = () => {
                         <button className={`border-gray border-[1px] rounded-[4px] w-[50px] ${formMessage && formMessage.includes("Error") ? "text-green" : "hidden"}`}  onClick={handleRetry}>Retry</button>
 
                     </div>
+
+                        {status && (
+                            <h2>Your account is not verified, please verify your account here</h2>
+                        )}
+                    
                     </div>
                     </section>
                     <SideView />
