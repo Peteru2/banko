@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Logo from "../assets/image/Logo.png"
 import SideView from "../component/sideView";
 import { useNavigate } from 'react-router-dom';
+import api from "../component/api";
 
 
 
@@ -14,19 +15,9 @@ const Login = () => {
 const navigate = useNavigate();
 const [icon, setIcon] = useState(false)
 const [formMessage, setFormMessage] =useState("chess")
-const [status, setStatus] = useState(false)
+const [userId, setUserId] = useState('')
+const [otp, setOtp] = useState('');
 
-const handleSuccess = () =>{
-        setSuccess(false);
-        close()
-        setIcon(false)
-}
-const handleRetry = () => {
-    setSuccess(false);
-    setIcon(false)
-    setFormMessage("")
-
-  };
     const [formData, setFormData] = useState({
     
         email: '',
@@ -95,7 +86,7 @@ const handleRetry = () => {
                                     position: "top-right",
                                   }); 
                              setIcon(false)
-                             setStatus(true)
+                             setUserId(error.response.data.user)
                             } else {
                                 toast.error(error.response.data.message, {
                                     position: "top-right",
@@ -119,6 +110,20 @@ const handleRetry = () => {
                 setErrors({});
             }
       }
+      const handleVerify = async () => {
+        try {
+         const response =  await api.post('/verifyOTP', { userId, otp });
+          setUserId('');
+          setOtp('');
+          toast.success(response.data.message, {
+            position: "top-right",
+          });
+        } catch (error) {
+          toast.error(error.response.data.error, {
+            position: "top-right",
+          }); 
+        }
+      };
     return ( 
                 <>
                 <div className="flex">
@@ -173,22 +178,24 @@ const handleRetry = () => {
                             <button  type="submit"  className="bg-gray border-[1px]  mt-4 border-private bg-opacity-30 hover:bg-opacity-90  text-white  py-1 px-3 rounded-md ">{icon ?( <span>Submitting <i className="fas fa-spinner fa-spin"></i></span>):( <span className="text-private">Submit</span>  )}</button>
                                 
                         </form>
-                        <div > 
-                        <h2 className={`mb-2 font-bold ${formMessage && formMessage.includes("Error") ? "text-red" : "hidden text-black"}`}>
-                        {formMessage}
-                                 </h2>
-                                 <h2 className={`mb-2 font-bold ${formMessage && formMessage.includes("Success") ? "text-green" : "text-black hidden"}`}>
-                        {formMessage}
-                                 </h2>
-                        
-                        <button className={`bg-private w-full border-[1px] text-white rounded-[4px]  mt-3 ${formMessage && formMessage.includes("Success") ? "text-green" : "hidden"}`} onClick={handleSuccess}>Close</button>
-                        <button className={`border-gray border-[1px] rounded-[4px] w-[50px] ${formMessage && formMessage.includes("Error") ? "text-green" : "hidden"}`}  onClick={handleRetry}>Retry</button>
 
-                    </div>
 
-                        {status && (
-                            <h2>Your account is not verified, please verify your account here</h2>
-                        )}
+                  
+                     
+                      <div  className={ `font-roboto flex justify-center items-center  genModal font-roboto ${userId? "modal-show w-full":""}`} >
+                      <div className="absolute top-5 right-5 cursor-pointer" onClick={() => setUserId('')}><i className="fa fa-times text-[20px]"></i></div>
+
+                        <div className="w-[400px]">
+                        <h2 className="my-2"> Your account has not been verified, please verify your account</h2>
+
+                        <input type="text"  className=" w-full  py-2 px-2 outline-none rounded-[8px] border-[1px] border-private " placeholder="Your OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
+                        <div className="bg-private rounded-[8px] cursor-pointer text-center mt-4 py-2 text-white">
+                        <button onClick={handleVerify}>Verify OTP</button>
+                        </div>
+                        </div>
+                        </div>
+                     
+                  
                     
                     </div>
                     </section>

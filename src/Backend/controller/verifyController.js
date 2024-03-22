@@ -115,6 +115,7 @@ const Post_login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email: email });
+        const userID = user._id;
         
         if (!user) {
            return res.status(404).json({ error: ' User not found' });
@@ -125,7 +126,7 @@ const Post_login = async (req, res) => {
             return res.status(401).json({ error: 'Invalid password' });
         }
         if(!user.status){
-          return res.status(401).json({ error: 'User not verified' });
+          return res.status(401).json({ user: userID});
         }
         const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' }); // Token expires in 1 hour
         res.status(200).json({ success: 'Exist', token: token, message: 'User logged In Succesfully' });
@@ -149,7 +150,7 @@ const verifyOTP = async(req, res) =>{
     }
     await User.findByIdAndUpdate(userID, { status: true });
     res.json({  message:"Account verified, please proceed to log in" });
-    console.log("OTP working");
+    
   } catch (error) {
     console.error('Error fetching user data:', error);
     res.status(500).json({ error: 'Internal server error' });
