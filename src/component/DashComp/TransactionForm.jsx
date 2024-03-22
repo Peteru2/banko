@@ -85,11 +85,15 @@ const TransactionForm = () => {
 
           <div className={ `modal font-roboto w-[300px] ${trans? "modal-show":""}`}>
 
+
           <div className="bg-white p-4 shadow-lg rounded-[8px]">
+            <div className=" flex w-full">
             <h2 className=" mb-2 text-sm text-black text-opacity-30">Recipient Name: <span className="text-private font-bold uppercase">{userData.firstname + " " + userData.lastname}</span></h2>
+          <span onClick={()=> setTrans(false)} className="ml-auto  cursor-pointer"><i className="fa fa-times"></i></span>
+          </div>
+         
             <div className="flex w-full">
             <label className='text-sm text-black text-opacity-50 text-center '>Transaction Pin</label>
-            <span onClick={()=> setTrans(false)} className="ml-auto cursor-pointer"><i className="fa fa-times"></i></span>
             </div>
             <div className=''>
             <input
