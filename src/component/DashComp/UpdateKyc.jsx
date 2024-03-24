@@ -32,18 +32,28 @@ const UpdateKyc = ({onClose, setUserData, socket}) => {
             const response = await api.put('/updatekyc', { bvn });
             const userResponse = await api.get('/');
 
-              // toast.success(response.data.message, {
-              //   position: "top-right",
-              // })
+              toast.success(response.data.message, {
+                position: "top-right",
+              })
             await socket.emit("userData", userResponse)
             console.log("KYC Level Upgraded")
               onClose()
               setBVN('')
             
             } catch (error) {
+              if( error.response.status === 401){
+                toast.error(error.response.data.error, {
+                  position: "top-right",
+                })
+                
+              }
+              else{
                 toast.error(error.response.data.error, {
                     position: "top-right",
                   })
+                  onClose()
+                  setBVN('')
+                }
             }   
   }
 

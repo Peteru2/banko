@@ -177,6 +177,7 @@ const Get_user = async (req, res) => {
         const { pin } = req.body;
         const hashedPin = await bcrypt.hash(pin, 10);
 
+        
        
         await User.findByIdAndUpdate(req.user.userId, { transactionPin: hashedPin });
 
@@ -200,13 +201,15 @@ const UpdateKyc = async (req, res) => {
             
     
             const user = await User.findById(req.user.userId);
-            if (user && user.bvn !== '0') {
-                // Update the KYC level
-                await User.findByIdAndUpdate(req.user.userId, { kycLevel: 2 })
+            if(user.bvn !== "0"){
+              console.log("This is working")
+              res.status(401).json({ error: 'KYC already Updated' });
             }
-    
-            res.status(200).json({ message: 'KYC Level Upgraded successfully' });
-        
+
+            if (user.bvn == "0") {  
+              await User.findByIdAndUpdate(req.user.userId, { kycLevel: 2 })
+              res.status(200).json({ message: 'KYC Level Upgraded successfully' });
+            }
         } catch (error) {
             console.error('Failed to update transaction pin:', error);
             res.status(500).json({ error: 'Failed to update transaction pin' });
