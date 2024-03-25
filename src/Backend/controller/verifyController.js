@@ -232,11 +232,15 @@ const Check_transfer = async(req, res) =>{
     try {
       const { recipientAccountNumber, amount } = req.body;
       // Find sender's wallet
+      if(recipientAccountNumber.length === 0){
+        return res.status(400).json({ error: 'Recipient account number needed' });
+      }
+
       const senderWallet = await Wallet.findOne({ user: req.user.userId });
       if (!senderWallet || senderWallet.balance < amount) {
         return res.status(400).json({ error: 'Insufficient balance' });
       }
-  
+     
       if (amount < 50) {
         return res.status(400).json({ error: 'Minimum amount to transfer is 50' });
       }
@@ -265,19 +269,24 @@ const Post_transfer = async(req, res) =>{
       const { recipientAccountNumber, amount, transPin } = req.body;
   
       // Find sender's wallet
+      if(recipientAccountNumber.length === 0){
+        return res.status(400).json({ error: 'Recipient account number needed' });
+      }
       const senderWallet = await Wallet.findOne({ user: req.user.userId });
       if (!senderWallet || senderWallet.balance < amount) {
         return res.status(400).json({ error: 'Insufficient balance' });
       }
-  
-      if (amount < 50) {
-        return res.status(400).json({ error: 'Minimum amount transferable is 50' });
-      }
-      // Find recipient's wallet by account number
+
       const recipientWallet = await Wallet.findOne({ accountNumber: recipientAccountNumber });
       if (!recipientWallet) {
         return res.status(404).json({ error: 'Recipient wallet not found' });
       }
+     
+  
+      if (amount < 50) {
+        return res.status(400).json({ error: 'Minimum amount transferable is 50' });
+      }
+
      
         const userTransPin = await User.findById( req.user.userId);
        
