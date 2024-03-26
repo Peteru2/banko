@@ -31,7 +31,7 @@ const Dashboard = () => {
 
     const loadingTimeout = setTimeout(() => {
       setIsLoading(false);
-    },0 );
+    },10 );
 
     // Clear the timeout if the component unmounts
     return () => clearTimeout(loadingTimeout);

@@ -3,7 +3,7 @@ import {User} from "../models/User.js";
 import {Wallet} from "../models/Wallet.js"
 import {Transaction} from "../models/Transaction.js"
 import { io } from "../server.js";
-import convertPhoneToISO from "../utils/index.js"
+import utils from "../utils/index.js"
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from 'dotenv';
@@ -54,23 +54,13 @@ const Post_signUp = async (req, res) =>{
         //   }
         // });
 
-        function generateAccountNumber() {
-            let accountNumber = '';
-            const digits = '0123456789';
-        
-            for (let i = 0; i < 10; i++) {
-                const randomIndex = Math.floor(Math.random() * digits.length);
-                accountNumber += digits[randomIndex];
-            }
-        
-            return accountNumber;
-        }
-        const formattedPhoneNumber = convertPhoneToISO.convertPhoneToISO(phoneNumber);
+       
+        const formattedPhoneNumber = utils.convertPhoneToISO(phoneNumber);
         if (!formattedPhoneNumber) {
           return res.status(400).json({ error: 'Invalid phone number format' });
       }
         const hashedPassword = await bcrypt.hash(password, 10); 
-        const newAccountNumber = generateAccountNumber();
+        const newAccountNumber = utils.generateAccountNumber();
         const user = new User({
             firstname,
             lastname,
@@ -172,12 +162,11 @@ const Get_user = async (req, res) => {
     }
   };
 
-  const UpdateTransPin = async (req, res) => { 
+const UpdateTransPin = async (req, res) => { 
     try {
         const { pin } = req.body;
         const hashedPin = await bcrypt.hash(pin, 10);
 
-        
        
         await User.findByIdAndUpdate(req.user.userId, { transactionPin: hashedPin });
 
@@ -196,14 +185,39 @@ const UpdateKyc = async (req, res) => {
         try {
             const { bvn } = req.body;
             const hashedPin = await bcrypt.hash(bvn, 10);
-    
+            const user = await User.findById(req.user.userId);
+            
+            // const bvnMatch = await bcrypt.compare(bvn, allUsersBvn);   
+
+            // const allUsersBvn = await User.findOne({bvn:bvn})
+            console.log(allUsersBvn)
+            const allUsers = await User.find();
+
+                  // Loop through all users and compare their encrypted BVNs with the BVN provided by the user
+                  let bvnMatch = false;
+                  for (const user of allUsers) {
+                      const encryptedBVN = user.bvn;
+                      const match = await bcrypt.compare(bvn, encryptedBVN);
+                      if (match) {
+                          bvnMatch = true;
+                          break; // Exit the loop if a match is found
+                      }
+                  }
+
+                  if (bvnMatch) {
+                      // If the provided BVN matches the encrypted BVN of an existing user
+                      return res.status(400).json({ error: 'BVN already exists' });
+                  }
+             
+            // const bvnMatch = await bcrypt.compare(bvn, allUsersBvn);   
             
     
-            const user = await User.findById(req.user.userId);
-            if(user.bvn !== "0"){
-              res.status(401).json({ error: 'KYC already Updated' });
-            }
-
+            // if(user.bvn !== "0"){
+            //   res.status(401).json({ error: 'KYC already Updated' });
+            // }
+            // if(bvnMatch){
+            //   res.status(401).json({ error: 'BVN already used' });
+            // }
             if (user.bvn == "0") {  
               await User.findByIdAndUpdate(req.user.userId, { kycLevel: 2 , bvn: hashedPin})
               res.status(200).json({ message: 'KYC Level Upgraded successfully' });
@@ -234,6 +248,9 @@ const Check_transfer = async(req, res) =>{
       // Find sender's wallet
       if(recipientAccountNumber.length === 0){
         return res.status(400).json({ error: 'Recipient account number needed' });
+      }
+      if(recipientAccountNumber.length < 10){
+        return res.status(400).json({ error: 'Invalid account number' });
       }
 
       const senderWallet = await Wallet.findOne({ user: req.user.userId });
@@ -271,6 +288,9 @@ const Post_transfer = async(req, res) =>{
       // Find sender's wallet
       if(recipientAccountNumber.length === 0){
         return res.status(400).json({ error: 'Recipient account number needed' });
+      }
+      if(recipientAccountNumber.length < 10){
+        return res.status(400).json({ error: 'Invalid account number' });
       }
       const senderWallet = await Wallet.findOne({ user: req.user.userId });
       if (!senderWallet || senderWallet.balance < amount) {
