@@ -190,7 +190,7 @@ const UpdateKyc = async (req, res) => {
             // const bvnMatch = await bcrypt.compare(bvn, allUsersBvn);   
 
             // const allUsersBvn = await User.findOne({bvn:bvn})
-            console.log(allUsersBvn)
+            // console.log(allUsersBvn)
             const allUsers = await User.find();
 
                   // Loop through all users and compare their encrypted BVNs with the BVN provided by the user
@@ -204,20 +204,18 @@ const UpdateKyc = async (req, res) => {
                       }
                   }
 
-                  if (bvnMatch) {
-                      // If the provided BVN matches the encrypted BVN of an existing user
-                      return res.status(400).json({ error: 'BVN already exists' });
-                  }
+                 
              
             // const bvnMatch = await bcrypt.compare(bvn, allUsersBvn);   
             
     
-            // if(user.bvn !== "0"){
-            //   res.status(401).json({ error: 'KYC already Updated' });
-            // }
-            // if(bvnMatch){
-            //   res.status(401).json({ error: 'BVN already used' });
-            // }
+            if(user.bvn !== "0"){
+              res.status(401).json({ error: 'KYC already Updated' });
+            }
+            if (bvnMatch) {
+              // If the provided BVN matches the encrypted BVN of an existing user
+              return res.status(400).json({ error: 'BVN already exists' });
+          }
             if (user.bvn == "0") {  
               await User.findByIdAndUpdate(req.user.userId, { kycLevel: 2 , bvn: hashedPin})
               res.status(200).json({ message: 'KYC Level Upgraded successfully' });
