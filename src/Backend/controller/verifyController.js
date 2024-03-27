@@ -187,10 +187,7 @@ const UpdateKyc = async (req, res) => {
             const hashedPin = await bcrypt.hash(bvn, 10);
             const user = await User.findById(req.user.userId);
             
-            // const bvnMatch = await bcrypt.compare(bvn, allUsersBvn);   
-
-            // const allUsersBvn = await User.findOne({bvn:bvn})
-            // console.log(allUsersBvn)
+            
             const allUsers = await User.find();
 
                   // Loop through all users and compare their encrypted BVNs with the BVN provided by the user
@@ -202,12 +199,7 @@ const UpdateKyc = async (req, res) => {
                           bvnMatch = true;
                           break; // Exit the loop if a match is found
                       }
-                  }
-
-                 
-             
-            // const bvnMatch = await bcrypt.compare(bvn, allUsersBvn);   
-            
+                  } 
     
             if(user.bvn !== "0"){
               res.status(401).json({ error: 'KYC already Updated' });
