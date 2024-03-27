@@ -202,7 +202,7 @@ const UpdateKyc = async (req, res) => {
                   } 
     
             if(user.bvn !== "0"){
-              res.status(401).json({ error: 'KYC already Updated' });
+             return  res.status(401).json({ error: 'KYC already Updated' });
             }
             if (bvnMatch) {
               // If the provided BVN matches the encrypted BVN of an existing user

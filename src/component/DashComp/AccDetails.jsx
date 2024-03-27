@@ -104,7 +104,7 @@ const AccDetails = () => {
             <i className='fa fa-heart'></i> 
             <div className="mx-4">
               
-                  <h2><button onClick={handleUpdateBvn}>Upgrade to Level 2</button></h2> 
+                  <h2><button onClick={()=> handleUpdateBvn()}>Upgrade to Level 2</button></h2> 
                  
     </div>
             <span><i className='fa fa-sort-up rotate-90'></i></span>
