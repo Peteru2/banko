@@ -161,7 +161,7 @@ const handleRetry = () => {
                         <div className="mb-3">  
                         
                         <label className=" mt-4 label flex text-[14px] font-bold">
-                            <span>Firstname</span> <span className={`ml-auto text-red text-[14px] ${errors.firstname? "blink-error":""}`}> {errors.firstname}</span>
+                            <span><span className="text-red">*</span> Firstname</span> <span className={`ml-auto text-red text-[14px] ${errors.firstname? "blink-error":""}`}> {errors.firstname}</span>
                         </label> 
                                 <div className="flex items-center border border-gray rounded-[5px] mt-1 px-3  py-2">
                                
@@ -177,7 +177,7 @@ const handleRetry = () => {
                             <div className="mb-3">  
                         
                         <label className=" mt-4 label flex text-[14px] font-bold">
-                            <span>Lastname</span> <span className={`ml-auto text-red text-[14px] ${errors.lastname? "blink-error":""}`}> {errors.lastname}</span>
+                            <span><span className="text-red">*</span> Lastname</span> <span className={`ml-auto text-red text-[14px] ${errors.lastname? "blink-error":""}`}> {errors.lastname}</span>
                         </label> 
                       
                                 <div className="flex items-center border border-gray rounded-[5px] mt-1 px-3  py-2">
@@ -191,7 +191,7 @@ const handleRetry = () => {
 
                             <div className="mb-3">  
                             <label className="  mt-4 label flex text-[14px] font-bold">
-                            <span>Email</span> <span className={`ml-auto text-red text-[14px] ${errors.email? "blink-error":""}`}> {errors.email}</span>
+                            <span><span className="text-red">*</span> Email</span> <span className={`ml-auto text-red text-[14px] ${errors.email? "blink-error":""}`}> {errors.email}</span>
                         </label> 
                                 <div className="flex items-center border border-gray rounded-[5px] px-3  mt-1 py-2">
                                
@@ -205,7 +205,7 @@ const handleRetry = () => {
 
                             <div className="mb-3">  
                             <label className="  mt-4 label flex text-[14px] font-bold">
-                            <span>Phone Number</span> <span className={`ml-auto text-red text-[14px] ${errors.phoneNumber? "blink-error":""}`}> {errors.phoneNumber}</span>
+                            <span><span className="text-red">*</span> Phone Number</span> <span className={`ml-auto text-red text-[14px] ${errors.phoneNumber? "blink-error":""}`}> {errors.phoneNumber}</span>
                         </label> 
                                 <div className="flex items-center border border-gray rounded-[5px] px-3 mt-1  py-2">
                                
@@ -219,7 +219,7 @@ const handleRetry = () => {
 
                             <div className="mb-3">  
                             <label className="  mt-4 label flex text-[14px] font-bold">
-                            <span>Password</span> <span className={`ml-auto text-red text-[14px] ${errors.password? "blink-error":""}`}> {errors.password}</span>
+                            <span><span className="text-red">*</span> Password</span> <span className={`ml-auto text-red text-[14px] ${errors.password? "blink-error":""}`}> {errors.password}</span>
                         </label> 
                         <div className="flex items-center border border-gray rounded-[5px] px-3 mt-1  py-2">
                                

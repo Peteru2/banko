@@ -9,50 +9,54 @@ import bcrypt from "bcryptjs";
 import dotenv from 'dotenv';
 
 dotenv.config()
-// import nodemailer from 'nodemailer';
-// import { v4 as uuidv4 } from 'uuid';
+import nodemailer from 'nodemailer';
+import { v4 as uuidv4 } from 'uuid';
 
-// const users = {};
+const users = {};
 
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   port:465,
-//   secure: true,
-//   logger: true,
-//   debug: true,
-//   secureConnection: false,
-//   auth: {
-//     user: process.env.FROM_EMAIL,
-//     pass: process.env.FROM_EMAIL_PASSWORD
-//   },
-//   tls: {
-//     rejectUnauthorized: true
-//   }
-// });
-// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  port:465,
+  secure: true,
+  logger: true,
+  debug: true,
+  secureConnection: false,
+  auth: {
+    user: process.env.FROM_EMAIL,
+    pass: process.env.FROM_EMAIL_PASSWORD
+  },
+  tls: {
+    rejectUnauthorized: true
+  }
+});
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 const Post_signUp = async (req, res) =>{
     try {
-      // const userId = uuidv4();
-      // const otp = Math.floor(1000 + Math.random() * 9000).toString();
+      const userId = uuidv4();
+      const otp = process.env.OTP
+      
+      // Math.floor(1000 + Math.random() * 9000).toString();
       const { firstname, lastname, email, phoneNumber, password } = req.body;
 
-        // users[userId] = { email, otp };
-        // const mailOptions = {
-        //   from: 'Peter <polalekan526@gmail.com>',
-        //   to: email,
-        //   subject: 'Verify your account',
-        //   text: `Your OTP is: ${otp}. Please use this OTP to verify your account.`
-        // };
+        users[userId] = { email, otp };
+        const mailOptions = {
+          from: 'Peter <polalekan526@gmail.com>',
+          to: email,
+          subject: 'Verify your account',
+          text: `Your OTP is: ${otp}. Please use this OTP to verify your account.`
+        };
       
-        // transporter.sendMail(mailOptions, (error, info) => {
-        //   if (error) {
-        //     console.error('Error sending OTP:', error);
-        //     res.status(500).json({ error: 'Failed to send OTP' });
-        //   } else {
-        //     console.log('OTP sent:', info.response);
-        //     res.json({ userId });
-        //   }
-        // });
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.error('Error sending OTP:', error);
+            return res.status(500).json({ error: 'Failed to send OTP' });
+          } 
+          
+            console.log('OTP sent:', info.response);
+            console.log(userId)
+            res.json({ userId, otp });
+          
+        });
 
        
         const formattedPhoneNumber = utils.convertPhoneToISO(phoneNumber);
@@ -105,7 +109,6 @@ const Post_login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email: email });
-        const userID = user._id;
         
         if (!user) {
            return res.status(404).json({ error: ' User not found' });
@@ -115,6 +118,8 @@ const Post_login = async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Invalid password' });
         }
+        const userID = user._id;
+
         if(!user.status){
           return res.status(401).json({ user: userID});
         }
