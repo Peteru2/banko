@@ -16,11 +16,9 @@ const users = {};
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
-  port:465,
   secure: true,
   logger: true,
   debug: true,
-  secureConnection: false,
   auth: {
     user: process.env.FROM_EMAIL,
     pass: process.env.FROM_EMAIL_PASSWORD
@@ -51,7 +49,7 @@ const Post_signUp = async (req, res) =>{
             console.error('Error sending OTP:', error);
             return res.status(500).json({ error: 'Failed to send OTP' });
           } 
-          
+
             console.log('OTP sent:', info.response);
             console.log(userId)
             res.json({ userId, otp });
