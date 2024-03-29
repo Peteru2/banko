@@ -6,8 +6,8 @@ const authMiddleware = (req, res, next) => {
     return res.status(401).json({ error: 'Authorization token is missing' , redirectTo: '/login'});
   }
 
-  try {
-    const decoded = jwt.verify(token, 'your-secret-key');
+try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     req.user = decoded;
     next();
   } catch (error) {

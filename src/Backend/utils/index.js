@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+dotenv.config()
+import nodemailer from 'nodemailer';
+
 const convertPhoneToISO = (number, countryCode = "234") => {
     if (!number) return "";
     if (number.substring(0, 4) === `+${countryCode}`) {
@@ -22,7 +26,21 @@ const convertPhoneToISO = (number, countryCode = "234") => {
 
     return accountNumber;
 }
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  secure: true,
+  logger: true,
+  debug: true,
+  auth: {
+    user: process.env.FROM_EMAIL,
+    pass: process.env.FROM_EMAIL_PASSWORD
+  },
+  tls: {
+    rejectUnauthorized: true
+  }
+});
   export default {
     convertPhoneToISO,
-    generateAccountNumber
+    generateAccountNumber,
+    transporter
   }
