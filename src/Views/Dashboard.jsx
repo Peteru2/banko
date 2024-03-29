@@ -5,7 +5,6 @@ import AccDetails from '../component/DashComp/AccDetails';
 import api from '../component/api.js'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import Loader from '../component/DashComp/Loader.jsx';
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,29 +28,24 @@ const Dashboard = () => {
     };
     fetchData();
 
-    const loadingTimeout = setTimeout(() => {
-      setIsLoading(false);
-    },10 );
-
-    // Clear the timeout if the component unmounts
-    return () => clearTimeout(loadingTimeout);
+    
   }, []);
 
 
     return ( 
         <>
-    {userData &&(
+    
               <div>
 
               <SideBar />
               <div className='ml-[220px] px-6'>
                 <Navbar />
-                {isLoading ? (<Loader />) :  (
-                <AccDetails />)}
+               
+                <AccDetails />
             </div>
 
                 </div>
-                )}
+               
         </>
      );
 }

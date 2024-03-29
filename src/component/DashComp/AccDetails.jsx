@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 import TransHistory from './TransHistory.jsx';
 import TransactionForm from './TransactionForm.jsx';
+import Loader from './Loader.jsx';
+
 
 const socket = io.connect('http://localhost:8000');
 
@@ -152,7 +154,7 @@ const AccDetails = () => {
                 <ToastContainer />
                 </div>
                 ):(<>
-                  <h4 className="font-bold text-center">Loading...</h4>
+                  <Loader />
               </>)}
         </>
      );
