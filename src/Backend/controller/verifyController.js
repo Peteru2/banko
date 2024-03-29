@@ -7,6 +7,7 @@ import utils from "../utils/index.js"
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from 'dotenv';
+import say from 'say'
 
 dotenv.config()
 import { v4 as uuidv4 } from 'uuid';
@@ -100,12 +101,17 @@ const Post_login = async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Invalid password' });
         }
+
         const userID = user._id;
         if(!user.status){
           return res.status(401).json({ user: userID});
         }
+
+          say.speak('Hello, Welcome to Banko!', 'Samantha', 0.3)
+          say.stop()
+
         const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' }); // Token expires in 1 hour
-        res.status(200).json({ success: 'Exist', token: token, message: 'User logged In Succesfully' });
+        res.status(200).json({ success: 'Exist', token, message: 'User logged In Succesfully' });
 
     } catch (error) {
         console.error('Error:', error);
@@ -140,7 +146,8 @@ const Get_user = async (req, res) => {
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
-    
+      say.speak('Hello, Welcome to Banko!')
+      say.stop()
       res.json({ user });
     } catch (error) {
       console.error('Error fetching user data:', error);

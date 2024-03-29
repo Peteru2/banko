@@ -34,18 +34,13 @@ const Dashboard = () => {
 
     return ( 
         <>
-    
-              <div>
-
+            <div>
               <SideBar />
               <div className='ml-[220px] px-6'>
                 <Navbar />
-               
                 <AccDetails />
+              </div>
             </div>
-
-                </div>
-               
         </>
      );
 }

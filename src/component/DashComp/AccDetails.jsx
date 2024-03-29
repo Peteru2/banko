@@ -31,7 +31,6 @@ const AccDetails = () => {
           try {
             const userResponse = await api.get('/');
             setUserData(userResponse.data.user);
-            
             const response = await api.get('/balance');
             console.log(response.data.balance)
             setAcctBalance(response.data.balance)
@@ -40,7 +39,7 @@ const AccDetails = () => {
             setShowPinInput(true)  
           }
 
-          } catch (error) {
+          } catch (er2ror) {
             console.error('Failed to fetch user data:');
           }
 
@@ -76,22 +75,20 @@ const AccDetails = () => {
         setTransfer(trans => !trans)
       }
       
-      
-
+    
       return ( 
         <>
           {userData && acctBalance ?(
         <div className="font-roboto">
-          {userData.t}
-        {/* {showPinInput && ( */}
+         
+       
         <form  onSubmit={handleSubmitPin} className={ `modal w-[300px]  font-roboto ${showPinInput? "modal-show":""}`}>
             <div className='bg-white p-4 rounded-[6px] '>
                 <h2 className='text-19px text-center'>Set Your Transaction Pin</h2>
                 <TransPinForm  onSubmit={handleSubmitPin} />
          </div>
         </form>
-      {/* )} */}
-       <div className="flex items-center ">
+         <div className="flex items-center ">
         <h4 className='bg-private text-[20px] mr-4 px-3 rounded-[2px]'>₦</h4>
 
         <div>       
@@ -134,9 +131,6 @@ const AccDetails = () => {
         </div>
       
              
-              
-             
-      
        </div>
 
        <div className='bg-private font-roboto mt-5 px-6 text-white h-[150px] flex items-center w-[500px] rounded-[20px] py-2'> 

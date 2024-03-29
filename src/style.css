@@ -67,7 +67,7 @@ input[type=number]::-webkit-outer-spin-button {
     /* transition: transform 0.3s ease, opacity 0.3s ease; */
   }
   .skeleton-loader {
-    background-color: white; /* Placeholder background color */
+    background-color:rgba(240, 238, 238, 0.9); /* Placeholder background color */
     border-radius: 4px; /* Rounded corners for the placeholders */
     overflow: hidden; /* Hide overflowing content */
   }
@@ -75,7 +75,7 @@ input[type=number]::-webkit-outer-spin-button {
   .skeleton-line {
   
     margin: 8px 0; /* Margin between lines */
-    background: linear-gradient(90deg, rgba(179, 236, 177, 0.1) 25%, rgba(207, 241, 14, 0.1) 50%, rgba(152, 240, 213, 0.1) 75%); /* Shimmering animation effect */
+    background: linear-gradient(90deg, #80808025, rgba(207, 241, 14, 0.1) 50%, rgba(152, 240, 213, 0.1) 75%); /* Shimmering animation effect */
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite; /* Animation duration and repetition */
   }
