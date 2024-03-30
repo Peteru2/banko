@@ -339,9 +339,7 @@ const Post_transfer = async(req, res) =>{
   const Transfer_history = async( req, res) =>{
 
     try {
-
         const userID = req.user.userId;
-
         const transferHistory = await Transaction.find({
             $or: [{ sender: userID }, { recipient: userID }]
           }).populate('sender recipient');
@@ -354,8 +352,15 @@ const Post_transfer = async(req, res) =>{
         console.error('Error fetching user data:', error);
         res.status(500).json({ error: 'Internal server error' });
       }
-
     };
+
+    const Notification = async(req, res) =>{
+
+      try{
+        const userID = req.user.userId;
+      }
+    }
+
 export default { 
     Post_signUp,
     Post_login,
@@ -366,5 +371,6 @@ export default {
     GetBalance,
     Check_transfer,
     Post_transfer,
-    Transfer_history
+    Transfer_history,
+    Notification
 }
