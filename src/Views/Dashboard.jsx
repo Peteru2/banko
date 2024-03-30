@@ -20,7 +20,6 @@ const Dashboard = () => {
        
       } catch (error) {
         if (error && error.response && error.response.status === 401) {
-          
           navigate('/login');
         } 
         
@@ -34,13 +33,17 @@ const Dashboard = () => {
 
     return ( 
         <>
+         {userData && (
             <div>
               <SideBar />
+             
               <div className='ml-[220px] px-6'>
                 <Navbar />
                 <AccDetails />
               </div>
+            
             </div>
+              )}
         </>
      );
 }

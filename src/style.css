@@ -26,20 +26,19 @@ input[type=number]::-webkit-outer-spin-button {
     left: 50%;
     /* width: 300px; */
     transform: translate(-50%,-50%) scale(0)  ;
-    transition: 200ms ease-in-out;
+    transition: 150ms ease-in-out;
     padding: 20px;
     z-index: 999;
     border-radius: 20px;
   }
   .genModal{
     position: fixed!important;
-    top: 0%;
-    left: 0%;
-    bottom:0%;
+   
+    left: 50%;  
+    top: 50%;
     height: 100%;
-    /* width: 300px; */
     transform: translate(-50%,-50%) scale(0)  ;
-    transition: 150ms ease-in-out;
+    transition: 30ms ease-in-out;
     background-color: #fff;
     padding: 20px;
     box-shadow: 10px 5px 40px 14px rgba(38.81, 136.75, 227.16, 0.13);
@@ -49,9 +48,6 @@ input[type=number]::-webkit-outer-spin-button {
 
   .modal-show {
     transform: translate(-50%, -50%) scale(1);
-    left: 50%;  
-    top: 50%;
-    /* bottom: 50% */
 
   }
   .overlay {
