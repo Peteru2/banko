@@ -21,10 +21,11 @@ const TransHistory = () => {
           try {
             const userResponse = await api.get('/');
             const response = await api.get('/trans-history');
+           
 
             setTransHis(response.data.transferHistory);
             setUserData(userResponse.data.user);
-
+           
           } catch (error) {
             if(error.response.data.error == "No history found"){
               setTransHis([])
@@ -34,8 +35,15 @@ const TransHistory = () => {
           }
         }
 
-        fetchData();
-        
+        const intervalId = setInterval(() => {
+          fetchData();
+        }, 2000);
+    
+        // Clean up function to clear the interval when the component unmounts
+        return () => {
+          clearInterval(intervalId);
+        };
+      
     }, [])
     const trans = transHis && transHis.slice().reverse();
 
