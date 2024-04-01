@@ -8,39 +8,38 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from 'dotenv';
 import say from 'say'
+import {Notification} from "../models/Notification.js"
 
 dotenv.config()
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
-const users = {};
+// const users = {};
 // process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 const Post_signUp = async (req, res) =>{
     try {
-      const userId = uuidv4();
-      const otp = process.env.OTP
-      
-      
+      // const userId = uuidv4();
+      // const otp = process.env.OTP
       // Math.floor(1000 + Math.random() * 9000).toString();
       const { firstname, lastname, email, phoneNumber, password } = req.body;
        
-      users[userId] = { email, otp };
-      const mailOptions = {
-        from: 'Peter <polalekan526@gmail.com>',
-        to: email,
-        subject: 'Verify your account',
-        text: `Your OTP is: ${otp}. Please use this OTP to verify your account.`
-      };
+      // users[userId] = { email, otp };
+      // const mailOptions = {
+      //   from: 'Peter <polalekan526@gmail.com>',
+      //   to: email,
+      //   subject: 'Verify your account',
+      //   text: `Your OTP is: ${otp}. Please use this OTP to verify your account.`
+      // };
     
-      utils.transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error('Error sending OTP:', error);
-          return res.status(500).json({ error: 'Failed to send OTP' });
-        } 
+      // utils.transporter.sendMail(mailOptions, (error, info) => {
+      //   if (error) {
+      //     console.error('Error sending OTP:', error);
+      //     return res.status(500).json({ error: 'Failed to send OTP' });
+      //   } 
 
-          console.log('OTP sent:', info.response);
-          console.log(userId)
-          // return res.json({ userId, otp });          
-      });
+      //     console.log('OTP sent:', info.response);
+      //     console.log(userId)
+      //     // return res.json({ userId, otp });          
+      // });
         const formattedPhoneNumber = utils.convertPhoneToISO(phoneNumber);
         if (!formattedPhoneNumber) {
           return res.status(400).json({ error: 'Invalid phone number format' });
@@ -249,7 +248,7 @@ const Check_transfer = async(req, res) =>{
         return res.status(400).json({ error: 'Minimum amount to transfer is 50' });
       }
       if(senderWallet.accountNumber == recipientAccountNumber){
-        return res.status(400).json({ error: 'You cannot not transfer to self' });
+        return res.status(400).json({ error: `${recipientAccountNumber} is your Banko account number, you can only transfer to other accounts` });
       }
   
       // Find recipient's wallet by account number
@@ -293,8 +292,6 @@ const Post_transfer = async(req, res) =>{
       if (amount < 50) {
         return res.status(400).json({ error: 'Minimum amount transferable is 50' });
       }
-
-     
         const userTransPin = await User.findById( req.user.userId);
        
     if (userTransPin.accountNumber === "0") {
@@ -306,7 +303,6 @@ const Post_transfer = async(req, res) =>{
     if (recipientUser.accountNumber === "0") {
       await User.findByIdAndUpdate(recipientWallet.user, { accountNumber: recipientWallet.accountNumber });
     }
-
             if (!userTransPin) {
             return res.status(404).json({ error: 'Transaction Pin not found' });
              }
@@ -328,7 +324,14 @@ const Post_transfer = async(req, res) =>{
       
       const transaction = new Transaction({ sender: senderWallet.user, recipient: recipientWallet.user, amount, status: "Successful" });
       await transaction.save();
-  
+      const notification = new Notification({
+        type: 'fund_transfer',
+        message: `You received $${amount} from ${senderWallet.user}`,
+        recipient: recipientWallet.user,
+      });
+    
+     
+      await notification.save();
       res.json({ message: 'Funds transferred successfully' });
     } catch (error) {
       console.error('Failed to transfer funds:', error);
@@ -354,10 +357,13 @@ const Post_transfer = async(req, res) =>{
       }
     };
 
-    const Notification = async(req, res) =>{
+    const notificationInfo = async(req, res) =>{
 
       try{
         const userID = req.user.userId;
+      }
+      catch{
+
       }
     }
 
@@ -372,5 +378,5 @@ export default {
     Check_transfer,
     Post_transfer,
     Transfer_history,
-    Notification
+    notificationInfo
 }
