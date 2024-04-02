@@ -56,16 +56,18 @@ const Notification = () => {
            ) : ( trans && trans.map(transaction =>   
                     ( userData && userData._id !== transaction.sender._id ?(
 
-              <div className="text-sm my-3">                      
+              <div className="text-sm my-3">   
+                <h2 className="text-xs text-black text-opacity-40 text-center my-2">{new Date(transaction.date).toLocaleString("en-US", option)}</h2>                   
                       <p>
                         
                         <h2 className="font-bold text-xs">Account successfully Credited</h2>
                 
-                        <div className="flex">
-                        <h2 className="text-black text-opacity-60 text-[13px]"> Banko user  {transaction.sender.firstname} {transaction.sender.lastname} has successfully sent you ₦{transaction.amount.toLocaleString()}.00</h2>
-                          <h2 className="text-private ml-auto font-bold text-[13px]">view</h2>
+                        <div className="flex items-center">
+                        <h2 className="text-black text-opacity-60 text-[13px]"> Banko user <span className="uppercase"> '{transaction.sender.firstname} {transaction.sender.lastname}({transaction.sender.accountNumber})'</span> has successfully sent you ₦{transaction.amount.toLocaleString()}.00</h2>
+                          <h2 className="text-private ml-auto  text-[13px] bg-private bg-opacity-10 px-2 rounded-md">view</h2>
                         </div>
                       </p>
+                    
                   </div>
                             
                     ):null))
