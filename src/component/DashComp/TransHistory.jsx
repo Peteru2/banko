@@ -22,7 +22,6 @@ const TransHistory = () => {
             const userResponse = await api.get('/');
             const response = await api.get('/trans-history');
            
-
             setTransHis(response.data.transferHistory);
             setUserData(userResponse.data.user);
            
@@ -35,14 +34,10 @@ const TransHistory = () => {
           }
         }
 
-        const intervalId = setInterval(() => {
-          fetchData();
-        }, 2000);
-    
-        // Clean up function to clear the interval when the component unmounts
-        return () => {
-          clearInterval(intervalId);
-        };
+        fetchData();
+
+
+        
       
     }, [])
     const trans = transHis && transHis.slice().reverse();
@@ -50,7 +45,7 @@ const TransHistory = () => {
     return ( 
         
         <>  
-        <div className="flex justify-center">
+        <div className="flex justify-center font-roboto">
           <div className="shadow-md justify-center w-[400px] px-4">
         <h2 className="text-center text-private my-4 font-bold text-[19px]">Transaction History</h2>
         
