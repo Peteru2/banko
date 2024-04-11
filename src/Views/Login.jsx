@@ -7,6 +7,7 @@ import Logo from "../assets/image/Logo.png"
 import SideView from "../component/sideView";
 import { useNavigate } from 'react-router-dom';
 import api from "../component/api";
+import { useAuth } from '../component/auth';
 
 
 
@@ -18,8 +19,9 @@ const [formMessage, setFormMessage] =useState("chess")
 const [userId, setUserId] = useState('')
 const [otp, setOtp] = useState('');
 
+const {isAuthenticated, login, logout} = useAuth()
+
     const [formData, setFormData] = useState({
-    
         email: '',
         password:'',
 
@@ -67,6 +69,7 @@ const [otp, setOtp] = useState('');
                                     position: "top-right",
                                   }); 
                                   navigate('/')
+                                  login();
                         setFormData({
                             email: '',
                             password:'',

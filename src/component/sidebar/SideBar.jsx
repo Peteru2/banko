@@ -1,11 +1,13 @@
 import React from 'react'
 import Logo from "../../assets/image/Logo.png"
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../auth'
 // import Logout from '../Logout';
 
 import { Link, useLocation } from "react-router-dom";
 const SideBar = () => {
     const navigate = useNavigate()
+    const {logout} = useAuth()
     const navSideList = [
         {
             title: "Dashboard",
@@ -41,10 +43,7 @@ const SideBar = () => {
     ]
     const location = useLocation()
 
-    const handleLogout = () =>{
-        localStorage.removeItem('token');
-       navigate('/login');
-    }
+   
     
     return ( 
         <>
@@ -77,7 +76,7 @@ const SideBar = () => {
             </div>
             <div className=" text-gray logout  py-6">
                    
-             <button className="text-sm ml-6" onClick={handleLogout}>
+             <button className="text-sm ml-6" onClick={logout}>
                <i className="fa fa-sign-out mr-5 "></i> <span className="">Help Center</span>
              </button>
             </div>

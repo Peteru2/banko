@@ -9,6 +9,8 @@ const TransactionForm = () => {
   const [transPin, setTransPin] = useState('');
   const [trans, setTrans] = useState(false)
   const [userData, setUserData] = useState('')
+  const [icon, setIcon] = useState(false)
+
 
   const handleSubmitVal = async (e) => {
     e.preventDefault();
@@ -36,6 +38,7 @@ const TransactionForm = () => {
         setRecipientAcctNumber('');
         setAmount('');
         setTransPin('');
+        setIcon(false)
       }
       // Clear the form after successful transaction
       
@@ -104,8 +107,8 @@ const TransactionForm = () => {
               placeholder='Your pin'
             />
             </div>
-          <button onClick={handleSubmit} className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>Pay</button>
-
+          <button onClick={handleSubmit} className='w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white'>
+          {icon ?( <span>Paying <i className="fas fa-spinner fa-spin"></i></span>):( <span>Pay</span>  )}</button>
           </div>  
 
           </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../../component/api.js'
+import api from '../../component/api'
   import { toast, ToastContainer } from 'react-toastify';
   import "react-toastify/dist/ReactToastify.css";
 import TransPinForm from './TransPinForm.jsx';

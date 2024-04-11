@@ -358,7 +358,6 @@ const Post_transfer = async(req, res) =>{
     };
 
     const notificationInfo = async(req, res) =>{
-
       try{
         const userID = req.user.userId;
       }
