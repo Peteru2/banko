@@ -11,7 +11,7 @@ import TransactionForm from './TransactionForm.jsx';
 import Loader from './Loader.jsx';
 
 
-const socket = io.connect('http://localhost:8000');
+// const socket = io.connect('http://localhost:8000');
 
 const AccDetails = () => {
   const [userData, setUserData] = useState(null);
@@ -24,9 +24,9 @@ const AccDetails = () => {
 
   
     useEffect(() => {
-      socket.on('welcome', message =>{
-        console.log(message)
-      })
+      // socket.on('welcome', message =>{
+      //   console.log(message)
+      // })
         const fetchData = async () => {
           try {
             const userResponse = await api.get('/');
@@ -141,7 +141,7 @@ const AccDetails = () => {
         </div>
 
 <div  className={ `modal font-roboto ${bvn? "modal-show":""}`} >
-           <UpdateKyc  onClose={() => setBvn(false)}  userData = {userData} socket={socket} setUserData={setUserData}/>
+           <UpdateKyc  onClose={() => setBvn(false)}  userData = {userData}  setUserData={setUserData}/>
         </div>
     
                 <div className={`${showPinInput || bvn?"overlay":""} `}></div>

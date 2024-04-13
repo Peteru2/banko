@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 
 
 
-const UpdateKyc = ({onClose, setUserData, socket}) => {
+const UpdateKyc = ({onClose, setUserData}) => {
   const [bvn, setBVN] = useState('');
 
   const handleSubmit = async (e) => {
@@ -35,7 +35,7 @@ const UpdateKyc = ({onClose, setUserData, socket}) => {
               toast.success(response.data.message, {
                 position: "top-right",
               })
-            await socket.emit("userData", userResponse)
+            
             console.log("KYC Level Upgraded")
               onClose()
               setBVN('')

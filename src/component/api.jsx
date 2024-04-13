@@ -2,7 +2,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 
 const baseURL = 'http://localhost:8000';
-const socket = io(baseURL); // Create a Socket.IO client instance
+// const socket = io(baseURL); // Create a Socket.IO client instance
 
 const api = axios.create({
   baseURL: baseURL,

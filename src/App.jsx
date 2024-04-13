@@ -8,7 +8,7 @@ import "./style.css"
 
 function App() {
   return (
-    <>
+      <>      
       <Router>
         <Routes>
           <Route path="/SignUp" element={<SignUp />} />
@@ -16,10 +16,10 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/Transfer" element={<TransactionForm />} />
           <Route path="/trans-history" element={<TransHistory />} />
-
         </Routes>
       </Router>
-    </>
+      </>
+
   );
 }
 

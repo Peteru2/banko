@@ -7,7 +7,7 @@ import Logo from "../assets/image/Logo.png"
 import SideView from "../component/sideView";
 import { useNavigate } from 'react-router-dom';
 import api from "../component/api";
-import { useAuth } from '../component/auth';
+// import { useAuth } from '../component/authenticate';
 
 
 
@@ -19,7 +19,7 @@ const [formMessage, setFormMessage] =useState("chess")
 const [userId, setUserId] = useState('')
 const [otp, setOtp] = useState('');
 
-const {isAuthenticated, login, logout} = useAuth()
+// const {isAuthenticated, login, logout} = useAuth()
 
     const [formData, setFormData] = useState({
         email: '',
@@ -69,7 +69,7 @@ const {isAuthenticated, login, logout} = useAuth()
                                     position: "top-right",
                                   }); 
                                   navigate('/')
-                                  login();
+                                  // login();
                         setFormData({
                             email: '',
                             password:'',
@@ -128,8 +128,8 @@ const {isAuthenticated, login, logout} = useAuth()
         }
       };
     return ( 
-                <>
-                <div className="flex">
+              <>           
+                  <div className="flex">
                     <section className="mx-10 h-screen   flex  items-center ">
                         <div>
                         <div>
@@ -166,7 +166,7 @@ const {isAuthenticated, login, logout} = useAuth()
 
                             <div className="mb-6">  
                             <label className=" label flex text-[14px] font-bold">
-                            <span>Password</span> <span className={`ml-auto text-red text-[14px] ${errors.password? "blink-error":""}`}> {errors.password}</span>
+                            {/* <span>Password</span> <span className={`ml-auto text-red text-[14px] ${errors.password? "blink-error":""}`}> {errors.password}</span> */}
                         </label> 
                         <div className="flex items-center border border-gray rounded-[5px] px-3 mt-1  py-2">
                                
@@ -206,8 +206,9 @@ const {isAuthenticated, login, logout} = useAuth()
                     </div>
 
                     <ToastContainer />
-                    
-                </>
+                  
+                    </>
+
      );
 }
  
