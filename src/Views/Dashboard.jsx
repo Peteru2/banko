@@ -10,7 +10,7 @@ import { useAuth } from '../component/AuthContext';
 const Dashboard = () => {
   // const [userData, setUserData] = useState('')
   const navigate = useNavigate(); 
-  const{isAuthenticated, userData} = useAuth()
+  const{isAuthenticated} = useAuth()
 
   useEffect(() => {
     if(isAuthenticated === false){
@@ -22,7 +22,7 @@ const Dashboard = () => {
 
     return ( 
         <>
-         {userData && (
+         {isAuthenticated && (
             <div>
               <SideBar />
              
