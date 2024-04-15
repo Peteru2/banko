@@ -1,13 +1,13 @@
 import React from 'react'
 import Logo from "../../assets/image/Logo.png"
 import { useNavigate } from 'react-router-dom';
-// import useAuth from '../authenticate'
+import { useAuth } from '../AuthContext';
 // import Logout from '../Logout';
 
 import { Link, useLocation } from "react-router-dom";
 const SideBar = () => {
     const navigate = useNavigate()
-    // const {logout} = useAuth()
+    const {isAuthenticated, setIsAuthenticated} = useAuth()
     const navSideList = [
         {
             title: "Dashboard",
@@ -45,8 +45,9 @@ const SideBar = () => {
 
     const logout = () => {
         setIsAuthenticated(false);
-        localStorage.removeItem('token');
         navigate('/login');
+        localStorage.removeItem('token');
+
       };
     
     return ( 

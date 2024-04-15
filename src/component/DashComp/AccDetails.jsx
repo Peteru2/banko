@@ -9,6 +9,7 @@ import io from 'socket.io-client';
 import TransHistory from './TransHistory.jsx';
 import TransactionForm from './TransactionForm.jsx';
 import Loader from './Loader.jsx';
+import { useAuth } from '../AuthContext.jsx';
 
 
 // const socket = io.connect('http://localhost:8000');
@@ -20,13 +21,14 @@ const AccDetails = () => {
   const [acctBalance, setAcctBalance] = useState(null)
   const [transacHis, setTransacHis] = useState(false)
   const [transfer, setTransfer] = useState(false)
-
+  const {isAuthenticated, login, logout} = useAuth()
 
   
     useEffect(() => {
       // socket.on('welcome', message =>{
       //   console.log(message)
       // })
+      console.log(isAuthenticated)
         const fetchData = async () => {
           try {
             const userResponse = await api.get('/');
