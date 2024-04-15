@@ -15,13 +15,13 @@ import { useAuth } from '../AuthContext.jsx';
 // const socket = io.connect('http://localhost:8000');
 
 const AccDetails = () => {
-  const [userData, setUserData] = useState(null);
+ 
   const [bvn, setBvn] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false); 
   const [acctBalance, setAcctBalance] = useState(null)
   const [transacHis, setTransacHis] = useState(false)
   const [transfer, setTransfer] = useState(false)
-  const {isAuthenticated, login, logout} = useAuth()
+  const {isAuthenticated, userData} = useAuth()
 
   
     useEffect(() => {
@@ -31,13 +31,12 @@ const AccDetails = () => {
       console.log(isAuthenticated)
         const fetchData = async () => {
           try {
-            const userResponse = await api.get('/');
-            setUserData(userResponse.data.user);
+           
             const response = await api.get('/balance');
             console.log(response.data.balance)
             setAcctBalance(response.data.balance)
 
-           if (userResponse.data.user.transactionPin == "0") {  
+           if (userData.transactionPin == "0") {  
             setShowPinInput(true)  
           }
 
@@ -143,7 +142,7 @@ const AccDetails = () => {
         </div>
 
 <div  className={ `modal font-roboto ${bvn? "modal-show":""}`} >
-           <UpdateKyc  onClose={() => setBvn(false)}  userData = {userData}  setUserData={setUserData}/>
+           <UpdateKyc  onClose={() => setBvn(false)} />
         </div>
     
                 <div className={`${showPinInput || bvn?"overlay":""} `}></div>

@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 
 
 
-const UpdateKyc = ({onClose, setUserData}) => {
+const UpdateKyc = ({onClose}) => {
   const [bvn, setBVN] = useState('');
 
   const handleSubmit = async (e) => {
