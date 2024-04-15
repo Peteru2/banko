@@ -7,19 +7,17 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState('')
-  // const navigate = useNavigate(); 
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get('/');
-        setUserData(response.data.user);
         setIsAuthenticated(true)
         console.log(response.data.user)
        
       } catch (error) {
         if (error && error.response && error.response.status === 401) {
-          // navigate('/login');
           setIsAuthenticated(false);
         } 
         
@@ -27,11 +25,6 @@ export const AuthContextProvider = ({ children }) => {
     };
     fetchData();
   }, []);
-
-const login = () => {
-    setIsAuthenticated(true);
-    setUserData("")
-};
 
   const logout = () => {
     setIsAuthenticated(false);
