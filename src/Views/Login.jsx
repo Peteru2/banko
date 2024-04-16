@@ -14,7 +14,6 @@ const Login = () => {
 
 const navigate = useNavigate();
 const [icon, setIcon] = useState(false)
-const [formMessage, setFormMessage] =useState("chess")
 const [userId, setUserId] = useState('')
 const [otp, setOtp] = useState('');
 const {setIsAuthenticated, setUserData} = useAuth()
