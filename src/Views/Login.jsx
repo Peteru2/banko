@@ -21,7 +21,7 @@ const {setIsAuthenticated, setUserData} = useAuth()
 // const {isAuthenticated, login, logout} = useAuth()
 
     const [formData, setFormData] = useState({
-        email: '',
+        email: ''
         password:'',
 
       });
