@@ -18,10 +18,8 @@ const [userId, setUserId] = useState('')
 const [otp, setOtp] = useState('');
 const {setIsAuthenticated, setUserData} = useAuth()
 
-// const {isAuthenticated, login, logout} = useAuth()
-
     const [formData, setFormData] = useState({
-        email: ''
+        email: '',
         password:'',
 
       });
@@ -70,7 +68,7 @@ const {setIsAuthenticated, setUserData} = useAuth()
                                   navigate('/')
                                   setIsAuthenticated(true)
                                   setUserData(response.data.user)
-                                  // login();
+                          
                         setFormData({
                             email: '',
                             password:'',
@@ -147,8 +145,7 @@ const {setIsAuthenticated, setUserData} = useAuth()
                            
                             </div>
                         
-                           
-
+                          
                             <div className="mb-6 mt-10">  
                             <label className="  label flex text-[14px] font-bold">
                             <span>Email</span> <span className={`ml-auto text-red text-[14px] ${errors.email? "blink-error":""}`}> {errors.email}</span>

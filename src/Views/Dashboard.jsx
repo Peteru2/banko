@@ -6,16 +6,20 @@ import api from '../component/api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../component/AuthContext';
+import { trusted } from 'mongoose';
 
 const Dashboard = () => {
   // const [userData, setUserData] = useState('')
   const navigate = useNavigate(); 
-  const{isAuthenticated} = useAuth()
+  const{isAuthenticated, setIsAuthenticated} = useAuth()
 
   useEffect(() => {
     if(isAuthenticated === false){
       navigate('/login');
-
+      console.log(isAuthenticated)
+    }
+    else{
+      setIsAuthenticated(true)
     }
   }, []);
 
