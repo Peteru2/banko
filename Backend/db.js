@@ -1,10 +1,11 @@
 
 const mongoose = require('mongoose');
-const uri = "mongodb+srv://banko:Banko1@cluster0.to9arvf.mongodb.net/banko?retryWrites=true&w=majority";
+require('dotenv').config();
+const url = process.env.DB_URL;
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(uri);
+        await mongoose.connect(url);
         console.log("Connected to MongoDB");
     } catch (err) {
         console.error("Failed to connect to MongoDB:", err);
