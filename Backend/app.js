@@ -1,11 +1,11 @@
-import express from 'express';
-import http from 'http';
-import cors from 'cors';
-import morgan from 'morgan';
-import { Server } from 'socket.io'; // Import Socket.IO
-import connectDB from './db.js';
-import Controller from './src/Backend/controller/verifyController.js';
-import authMiddleware from './src/Backend/auth.js';
+const express = require('express');
+const http = require('http');
+const cors = require('cors');
+const morgan = require('morgan');
+const { Server } = require('socket.io'); // Import Socket.IO
+const connectDB = require('./db.js');
+const Controller = require('./controller/verifyController.js');
+const authMiddleware = require('./auth.js');
 
 const app = express();
 const server = http.createServer(app); 

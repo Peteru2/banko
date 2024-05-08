@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
  const TransactionSchema = new Schema({
@@ -24,4 +23,4 @@ const { Schema } = mongoose;
   });
 
   const Transaction = mongoose.model('Transaction', TransactionSchema);
-export { Transaction };
+module.exports = { Transaction };

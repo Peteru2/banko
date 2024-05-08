@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
-dotenv.config()
-import nodemailer from 'nodemailer';
+const dotenv = require('dotenv');
+dotenv.config();
+const nodemailer = require('nodemailer');
 
 const convertPhoneToISO = (number, countryCode = "234") => {
     if (!number) return "";
@@ -39,7 +39,7 @@ const transporter = nodemailer.createTransport({
     rejectUnauthorized: true
   }
 });
-  export default {
+  module.exports = {
     convertPhoneToISO,
     generateAccountNumber,
     transporter

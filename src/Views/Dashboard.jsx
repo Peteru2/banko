@@ -6,27 +6,21 @@ import api from '../component/api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../component/AuthContext';
-import { trusted } from 'mongoose';
+
 
 const Dashboard = () => {
-  // const [userData, setUserData] = useState('')
   const navigate = useNavigate(); 
-  const{isAuthenticated, setIsAuthenticated} = useAuth()
+  const{userData} = useAuth()
 
   useEffect(() => {
-    if(isAuthenticated === false){
+    if(!userData){
       navigate('/login');
-      console.log(isAuthenticated)
     }
-    else{
-      setIsAuthenticated(true)
-    }
-  }, []);
-
+  }, [userData]);
 
     return ( 
         <>
-         {isAuthenticated && (
+         {userData && (
             <div>
               <SideBar />
              
@@ -36,7 +30,11 @@ const Dashboard = () => {
               </div>
             
             </div>
-               )} 
+               )
+              //  :(<>
+              //   <h2>Loading</h2>
+              //  </>)
+               } 
         </>
      );
 }

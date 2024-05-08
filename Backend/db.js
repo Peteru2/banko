@@ -1,5 +1,5 @@
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const uri = "mongodb+srv://banko:Banko1@cluster0.to9arvf.mongodb.net/banko?retryWrites=true&w=majority";
 
 const connectDB = async () => {
@@ -11,4 +11,4 @@ const connectDB = async () => {
     }
 };
 
-export default connectDB;
+module.exports = connectDB;

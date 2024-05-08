@@ -1,16 +1,15 @@
 //Post_login
-import {User} from "../models/User.js";
-import {Wallet} from "../models/Wallet.js"
-import {Transaction} from "../models/Transaction.js"
-import { io } from "../server.js";
-import utils from "../utils/index.js"
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-import dotenv from 'dotenv';
-import say from 'say'
-import {Notification} from "../models/Notification.js"
+const { User } = require("../models/User.js");
+const { Wallet } = require("../models/Wallet.js");
+const { Transaction } = require("../models/Transaction.js");
+const { io } = require("../server.js");
+const utils = require("../utils/index.js");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const dotenv = require("dotenv");
+const { Notification } = require("../models/Notification.js");
 
-dotenv.config()
+// dotenv.config()
 // import { v4 as uuidv4 } from 'uuid';
 
 // const users = {};
@@ -363,7 +362,7 @@ const Post_transfer = async(req, res) =>{
       }
     }
 
-export default { 
+module.exports = { 
     Post_signUp,
     Post_login,
     verifyOTP,
