@@ -7,9 +7,13 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState('')
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const token = localStorage.getItem('token');
-
+  useEffect(() => {
+    if(!token){
+     navigate('/login');
+    }
+  }, [token]);
   useEffect(() => {
     const fetchData = async () => {
       
@@ -41,7 +45,7 @@ export const AuthContextProvider = ({ children }) => {
   const logout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem('token');
-    // navigate('/login');
+    navigate('/login');
   };
 
   return (

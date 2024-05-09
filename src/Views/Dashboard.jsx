@@ -10,31 +10,23 @@ import { useAuth } from '../component/AuthContext';
 
 const Dashboard = () => {
   const navigate = useNavigate(); 
-  const{userData, token} = useAuth()
+ const {userData,token, logout} = useAuth()
 
-  useEffect(() => {
-    if(!token){
-      navigate('/login');
-    }
-  }, [token]);
+ 
 
     return ( 
         <>
-         {token && (
+          {userData &&(
             <div>
-              <SideBar />
+              <SideBar logout={logout}/>
              
               <div className='ml-[220px] px-6'>
                 <Navbar />
-                <AccDetails />
+                <AccDetails userData={userData}  />
               </div>
             
             </div>
-               )
-              //  :(<>
-              //   <h2>Loading</h2>
-              //  </>)
-               } 
+             )}
         </>
      );
 }

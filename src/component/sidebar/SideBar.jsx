@@ -5,9 +5,7 @@ import { useAuth } from '../AuthContext';
 // import Logout from '../Logout';
 
 import { Link, useLocation } from "react-router-dom";
-const SideBar = () => {
-    const navigate = useNavigate()
-    const {isAuthenticated, setIsAuthenticated} = useAuth()
+const SideBar = ({logout}) => {
     const navSideList = [
         {
             title: "Dashboard",
@@ -43,12 +41,11 @@ const SideBar = () => {
     ]
     const location = useLocation()
 
-    const logout = () => {
-        setIsAuthenticated(false);
-        navigate('/login');
-        localStorage.removeItem('token');
+    // const logout = () => {
+    //     navigate('/login');
+    //     localStorage.removeItem('token');
 
-      };
+    //   };
     
     return ( 
         <>
