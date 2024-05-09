@@ -10,13 +10,13 @@ import { useAuth } from '../component/AuthContext';
 
 const Dashboard = () => {
   const navigate = useNavigate(); 
-  const{userData} = useAuth()
+  const{userData, token} = useAuth()
 
   useEffect(() => {
-    if(!userData){
+    if(!token){
       navigate('/login');
     }
-  }, [userData]);
+  }, [token]);
 
     return ( 
         <>

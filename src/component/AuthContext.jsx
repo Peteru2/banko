@@ -8,6 +8,7 @@ export const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState('')
   // const navigate = useNavigate()
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +45,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, logout, userData, setIsAuthenticated, setUserData }}>
+    <AuthContext.Provider value={{ isAuthenticated, logout, userData, setIsAuthenticated, setUserData, token }}>
       {children}
     </AuthContext.Provider>
   );
