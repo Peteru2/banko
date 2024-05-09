@@ -16,7 +16,7 @@ const navigate = useNavigate();
 const [icon, setIcon] = useState(false)
 const [userId, setUserId] = useState('')
 const [otp, setOtp] = useState('');
-const {setIsAuthenticated, setUserData} = useAuth()
+const { setUserData} = useAuth()
 
     const [formData, setFormData] = useState({
         email: '',
@@ -66,7 +66,6 @@ const {setIsAuthenticated, setUserData} = useAuth()
                                     position: "top-right",
                                   }); 
                                   navigate('/')
-                                  setIsAuthenticated(true)
                                   setUserData(response.data.user)
                           
                         setFormData({
