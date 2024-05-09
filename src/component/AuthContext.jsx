@@ -5,7 +5,6 @@ import api from "./api"
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState('')
   const navigate = useNavigate()
   const token = localStorage.getItem('token');
@@ -21,7 +20,6 @@ export const AuthContextProvider = ({ children }) => {
      
             const response = await api.get('/');
             if(response.data.user){
-              setIsAuthenticated(true)
               setUserData(response.data.user)
               console.log(response.data.user)
           }
@@ -32,7 +30,6 @@ export const AuthContextProvider = ({ children }) => {
 
        catch (error) {
         if (error && error.response && error.response.status === 401) {
-          setIsAuthenticated(false);
           navigate('/login');
          
         } 
@@ -43,7 +40,6 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   const logout = () => {
-    setIsAuthenticated(false);
     localStorage.removeItem('token');
     navigate('/login');
   };

@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useEffect } from 'react';
 import SignUp from './Views/SignUp';
 import Login from './Views/Login';
 import Dashboard from './Views/Dashboard';
