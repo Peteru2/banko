@@ -20,7 +20,7 @@ const Dashboard = () => {
 
     return ( 
         <>
-         {userData && (
+         {token && (
             <div>
               <SideBar />
              
