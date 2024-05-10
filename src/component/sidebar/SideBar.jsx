@@ -57,7 +57,6 @@ const SideBar = ({logout}) => {
                        
                     </div>
 
-            <div>
                 <div className=" text-black text-opacity-50 mt-12">
 
                     {navSideList.map((item,index) =>{
@@ -75,7 +74,6 @@ const SideBar = ({logout}) => {
                 }
 
                 </div>
-            </div>
             <div className=" text-black text-opacity-50 logout  py-6">
                    
              <button className="text-sm ml-6" onClick={logout}>

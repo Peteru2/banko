@@ -17,6 +17,8 @@ export const AuthContextProvider = ({ children }) => {
     const fetchData = async () => {
       
       try {
+
+
             const response = await api.get('/');
             if(response.data.user){
               setUserData(response.data.user)
@@ -31,7 +33,9 @@ export const AuthContextProvider = ({ children }) => {
         if (error && error.response && error.response.status === 401) {
           navigate('/login');
         } 
-      }
+        } 
+        
+      
     };
     fetchData();
   }, []);
