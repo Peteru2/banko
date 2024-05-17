@@ -16,9 +16,9 @@ function App() {
         <Router>
           <AuthContextProvider>
             <Routes>
-              <Route path="/" element={<SignUp />} />
+              <Route path="/SignUp" element={<SignUp />} />
               <Route path="/Login" element={<Login />} />
-              {/* <Route path="/" element={<Dashboard />} /> */}
+              <Route path="/" element={<Dashboard />} />
             </Routes>
         </AuthContextProvider>
 
