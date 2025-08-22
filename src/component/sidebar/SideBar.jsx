@@ -10,7 +10,7 @@ const SideBar = ({logout}) => {
         {
             title: "Dashboard",
             url: "/",
-            icon1: 'P',
+            icon1: 'fa fa-home',
         },
         {
             title: "Activity",
@@ -64,7 +64,7 @@ const SideBar = ({logout}) => {
                         return(
                     <div key={index} className={` text-sm pl-12 mr-[40px] my-6 py-4 cursor-pointer  ${location.pathname === item.url ? "Sidebar-border text-public" :""} `}>
                       <Link to={item.url} className="flex items-center outline-none"> 
-                      <p className='mr-5'>{item.icon1}</p>
+                      <p className='mr-5'><i className={item.icon1}></i></p>
                       <p className={location.pathname === item.url ? "text-public" :"red"}>{item.title}</p>
                       </Link>
                     </div>

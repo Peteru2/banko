@@ -81,7 +81,7 @@ const UpdateKyc = ({onClose}) => {
     <div className='bg-white w-[250px] p-4 rounded-[8px] shadow-lg'>
         <div className="flex w-full ">
       <h2 className=' font-bold'>Enter Your BVN</h2>
-      <span className="ml-auto" onClick={onClose} ><i className="fa fa-times cursor-pointer"></i></span>
+      <span className="ml-auto" onClick={onClose} ><i className="fa fa-times cursor-pointer">x</i></span>
       </div>
       <form onSubmit={handleSubmit}>
         <div>

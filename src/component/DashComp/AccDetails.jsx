@@ -19,6 +19,7 @@ const AccDetails = ({userData}) => {
   const [bvn, setBvn] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false); 
   const [acctBalance, setAcctBalance] = useState(null)
+  const [acctNum, setAcctNum] = useState(null)
   const [transacHis, setTransacHis] = useState(false)
   const [transfer, setTransfer] = useState(false)
   // const {isAuthenticated, userData} = useAuth()
@@ -35,6 +36,8 @@ const AccDetails = ({userData}) => {
             const response = await api.get('/balance');
             console.log(response.data.balance)
             setAcctBalance(response.data.balance)
+            setAcctNum(response.data.accountNum)
+
 
            if (userData.transactionPin == "0") {  
             setShowPinInput(true)  
@@ -99,6 +102,7 @@ const AccDetails = ({userData}) => {
                     <p className='text-gray text-xs'>KYC LEVEL { userData.kycLevel } </p>
                     </div>
                 )}
+                {acctNum && (<p className='text-xs'>{acctNum}</p>)}
         </div>
         <div className='flex items-center bg-white shadow-md p-4 rounded-[10px] text-private ml-10'>
             <i className='fa fa-heart'></i> 
