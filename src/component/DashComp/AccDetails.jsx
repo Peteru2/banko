@@ -70,6 +70,7 @@ const AccDetails = ({userData}) => {
       };
      
       const handleUpdateBvn = () =>{
+        
           setBvn(true)
       } 
       const handleShowTransacHis = () =>{

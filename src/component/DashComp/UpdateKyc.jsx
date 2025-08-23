@@ -60,22 +60,7 @@ const UpdateKyc = ({onClose}) => {
   
  
 };
-// useEffect(() => {
-//   socket.on('receiveUserData', (data) => {
-//     setUserData((previousData) => {
-//       // Initialize previousData as an empty array if it's null
-//       const newData = Array.isArray(previousData) ? [...previousData] : [];
-//       // Add new data to the array
-//       newData.push({ kycLevel: data.kycLevel });
-//       return newData;
-//     });
-//   });
-  
-//   // Clean up the event listener when the component unmounts
-//   return () => {
-//     socket.off('receiveUserData');
-//   };
-// }, [setUserData, socket]);
+
 
   return (
     <div className='bg-white w-[250px] p-4 rounded-[8px] shadow-lg'>

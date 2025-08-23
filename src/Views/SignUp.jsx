@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import api from "../component/api";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
 
@@ -25,6 +26,7 @@ const handleRetry = () => {
     setFormMessage("")
 
   };
+  const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstname: '',
         lastname: '',
@@ -99,13 +101,13 @@ const handleRetry = () => {
                         if (error.response) {
 
                              if (error.response.status === 401) {
-                                toast.error(error.response.data.error, {
+                                toast.error(error.response?.data?.error, {
                                     position: "top-right",
                                   }); 
                               setIcon(false)
 
                             } else {
-                                toast.error(error.response.data.error, {
+                                toast.error(error.response?.data?.error, {
                                     position: "top-right",
                                   }); 
                           setIcon(false)
@@ -134,11 +136,15 @@ const handleRetry = () => {
           toast.success(response.data.message, {
             position: "top-right",
           });
+          setTimeout(() => {
+            navigate('/Login');
+          } , 2000); 
         } catch (error) {
-          toast.error(error.response.data.error, {
+          toast.error(error.response?.data?.error || "Something went wrong", {
             position: "top-right",
           }); 
-        }
+          
+          }
       };
     return ( 
                 <>
