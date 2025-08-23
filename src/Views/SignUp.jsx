@@ -138,7 +138,7 @@ const handleRetry = () => {
           });
           setTimeout(() => {
             navigate('/Login');
-          } , 2000); 
+          } , 1500); 
         } catch (error) {
           toast.error(error.response?.data?.error || "Something went wrong", {
             position: "top-right",
