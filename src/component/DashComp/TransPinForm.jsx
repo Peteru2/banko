@@ -1,50 +1,54 @@
-import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, {
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 
-const PinInputField = forwardRef(({ value, onChange, onFocusNext, onFocusPrev }, ref) => {
-  const inputRef = useRef(null);
+const PinInputField = forwardRef(
+  ({ value, onChange, onFocusNext, onFocusPrev }, ref) => {
+    const inputRef = useRef(null);
 
-  const handleInputChange = (e) => {
-    e.preventDefault();
-    const newValue = e.target.value;
-    if (newValue === '' || /^\d+$/.test(newValue)) {
-      onChange(newValue);
-      if (newValue !== '') {
-        onFocusNext();
+    const handleInputChange = (e) => {
+      e.preventDefault();
+      const newValue = e.target.value;
+      if (newValue === "" || /^\d+$/.test(newValue)) {
+        onChange(newValue);
+        if (newValue !== "") {
+          onFocusNext();
+        }
       }
-    }
-  };
+    };
 
-  const handleKeyDown = (e) => {    
-    if (e.key === 'Backspace' && value === '') {
-      onFocusPrev();
-    }
-  };
+    const handleKeyDown = (e) => {
+      if (e.key === "Backspace" && value === "") {
+        onFocusPrev();
+      }
+    };
 
-  useImperativeHandle(ref, () => ({
-    focus: () => {
-      inputRef.current.focus();
-    }
-  }));
+    useImperativeHandle(ref, () => ({
+      focus: () => {
+        inputRef.current.focus();
+      },
+    }));
 
-  return (
-    <input
-      ref={inputRef}
-      type="text"
-      maxLength="1"
-      value={value}
-      onChange={handleInputChange}
-      onFocus={() => inputRef.current.select()}
-      className='border-[1px] w-full border-gray text-center flex rounded-md  outline-none py-1 px-2 mx-2  my-2 '
-      onKeyDown={handleKeyDown}
-    />
-  );
-});
-
-
-
+    return (
+      <input
+        ref={inputRef}
+        type="text"
+        maxLength="1"
+        value={value}
+        onChange={handleInputChange}
+        onFocus={() => inputRef.current.select()}
+        className="border-[1px] w-full border-gray text-center flex rounded-md  outline-none py-1 px-2 mx-2  my-2 "
+        onKeyDown={handleKeyDown}
+      />
+    );
+  }
+);
 
 const TransPinForm = ({ onSubmit }) => {
-  const [pinValues, setPinValues] = useState(['', '', '', '']);
+  const [pinValues, setPinValues] = useState(["", "", "", ""]);
   const inputRefs = useRef(Array(4).fill(null));
 
   const handlePinChange = (index, value) => {
@@ -67,8 +71,8 @@ const TransPinForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (pinValues.every((value) => value !== '')) {
-      const pin = pinValues.join('');
+    if (pinValues.every((value) => value !== "")) {
+      const pin = pinValues.join("");
       onSubmit(pin);
     } else {
       console.log("Please fill in all PIN fields.");
@@ -82,7 +86,7 @@ const TransPinForm = ({ onSubmit }) => {
           {[0, 1, 2, 3].map((index) => (
             <PinInputField
               key={index}
-              ref={(el) => inputRefs.current[index] = el}
+              ref={(el) => (inputRefs.current[index] = el)}
               value={pinValues[index]}
               onChange={(value) => handlePinChange(index, value)}
               onFocusNext={() => handleFocusNext(index)}
@@ -90,8 +94,12 @@ const TransPinForm = ({ onSubmit }) => {
             />
           ))}
         </div>
-        <button className="bg-private rounded-md w-full text-center font-bold py-2" onClick={handleSubmit}>Submit</button>
-       
+        <button
+          className="bg-private rounded-md w-full text-center font-bold py-2"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
       </div>
     </>
   );

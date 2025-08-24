@@ -4,8 +4,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TransPinForm from "./TransPinForm.jsx";
 import UpdateKyc from "./UpdateKyc.jsx";
-import { Link } from "react-router-dom";
-import io from "socket.io-client";
 import TransHistory from "./TransHistory.jsx";
 import TransactionForm from "./TransactionForm.jsx";
 import Loader from "./Loader.jsx";
