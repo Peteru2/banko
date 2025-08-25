@@ -141,15 +141,15 @@ const Login = () => {
                   <h2 className="my- text-black font-roboto font-bold  text-public text-opacity-80 text-[16px]">
                     Don't have an account?{" "}
                     <span className="text-blue">
-                      <Link to={"/SignUp"}>Sign Up</Link>
+                      <Link to={"/SignUp"}>Register Now</Link>
                     </span>
                   </h2>
                 </div>
               </div>
 
               <div className="mb-6 mt-10">
-                <label className="  label flex text-[14px] font-bold">
-                  <span>Email</span>{" "}
+                <label className=" text-opacity- label flex text-[14px] font-bold">
+                  <span ></span>{" "}
                   <span
                     className={`ml-auto text-red text-[14px] ${errors.email ? "blink-error" : ""}`}
                   >
@@ -157,43 +157,44 @@ const Login = () => {
                     {errors.email}
                   </span>
                 </label>
-                <div className="flex items-center border border-gray rounded-[5px] px-3  mt-1 py-2">
+                <div className="flex items-center  bg-white border-gray rounded-[5px] px-3  mt-1 py-2">
                   <input
                     type="Email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
                     className="w-full outline-none text-black"
-                    p
+                    placeholder="johndoe@gmail.com"
                   />
                 </div>
               </div>
 
               <div className="mb-6">
                 <label className=" label flex text-[14px] font-bold">
-                  {/* <span>Password</span> <span className={`ml-auto text-red text-[14px] ${errors.password? "blink-error":""}`}> {errors.password}</span> */}
+                  <span></span> <span className={`ml-auto text-red text-[14px] ${errors.password? "blink-error":""}`}> {errors.password}</span>
                 </label>
-                <div className="flex items-center border border-gray rounded-[5px] px-3 mt-1  py-2">
+                <div className="flex items-center bg-white border-gray rounded-[5px] px-3 mt-1  py-2">
                   <input
                     type="text"
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
                     className="w-full outline-none text-black"
+                    placeholder="Password"
                   />
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="bg-gray border-[1px]  mt-4 border-private bg-opacity-30 hover:bg-opacity-90  text-white  py-1 px-3 rounded-md "
+                className="bg-public shadow-md  mt-4  bg-opacity-60 hover:bg-opacity-90  text-black  py-1 px-3 rounded-md "
               >
                 {icon ? (
                   <span>
                     Submitting <i className="fas fa-spinner fa-spin"></i>
                   </span>
                 ) : (
-                  <span className="text-private">Submit</span>
+                  <span className="text-white">Login</span>
                 )}
               </button>
             </form>

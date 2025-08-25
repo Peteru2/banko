@@ -165,7 +165,7 @@ const SignUp = () => {
               <div className="mb-3">
                 <label className=" mt-4 label flex text-[14px] font-bold">
                   <span>
-                    <span className="text-red">*</span> Firstname
+                    {/* <span className="text-red">*</span> Firstname */}
                   </span>{" "}
                   <span
                     className={`ml-auto text-red text-[14px] ${errors.firstname ? "blink-error" : ""}`}
@@ -174,13 +174,14 @@ const SignUp = () => {
                     {errors.firstname}
                   </span>
                 </label>
-                <div className="flex items-center border border-gray rounded-[5px] mt-1 px-3  py-2">
+                <div className="flex items-center bg-white rounded-[5px] mt-1 px-3  py-2">
                   <input
                     type="text"
                     className="w-full outline-none text-black"
                     name="firstname"
                     value={formData.firstname}
                     onChange={handleInputChange}
+                    placeholder="FirstName"
                   />
                 </div>
               </div>
@@ -188,7 +189,7 @@ const SignUp = () => {
               <div className="mb-3">
                 <label className=" mt-4 label flex text-[14px] font-bold">
                   <span>
-                    <span className="text-red">*</span> Lastname
+                    {/* <span className="text-red">*</span> Lastname */}
                   </span>{" "}
                   <span
                     className={`ml-auto text-red text-[14px] ${errors.lastname ? "blink-error" : ""}`}
@@ -198,13 +199,14 @@ const SignUp = () => {
                   </span>
                 </label>
 
-                <div className="flex items-center border border-gray rounded-[5px] mt-1 px-3  py-2">
+                <div className="flex items-center bg-white rounded-[5px] mt-1 px-3  py-2">
                   <input
                     type="text"
                     className="w-full outline-none text-black"
                     name="lastname"
                     value={formData.lastname}
                     onChange={handleInputChange}
+                    placeholder="Lastname"
                   />
                 </div>
               </div>
@@ -212,7 +214,7 @@ const SignUp = () => {
               <div className="mb-3">
                 <label className="  mt-4 label flex text-[14px] font-bold">
                   <span>
-                    <span className="text-red">*</span> Email
+                    {/* <span className="text-red">*</span> Email */}
                   </span>{" "}
                   <span
                     className={`ml-auto text-red text-[14px] ${errors.email ? "blink-error" : ""}`}
@@ -221,14 +223,14 @@ const SignUp = () => {
                     {errors.email}
                   </span>
                 </label>
-                <div className="flex items-center border border-gray rounded-[5px] px-3  mt-1 py-2">
+                <div className="flex items-center bg-white rounded-[5px] px-3  mt-1 py-2">
                   <input
                     type="Email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
                     className="w-full outline-none text-black"
-                    p
+                    placeholder="Email"
                   />
                 </div>
               </div>
@@ -236,7 +238,7 @@ const SignUp = () => {
               <div className="mb-3">
                 <label className="  mt-4 label flex text-[14px] font-bold">
                   <span>
-                    <span className="text-red">*</span> Phone Number
+                    {/* <span className="text-red">*</span> Phone Number */}
                   </span>{" "}
                   <span
                     className={`ml-auto text-red text-[14px] ${errors.phoneNumber ? "blink-error" : ""}`}
@@ -245,13 +247,14 @@ const SignUp = () => {
                     {errors.phoneNumber}
                   </span>
                 </label>
-                <div className="flex items-center border border-gray rounded-[5px] px-3 mt-1  py-2">
+                <div className="flex items-center bg-white rounded-[5px] px-3 mt-1  py-2">
                   <input
                     type="text"
                     name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
                     className="w-full outline-none text-black"
+                    placeholder="Phone Number"
                   />
                 </div>
               </div>
@@ -259,8 +262,9 @@ const SignUp = () => {
               <div className="mb-3">
                 <label className="  mt-4 label flex text-[14px] font-bold">
                   <span>
-                    <span className="text-red">*</span> Password
-                  </span>{" "}
+                    {/* <span className="text-red">*</span> Password */}
+                  </span>
+                  {" "}
                   <span
                     className={`ml-auto text-red text-[14px] ${errors.password ? "blink-error" : ""}`}
                   >
@@ -268,27 +272,28 @@ const SignUp = () => {
                     {errors.password}
                   </span>
                 </label>
-                <div className="flex items-center border border-gray rounded-[5px] px-3 mt-1  py-2">
+                <div className="flex items-center bg-white rounded-[5px] px-3 mt-1  py-2">
                   <input
                     type="text"
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
                     className="w-full outline-none text-black"
+                    placeholder="Password"
                   />
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="bg-gray border-[1px]  mt-4 border-private bg-opacity-30 hover:bg-opacity-90  text-white  py-1 px-3 rounded-md "
+                className="bg-public  mt-4  bg-opacity-60 hover:bg-opacity-90  text-white  py-1 px-3 rounded-md "
               >
                 {icon ? (
                   <span>
                     Submitting <i className="fas fa-spinner fa-spin"></i>
                   </span>
                 ) : (
-                  <span className="text-private">Submit</span>
+                  <span className="text-white">Sign Up</span>
                 )}
               </button>
             </form>

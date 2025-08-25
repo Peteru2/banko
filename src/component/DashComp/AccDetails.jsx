@@ -28,7 +28,7 @@ const AccDetails = ({ userData }) => {
     const fetchData = async () => {
       try {
         const response = await api.get("/balance");
-        console.log(response.data.balance);
+        // console.log(response.data.balance);
         setAcctBalance(response.data.balance);
         setAcctNum(response.data.accountNum);
 
