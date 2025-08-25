@@ -64,7 +64,7 @@ const SideBar = ({ logout }) => {
                   </p>
                   <p
                     className={`
-                      text-[11px]  ${location.pathname === item.url ? " text-public " : ""}
+                      text-[13px]  ${location.pathname === item.url ? " text-public " : ""}
                     `}
                   >
                     {item.title}
