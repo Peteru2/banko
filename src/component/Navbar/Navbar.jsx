@@ -11,12 +11,9 @@ const Navbar = () => {
     }
     return ( 
         <>
-            <nav className="bg-white w-full h-16 flex items-center font-roboto ">
-                <div>
-                   <h2 className="text-[30px]">Wallet</h2>
-                </div>
+            <nav className=" w-full h-12 justify-center flex items-center font-roboto ">
+            
                 <div className="ml-auto flex bg-gray rounded-md py-1 px-2 bg-opacity-40 justify-center items-center">
-
                         <div className="mx-2 relative cursor-pointer" onClick={handleNotice}>
                             <i className="fa fa-bell font-bold text-black"></i>
                             <span className="absolute left-[10px] top-[2px] bg-red w-1 h-1 rounded-full"></span>
@@ -31,9 +28,9 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            <div  className={ `genModal font-roboto ${notice? "modal-show w-full":""}`} >
-                <h2 onClick ={handleNotice} className='absolute top-0 cursor-pointer'><i className="fa fa-arrow-left"> </i></h2>
-          <Notification />
+        //     <div  className={ `genModal font-roboto ${notice? "modal-show w-full":""}`} >
+        //         <h2 onClick ={handleNotice} className='absolute top-0 cursor-pointer'><i className="fa fa-arrow-left"> </i></h2>
+        //   <Notification />
         </div>
         </>
      );
