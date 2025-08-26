@@ -36,11 +36,11 @@ const Navbar = ({ userData }) => {
             <img
               src={ProImg}
               alt="profileImage"
-              className="fa fa-bell text-black mx-2 w-8 h-8  rounded-full"
+              className="fa fa-bell text-black mx-2 w-[22px] h-[22px]  rounded-full"
             />
           </div>
           <div>
-            <p className="text-black text-opacity-70"> ₦{acctBalance && acctBalance.toLocaleString()}</p>
+            <p className="text-black text-[16px] text-opacity-70"> ₦{acctBalance && acctBalance.toLocaleString()}</p>
           </div>
           <div className="mx-2 relative cursor-pointer" onClick={handleNotice}>
             <i className="fa fa-bell font-bold text-black"></i>

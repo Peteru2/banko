@@ -117,27 +117,7 @@ const AccDetails = ({ userData }) => {
                 </span>
               </div>
             )}
-            <div>
-              <div
-                onClick={handleTransfer}
-                className="bg-white shadow-md cursor-pointer rounded-[10px] text-private font-roboto mx-4 p-4"
-              >
-                <h2>Transfer Funds</h2>
-              </div>
-
-              <div
-                className={`genModal font-roboto ${transfer ? "modal-show w-full" : ""}`}
-              >
-                <h2
-                  onClick={handleTransfer}
-                  className="absolute top-0 cursor-pointer"
-                >
-                  <i className="fa fa-arrow-left"> </i>
-                </h2>
-                <TransactionForm />
-              </div>
-            </div>
-
+           
             <div
               onClick={handleShowTransacHis}
               className="bg-white shadow-md rounded-[10px] cursor-pointer text-private font-roboto mx-4 p-4"
@@ -158,17 +138,7 @@ const AccDetails = ({ userData }) => {
             </div>
           </div>
 
-          <div className="bg-private font-roboto mt-5 px-6 text-white h-[150px] flex items-center w-[500px] rounded-[20px] py-2">
-            <div>
-              <h2 className="text-white text-opacity-80 text-sm">
-                Total Balance
-              </h2>
-              <h2 className="text-[20px]">
-                {" "}
-                ₦{acctBalance && acctBalance.toLocaleString()}
-              </h2>
-            </div>
-          </div>
+          
 
           <div className={`modal font-roboto ${bvn ? "modal-show" : ""}`}>
             <UpdateKyc onClose={() => setBvn(false)} />

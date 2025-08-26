@@ -6,17 +6,17 @@ import AccDetails from '../component/DashComp/AccDetails';
 import { useAuth } from '../component/AuthContext';
 
 const Dashboard = () => {
- const {userData, logout} = useAuth()
+ const {userData} = useAuth()
     return ( 
         <>
           {userData &&(
             <div className='w-full flex justify-center'>
              
-              <div className='w-[600px]'>
+              <div className=' w-[600px]'>
                 <Navbar />
                 <Payment />
                 <AccDetails userData={userData}  />
-                <SideBar logout={logout}/>
+                <SideBar />
             </div>
             </div>
              )}

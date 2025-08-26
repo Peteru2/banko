@@ -4,6 +4,9 @@ import Login from './Views/Login';
 import Dashboard from './Views/Dashboard';
 import "./style.css"
 import AuthContextProvider from "./component/AuthContext"
+import Deposits from './component/sidebar/Deposits';
+import History from './component/sidebar/History';
+
 
 
 function App() {
@@ -19,6 +22,10 @@ function App() {
               <Route path="/SignUp" element={<SignUp />} />
               <Route path="/Login" element={<Login />} />
               <Route path="/" element={<Dashboard />} />
+              <Route path="/Deposits" element={<Deposits />} />
+              <Route path="/History" element={<History />} />
+
+
             </Routes>
         </AuthContextProvider>
 

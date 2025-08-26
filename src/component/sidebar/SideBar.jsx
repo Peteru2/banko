@@ -1,6 +1,17 @@
 import React from "react";
-import Logo from "../../assets/image/Logo.png";
-// import Logout from '../Logout';
+import DashboardActive from "../../assets/image/dashboard-active.svg";
+import DashboardInActive from "../../assets/image/dashboard-inactive.svg";
+import DepositActive from "../../assets/image/deposits-active.svg";
+import DepositInActive from "../../assets/image/deposits-inactive.svg";
+import LoanActive from "../../assets/image/loans-active.svg";
+import LoanInActive from "../../assets/image/loans-inactive.svg";
+import NotificationActive from "../../assets/image/notification-active.svg";
+import NotificationInActive from "../../assets/image/notification-inactive.svg";
+import MoreActive from "../../assets/image/more-active.svg";
+import MoreInActive from "../../assets/image/more-inactive.svg";
+
+
+
 
 import { Link, useLocation } from "react-router-dom";
 const SideBar = ({ logout }) => {
@@ -8,47 +19,42 @@ const SideBar = ({ logout }) => {
     {
       title: "Dashboard",
       url: "/",
-      icon1: "fa fa-home",
+      active : DashboardActive,
+      inactive : DashboardInActive
+
     },
     {
-      title: "Activity",
-      url: "/Pending",
-      icon1: "p",
+      title: "Deposits",
+      url: "/Deposits",
+      active : DepositActive,
+      inactive : DepositInActive
+
     },
     {
-      title: "Wallet",
+      title: "Loans",
       url: "/Pend-Deliveries",
-      icon1: "p",
+      active : LoanActive,
+      inactive : LoanInActive
     },
     {
-      title: "Products",
-      url: "/Awaiting-Feedback",
-      icon1: "p",
+      title: "History",
+      url: "/History",
+      active : NotificationActive,
+      inactive : NotificationInActive
     },
     {
-      title: "Referrals",
+      title: "More",
       url: "/Closed-Deliveries",
-      icon1: "p",
+      active : MoreActive,
+      inactive : MoreInActive
     },
   ];
   const location = useLocation();
 
-  // const logout = () => {
-  //     navigate('/login');
-  //     localStorage.removeItem('token');
-
-  //   };
-
   return (
     <>
-    <div className="justify-center items-center flex w-full">
-      <aside className="bg-white w-[600px] fixed  bottom-0 rounded-tr-[10px] rounded-tl-[10px]">
-        {/* <div className="p-4  flex h-16 justify-center">
-          <h2 className="text-[26px] text-private font-bold  flex  font-playfair">
-            <img src={Logo} className="w-8 mr-2" alt="banko Logo" />
-            Banko.
-          </h2>
-        </div> */}
+    <div className="justify-center items-center flex ">
+      <aside className="bg-white fixed  md:w-[600px] w-[400px]  bottom-0 rounded-tr-[10px] rounded-tl-[10px]">
 
         <div className=" text-black w-full items-center px-12 justify-between flex  text-opacity-50 ">
           {navSideList.map((item, index) => {
@@ -58,17 +64,23 @@ const SideBar = ({ logout }) => {
                 key={index}
                 className={` text-sm py-4 flex justify-between cursor-pointer  ${location.pathname === item.url ? " text-public" : ""} `}
               >
-                <Link to={item.url} className="text-center items-center outline-none">
-                  <p className="font-normal text-[16px]">
-                    <i className={item.icon1}></i>
-                  </p>
+                <Link to={item.url} className="text-center items-center justify-center outline-none flex">
+                <div className="flex flex-col items-center">
+                   <div className=" ">
+                    <img
+                      src={location.pathname === item.url? item.active : item.inactive}
+                      alt="Image"
+                      className="   w-[23px] h-[23px] "
+                    />
+                  </div>
                   <p
                     className={`
-                      text-[13px]  ${location.pathname === item.url ? " text-public " : ""}
+                      text-[11px] text-black text-opacity-80 font-400 ${location.pathname === item.url ? " text-public " : ""}
                     `}
                   >
                     {item.title}
                   </p>
+                  </div>
                 </Link>
               </div>
             );
