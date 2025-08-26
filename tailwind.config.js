@@ -15,7 +15,8 @@ export default {
         'red':'#FF0000',
         'vintage':'#540202',    
         'grayLight':'#ececec',
-        'blue':'#0000FF'
+        'blue':'#0000FF',
+        'bg':'#ebebf3',
       },
       fontFamily:{
         roboto:["Roboto", "sans-serif"],

@@ -15,7 +15,7 @@ const Dashboard = () => {
               <div className=' w-[600px]'>
                 <Navbar />
                 <Payment />
-                <AccDetails userData={userData}  />
+                {/* <AccDetails userData={userData}  /> */}
                 <SideBar />
             </div>
             </div>

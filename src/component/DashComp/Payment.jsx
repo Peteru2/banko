@@ -39,15 +39,22 @@ const Payment = () => {
       url: "/",
       img: MobilePayment,
     },
+     {
+      title1: "Mobile",
+      title2: "Payment",
+      url: "/",
+      img: MobilePayment,
+    },
   ];
   return (
     <>
-      <div className="flex w-full justify-center my-[15px] px-[13px]">
+      <div className="flex flex-wrap gap-4 md:gap-8 w-full max-w-[600px]  justify-center my-[15px] md:px-[13px]">
         {paymentList.map((item, index) => {
           return (
             <>
+            <div className="w-full max-w-[600px]">
               <div
-                className="flex cursor-pointer mx-[15px]  justify-center"
+                className="flex cursor-pointer  justify-center"
                 onClick={item.func}
               >
                 <div className="flex flex-col items-center">
@@ -55,7 +62,7 @@ const Payment = () => {
                     <img
                       src={item.img}
                       alt="profileImage"
-                      className="fa fa-bell text-black  w-[60px] h-[60px]  rounded-full"
+                      className="text-black  w-[60px] h-[60px]  rounded-full"
                     />
                   </div>
                   <div className="text-center text-[13px]">
@@ -74,6 +81,7 @@ const Payment = () => {
                   <i className="fa fa-arrow-left"> </i>
                 </h2>
                 <TransactionForm />
+              </div>
               </div>
             </>
           );

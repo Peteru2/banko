@@ -6,12 +6,6 @@ const History = () => {
   return (
     <>
 <div>
-              <h2
-                // onClick={handleShowTransacHis}
-                className="absolute top-0 cursor-pointer"
-              >
-                <i className="fa fa-arrow-left"> </i>
-              </h2>
               <TransHistory />
             </div>
         

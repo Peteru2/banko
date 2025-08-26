@@ -29,21 +29,21 @@ const Navbar = ({ userData }) => {
   }, []);
   return (
     <>
-      <nav className=" w-full h-12 justify-center  flex items-center font-roboto ">
-        <div className=" flex w-[600px]  rounded-md rounded-b-[0px] border-b-[1px] border-gray py-1 px-2 bg-opacity-40 items-center">
+      <nav className=" w-full h-12 justify-center   flex items-center font-roboto ">
+        <div className=" flex w-full max-w-[600px] bg-bg fixed top-0 h-[48px] rounded-md rounded-b-[0px] border-b-[1px] border-gray bg-opacity-40 items-center">
           <div className="w-full flex items-center justify-between">
-          <div className="">
+          <div className="pl-[20px]">
             <img
               src={ProImg}
               alt="profileImage"
-              className="fa fa-bell text-black mx-2 w-[22px] h-[22px]  rounded-full"
+              className=" text-black  w-[22px] h-[22px]  rounded-full"
             />
           </div>
           <div>
             <p className="text-black text-[16px] text-opacity-70"> ₦{acctBalance && acctBalance.toLocaleString()}</p>
           </div>
-          <div className="mx-2 relative cursor-pointer" onClick={handleNotice}>
-            <i className="fa fa-bell font-bold text-black"></i>
+          <div className=" relative cursor-pointer w-[22px] pr-[20px]" onClick={handleNotice}>
+            <i className="fa fa-bell  text-black"></i>
             <span className="absolute left-[10px] top-[2px] bg-red w-1 h-1 rounded-full"></span>
           </div>
           </div>

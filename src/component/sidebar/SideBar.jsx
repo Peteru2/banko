@@ -54,9 +54,9 @@ const SideBar = ({ logout }) => {
   return (
     <>
     <div className="justify-center items-center flex ">
-      <aside className="bg-white fixed  md:w-[600px] w-[400px]  bottom-0 rounded-tr-[10px] rounded-tl-[10px]">
+      <aside className="bg-white fixed  w-full max-w-[600px]  bottom-0 rounded-tr-[10px] rounded-tl-[10px]">
 
-        <div className=" text-black w-full items-center px-12 justify-between flex  text-opacity-50 ">
+        <div className=" text-black w-full items-center md:px-12 px-[20px] justify-between flex  text-opacity-50 ">
           {navSideList.map((item, index) => {
             const isActive = location.pathname === item.url;
             return (

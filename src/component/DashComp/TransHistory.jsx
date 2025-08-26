@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import api from "../api";
+import { useNavigate } from "react-router-dom";
 
 const TransHistory = () => {
   const [transHis, setTransHis] = useState(null);
   const [userData, setUserData] = useState("");
-
+  const navigate = useNavigate();
   const option = {
     year: "numeric",
     month: "short",
@@ -38,17 +39,27 @@ const TransHistory = () => {
   return (
     <>
       <div className="flex justify-center font-roboto">
-        <div className="shadow-md justify-center w-[400px] px-4">
-          <h2 className="text-center text-private my-4 font-bold text-[19px]">
-            Transaction History
-          </h2>
+        <div className="justify-center  w-full max-w-[600px] ">
+          
+          <div className="relative flex text my-2 text-black text-opacity-60  items-center h-[48px] text-[18px]">
+            <h2
+                className="cursor-pointer"
+                onClick={() => navigate(-1)}
+              >
+                <i className="fa fa-arrow-left"> </i>
+              </h2>
+            <h2 className="absolute left-1/2 transform -translate-x-1/2 text-black text-opacity-60">
+            Transaction history
+            </h2>
+          </div>
 
           {transHis && transHis.length === 0 ? (
-            <div>
+            <div className="bg-white py-4">
               <h2 className="font-bold text-sm text-center ">
                 No history found
               </h2>
             </div>
+
           ) : (
             trans &&
             trans.map((transaction) =>
