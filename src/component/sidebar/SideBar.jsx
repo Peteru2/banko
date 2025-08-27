@@ -10,11 +10,8 @@ import NotificationInActive from "../../assets/image/notification-inactive.svg";
 import MoreActive from "../../assets/image/more-active.svg";
 import MoreInActive from "../../assets/image/more-inactive.svg";
 
-
-
-
 import { Link, useLocation } from "react-router-dom";
-const SideBar = ({ logout }) => {
+const SideBar = ({ userData }) => {
   const navSideList = [
     {
       title: "Dashboard",
@@ -40,13 +37,15 @@ const SideBar = ({ logout }) => {
       title: "History",
       url: "/History",
       active : NotificationActive,
-      inactive : NotificationInActive
+      inactive : NotificationInActive,
+      userData:userData
+
     },
     {
       title: "More",
       url: "/Closed-Deliveries",
       active : MoreActive,
-      inactive : MoreInActive
+      inactive : MoreInActive,
     },
   ];
   const location = useLocation();
@@ -86,12 +85,7 @@ const SideBar = ({ logout }) => {
             );
           })}
         </div>
-        {/* <div className=" text-black text-opacity-50 logout  py-6">
-          <button className="text-sm ml-6" onClick={logout}>
-            <i className="fa fa-sign-out mr-5 "></i>{" "}
-            <span className="">Logout</span>
-          </button>
-        </div> */}
+   
       </aside>
       </div>
     </>

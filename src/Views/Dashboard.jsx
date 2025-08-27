@@ -2,6 +2,7 @@
 import SideBar from '../component/sidebar/SideBar';
 import Navbar from '../component/Navbar/Navbar';
 import Payment from '../component/DashComp/Payment';
+import Loader from '../component/DashComp/Loader';
 import AccDetails from '../component/DashComp/AccDetails';
 import { useAuth } from '../component/AuthContext';
 
@@ -15,8 +16,9 @@ const Dashboard = () => {
               <div className=' w-[600px]'>
                 <Navbar />
                 <Payment />
-                {/* <AccDetails userData={userData}  /> */}
-                <SideBar />
+                {/* <Loader />  */}
+                <AccDetails userData={userData}  />
+                <SideBar userData={userData} />
             </div>
             </div>
              )}

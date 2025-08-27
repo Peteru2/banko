@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
+import Loader from "./Loader";
 
 const TransHistory = () => {
   const [transHis, setTransHis] = useState(null);
@@ -38,7 +39,9 @@ const TransHistory = () => {
 
   return (
     <>
-      <div className="flex justify-center font-roboto">
+     {transHis? (
+      <>
+          <div className="flex justify-center font-roboto">
         <div className="justify-center  w-full max-w-[600px] ">
           
           <div className="relative flex text my-2 text-black text-opacity-60  items-center h-[48px] text-[18px]">
@@ -116,6 +119,11 @@ const TransHistory = () => {
           )}
         </div>
       </div>
+      </>
+     ):(<>
+          <Loader className="max-w-[600px]" />
+     </>)}
+       <Loader className="max-w-[600px]" />
     </>
   );
 };

@@ -39,20 +39,15 @@ const Payment = () => {
       url: "/",
       img: MobilePayment,
     },
-     {
-      title1: "Mobile",
-      title2: "Payment",
-      url: "/",
-      img: MobilePayment,
-    },
+    
   ];
   return (
     <>
-      <div className="flex flex-wrap gap-4 md:gap-8 w-full max-w-[600px]  justify-center my-[15px] md:px-[13px]">
+      <div className="flex  gap-4 md:gap-8 w-full max-w-[600px]  justify-center my-[15px] md:px-[13px]">
         {paymentList.map((item, index) => {
           return (
             <>
-            <div className="w-full max-w-[600px]">
+            <div className=" max-w-[600px]">
               <div
                 className="flex cursor-pointer  justify-center"
                 onClick={item.func}
