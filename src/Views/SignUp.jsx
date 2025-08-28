@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import api from "../component/api";
 import { useNavigate } from "react-router-dom";
+import VerifyOtp from "./verifyOtp";
 
 const SignUp = () => {
   const [icon, setIcon] = useState(false);
@@ -324,7 +325,7 @@ const SignUp = () => {
             </div>
             {userId && (
               <>
-                <div
+                {/* <div
                   className={`font-roboto flex justify-center items-center  genModal font-roboto ${userId ? "modal-show w-full" : ""}`}
                 >
                   <div className="w-[400px]">
@@ -343,7 +344,8 @@ const SignUp = () => {
                       <button onClick={handleVerify}>Verify OTP</button>
                     </div>
                   </div>
-                </div>
+                </div> */}
+                <VerifyOtp  userId={userId}/>
               </>
             )}
           </div>

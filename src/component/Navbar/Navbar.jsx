@@ -29,8 +29,8 @@ const Navbar = ({ userData }) => {
   }, []);
   return (
     <>
-      <nav className=" w-full h-12 justify-center   flex items-center font-roboto ">
-        <div className=" flex w-full max-w-[600px] bg-bg fixed top-0 h-[48px] rounded-md rounded-b-[0px] border-b-[1px] border-gray bg-opacity-40 items-center">
+      <nav className=" w-full h-12 justify-center  flex items-center font-roboto ">
+        <div className=" flex w-full max-w-[600px] bg-bg mb-[100px]  fixed top-0 h-[48px] rounded-md rounded-b-[0px] border-b-[1px] border-gray items-center">
           <div className="w-full flex items-center justify-between">
           <div className="pl-[20px]">
             <img

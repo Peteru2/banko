@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
-import Loader from "./Loader";
+
+import { TransComp } from "./TransComp";
 
 const TransHistory = () => {
   const [transHis, setTransHis] = useState(null);
@@ -35,15 +36,24 @@ const TransHistory = () => {
 
     fetchData();
   }, []);
-  const trans = transHis && transHis.slice().reverse();
 
+  const trans = transHis && transHis.slice().reverse();
+  const groupByDate = (transactions) => {
+  return transactions.reduce((groups, tx) => {
+    const date = new Date(tx.date).toDateString(); // e.g., "Thu Sep 4 2025"
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+    groups[date].push(tx);
+    return groups;
+  }, {});
+};
+const groupedTrans = groupByDate(trans);
   return (
     <>
-     {transHis? (
-      <>
+     
           <div className="flex justify-center font-roboto">
         <div className="justify-center  w-full max-w-[600px] ">
-          
           <div className="relative flex text my-2 text-black text-opacity-60  items-center h-[48px] text-[18px]">
             <h2
                 className="cursor-pointer"
@@ -55,75 +65,25 @@ const TransHistory = () => {
             Transaction history
             </h2>
           </div>
-
-          {transHis && transHis.length === 0 ? (
-            <div className="bg-white py-4">
-              <h2 className="font-bold text-sm text-center ">
-                No history found
-              </h2>
-            </div>
-
-          ) : (
-            trans &&
-            trans.map((transaction) =>
-              userData && userData._id === transaction.sender._id ? (
-                <div className="text-sm my-3">
-                  <p>
-                    <div className="flex w-full">
-                      <h2 className="font-bold text-xs">Money Sent</h2>
-                      <h2 className="ml-auto font-bold">
-                        -₦{transaction.amount}.00
-                      </h2>
-                    </div>
-                    <div className="flex">
-                      <h2 className="text-black text-opacity-60 text-[13px]">
-                        {" "}
-                        {new Date(transaction.date).toLocaleString(
-                          "en-US",
-                          option
-                        )}{" "}
-                        {transaction.recipient.firstname}{" "}
-                        {transaction.recipient.lastname}{" "}
-                      </h2>
-                      <h2 className="text-private ml-auto font-bold text-[13px]">
-                        {transaction.status}
-                      </h2>
-                    </div>
-                  </p>
-                </div>
-              ) : (
-                <div className="text-sm my-3">
-                  <p>
-                    <div className="flex w-full">
-                      <h2 className="font-bold text-xs">Bank Deposit</h2>
-                      <h2 className="ml-auto font-bold">
-                        -₦{transaction.amount}.00
-                      </h2>
-                    </div>
-                    <div className="flex">
-                      <h2 className="text-black text-opacity-60 text-[13px]">
-                        {" "}
-                        {new Date(transaction.date).toLocaleString(
-                          "en-US",
-                          option
-                        )}{" "}
-                      </h2>
-                      <h2 className="text-private ml-auto font-bold text-[13px]">
-                        {transaction.status}
-                      </h2>
-                    </div>
-                  </p>
-                </div>
-              )
-            )
-          )}
-        </div>
+           
+      {Object.entries(groupedTrans).map(([date, txs]) => (
+      <div key={date} className="mb-4">
+        <h3 className="font-semibold text-black text-opacity-70">{date}</h3>
+        {txs.map((tx, idx) => (
+          <TransComp
+            key={idx}
+            transHis={transHis} // Pass single tx so TransComp can display it
+            trans={[txs]}
+            userData={userData}
+            option={option}
+          />
+        ))}
+         </div>
+    ))}
       </div>
-      </>
-     ):(<>
-          <Loader className="max-w-[600px]" />
-     </>)}
-       <Loader className="max-w-[600px]" />
+      </div>
+    
+     
     </>
   );
 };

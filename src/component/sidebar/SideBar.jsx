@@ -24,8 +24,7 @@ const SideBar = ({ userData }) => {
       title: "Deposits",
       url: "/Deposits",
       active : DepositActive,
-      inactive : DepositInActive
-
+      inactive : DepositInActive  
     },
     {
       title: "Loans",
@@ -52,7 +51,7 @@ const SideBar = ({ userData }) => {
 
   return (
     <>
-    <div className="justify-center items-center flex ">
+    <div className="justify-center items-center flex mt-[100px]">
       <aside className="bg-white fixed  w-full max-w-[600px]  bottom-0 rounded-tr-[10px] rounded-tl-[10px]">
 
         <div className=" text-black w-full items-center md:px-12 px-[20px] justify-between flex  text-opacity-50 ">
@@ -61,7 +60,7 @@ const SideBar = ({ userData }) => {
             return (
               <div
                 key={index}
-                className={` text-sm py-4 flex justify-between cursor-pointer  ${location.pathname === item.url ? " text-public" : ""} `}
+                className={` text-sm py-4 flex justify-between cursor-pointer  ${location.pathname === item.url ? " text-text" : ""} `}
               >
                 <Link to={item.url} className="text-center items-center justify-center outline-none flex">
                 <div className="flex flex-col items-center">
@@ -69,12 +68,12 @@ const SideBar = ({ userData }) => {
                     <img
                       src={location.pathname === item.url? item.active : item.inactive}
                       alt="Image"
-                      className="   w-[23px] h-[23px] "
+                      className="  text-private w-[23px] h-[23px] "
                     />
                   </div>
                   <p
                     className={`
-                      text-[11px] text-black text-opacity-80 font-400 ${location.pathname === item.url ? " text-public " : ""}
+                      text-[11px] text-black text-opacity-80 font-400 ${location.pathname === item.url ? " text-tet " : ""}
                     `}
                   >
                     {item.title}

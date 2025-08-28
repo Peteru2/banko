@@ -18,7 +18,7 @@ const Dashboard = () => {
                 <Payment />
                 {/* <Loader />  */}
                 <AccDetails userData={userData}  />
-                <SideBar userData={userData} />
+                <SideBar  userData={userData} />
             </div>
             </div>
              )}

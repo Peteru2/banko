@@ -17,6 +17,7 @@ export default {
         'grayLight':'#ececec',
         'blue':'#0000FF',
         'bg':'#ebebf3',
+        'tet': '#ff5887',
       },
       fontFamily:{
         roboto:["Roboto", "sans-serif"],

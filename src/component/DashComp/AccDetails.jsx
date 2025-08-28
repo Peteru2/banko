@@ -7,7 +7,10 @@ import UpdateKyc from "./UpdateKyc.jsx";
 import TransHistory from "./TransHistory.jsx";
 import TransactionForm from "./TransactionForm.jsx";
 import Loader from "./Loader.jsx";
+import { useNavigate } from "react-router-dom";
+import { TransComp } from "./TransComp.jsx";
 import { useAuth } from "../AuthContext.jsx";
+import { Link } from "react-router-dom";
 
 // const socket = io.connect('http://localhost:8000');
 
@@ -16,19 +19,28 @@ const AccDetails = ({ userData }) => {
   const [showPinInput, setShowPinInput] = useState(false);
   const [acctBalance, setAcctBalance] = useState(null);
   const [acctNum, setAcctNum] = useState(null);
-  const [transacHis, setTransacHis] = useState(false);
-  const [transfer, setTransfer] = useState(false);
-  // const {isAuthenticated, userData} = useAuth()
+  const [transHis, setTransHis] = useState(null);
+  const [useData, setUseData] = useState("");
+  const navigate = useNavigate();
+  const option = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "UTC", // Adjust the time zone as needed
+  };
 
   useEffect(() => {
-    // socket.on('welcome', message =>{
-    //   console.log(message)
-    // })
-    // console.log(isAuthenticated)
     const fetchData = async () => {
       try {
         const response = await api.get("/balance");
-        // console.log(response.data.balance);
+        const userResponse = await api.get("/");
+        const response1 = await api.get("/trans-history");
+
+        setTransHis(response1.data.transferHistory);
+        setUseData(userResponse.data.user);
         setAcctBalance(response.data.balance);
         setAcctNum(response.data.accountNum);
 
@@ -37,11 +49,13 @@ const AccDetails = ({ userData }) => {
         }
       } catch (er2ror) {
         console.error("Failed to fetch user data:");
+        if (error.response.data.error == "No history found") {
+          setTransHis([]);
+          console.log(transHis);
+        }
       }
-
       console.log(userData);
     };
-
     fetchData();
   }, []);
 
@@ -61,16 +75,12 @@ const AccDetails = ({ userData }) => {
   const handleUpdateBvn = () => {
     setBvn(true);
   };
-  const handleShowTransacHis = () => {
-    setTransacHis((his) => !his);
-  };
-  const handleTransfer = () => {
-    setTransfer((trans) => !trans);
-  };
+
+  const trans = transHis && transHis.slice().reverse();
 
   return (
     <>
-      {userData && acctBalance ? (
+      { acctBalance ? (
         <div className="font-roboto">
           <form
             onSubmit={handleSubmitPin}
@@ -117,34 +127,26 @@ const AccDetails = ({ userData }) => {
                 </span>
               </div>
             )}
-           
-            <div
-              onClick={handleShowTransacHis}
-              className="bg-white shadow-md rounded-[10px] cursor-pointer text-private font-roboto mx-4 p-4"
-            >
-              <h2>Transfer History</h2>
-            </div>
-
-            <div
-              className={`genModal font-roboto ${transacHis ? "modal-show w-full" : ""}`}
-            >
-              <h2
-                onClick={handleShowTransacHis}
-                className="absolute top-0 cursor-pointer"
-              >
-                <i className="fa fa-arrow-left"> </i>
-              </h2>
-              <TransHistory />
-            </div>
           </div>
-
-          
 
           <div className={`modal font-roboto ${bvn ? "modal-show" : ""}`}>
             <UpdateKyc onClose={() => setBvn(false)} />
           </div>
 
           <div className={`${showPinInput || bvn ? "overlay" : ""} `}></div>
+
+          <div>
+            <div className="flex justify-between w-full">
+              <p className="text-[20px] text-black text-opacity-70 ">Latest transactions</p>
+               <Link to="/History"><p className="text-private">View all</p></Link>
+            </div>
+            <TransComp
+              transHis={transHis}
+              trans={trans.slice(0,3)}
+              userData={userData}
+              option={option}
+            />
+          </div>
           <ToastContainer />
         </div>
       ) : (
