@@ -86,7 +86,6 @@ const SignUp = () => {
             phoneNumber: "",
             password: "",
           });
-          console.log(response.data.user._id);
           setUserId(response.data.user._id);
           setIcon(false);
         })
@@ -117,8 +116,7 @@ const SignUp = () => {
       setErrors({});
     }
   };
-
-  const handleVerify = async () => {
+const handleVerify = async () => {
     try {
       const response = await api.post("/verifyOTP", { userId, otp });
       setUserId("");
@@ -135,6 +133,8 @@ const SignUp = () => {
       });
     }
   };
+  
+
   return (
     <>
       <div className="flex">
@@ -325,7 +325,7 @@ const SignUp = () => {
             </div>
             {userId && (
               <>
-                {/* <div
+                <div
                   className={`font-roboto flex justify-center items-center  genModal font-roboto ${userId ? "modal-show w-full" : ""}`}
                 >
                   <div className="w-[400px]">
@@ -344,8 +344,8 @@ const SignUp = () => {
                       <button onClick={handleVerify}>Verify OTP</button>
                     </div>
                   </div>
-                </div> */}
-                <VerifyOtp  userId={userId}/>
+                </div>
+                {/* <VerifyOtp  userId={userId} otp={otp}/> */}
               </>
             )}
           </div>

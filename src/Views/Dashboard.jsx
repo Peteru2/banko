@@ -7,17 +7,17 @@ import AccDetails from '../component/DashComp/AccDetails';
 import { useAuth } from '../component/AuthContext';
 
 const Dashboard = () => {
- const {userData} = useAuth()
+ const {userData, logout, setUserData} = useAuth()
     return ( 
         <>
           {userData &&(
             <div className='w-full flex justify-center'>
              
               <div className=' w-[600px]'>
-                <Navbar />
+                <Navbar userData={userData} />
                 <Payment />
                 {/* <Loader />  */}
-                <AccDetails userData={userData}  />
+                <AccDetails userData={userData} logout={logout}  />
                 <SideBar  userData={userData} />
             </div>
             </div>

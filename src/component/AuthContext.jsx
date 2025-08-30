@@ -12,8 +12,11 @@ export const AuthContextProvider = ({ children }) => {
     if (!token) {
       navigate("/login");
     }
+    else {
+      fetch(); 
+    }
   }, [token]);
-  useEffect(() => {
+
     const fetchData = async () => {
       try {
         const response = await api.get("/");
@@ -30,15 +33,16 @@ export const AuthContextProvider = ({ children }) => {
       }
     };
     fetchData();
-  }, []);
+  
 
+  
   const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
 
   return (
-    <AuthContext.Provider value={{ logout, userData, setUserData, token }}>
+    <AuthContext.Provider value={{ logout, userData, fetchData, setUserData, token }}>
       {children}
     </AuthContext.Provider>
   );

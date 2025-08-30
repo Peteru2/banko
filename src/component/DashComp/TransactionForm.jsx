@@ -50,7 +50,7 @@ const TransactionForm = () => {
         setIcon(false);
         setTimeout(() => {
             window.location.href = "/";
-          } , 1500); 
+          } , 1000); 
         
       }
       // Clear the form after successful transaction

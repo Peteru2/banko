@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 // const socket = io.connect('http://localhost:8000');
 
-const AccDetails = ({ userData }) => {
+const AccDetails = ({ userData, setUserData }) => {
   const [bvn, setBvn] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false);
   const [acctBalance, setAcctBalance] = useState(null);
@@ -38,8 +38,7 @@ const AccDetails = ({ userData }) => {
         const response = await api.get("/balance");
         const userResponse = await api.get("/");
         const response1 = await api.get("/trans-history");
-
-        setTransHis(response1.data.transferHistory);
+        setTransHis(response1.data.transferHistory || []);
         setUseData(userResponse.data.user);
         setAcctBalance(response.data.balance);
         setAcctNum(response.data.accountNum);
@@ -47,8 +46,8 @@ const AccDetails = ({ userData }) => {
         if (userData.transactionPin == "0") {
           setShowPinInput(true);
         }
-      } catch (er2ror) {
-        console.error("Failed to fetch user data:");
+      } catch (error) {
+        // console.error("Failed to fetch user data:");
         if (error.response.data.error == "No history found") {
           setTransHis([]);
           console.log(transHis);
@@ -66,16 +65,17 @@ const AccDetails = ({ userData }) => {
       toast.success("Transaction Pin updated", {
         position: "top-right",
       });
+      setTimeout(() => {
+            window.location.href = "/";
+          } , 100); 
       console.log(response.data);
     } catch (error) {
       console.error("Failed to update transaction pin:", error);
     }
   };
-
   const handleUpdateBvn = () => {
     setBvn(true);
   };
-
   const trans = transHis && transHis.slice().reverse();
 
   return (
@@ -97,7 +97,6 @@ const AccDetails = ({ userData }) => {
             <h4 className="bg-private text-[20px] mr-4 px-3 rounded-[2px]">
               ₦
             </h4>
-
             <div>
               {userData && (
                 <div>

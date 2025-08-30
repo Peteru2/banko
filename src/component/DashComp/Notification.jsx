@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../api";
+import { useAuth } from "../AuthContext.jsx";
+
 
 const Notification = () => {
+  const {userData} = useAuth()
   const [transHis, setTransHis] = useState(null);
-  const [userData, setUserData] = useState("");
+  // const [userData, setUserData] = useState("");
 
   const option = {
     year: "numeric",
@@ -18,11 +21,11 @@ const Notification = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await api.get("/");
+        // const userResponse = await api.get("/");
         const response = await api.get("/trans-history");
 
         setTransHis(response.data.transferHistory);
-        setUserData(userResponse.data.user);
+        // setUserData(userResponse.data.user);
       } catch (error) {
         if (error.response.data.error == "No history found") {
           setTransHis([]);

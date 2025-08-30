@@ -8,8 +8,6 @@ import api from "../../component/api";
 const Navbar = ({ userData }) => {
   const [notice, setNotice] = useState(false);
   const [acctBalance, setAcctBalance] = useState(null);
-
-  console.log(userData);
   const handleNotice = () => {
     setNotice((notice) => !notice);
   };
@@ -21,8 +19,6 @@ const Navbar = ({ userData }) => {
       } catch (error) {
         console.error("Failed to fetch user data:");
       }
-
-      console.log(userData);
     };
 
     fetchData();

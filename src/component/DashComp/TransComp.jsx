@@ -11,7 +11,7 @@ export const TransComp = ({trans, transHis, userData, option}) => {
           {transHis && transHis.length === 0 ? (
             <div className="bg-white py-4">
               <h2 className="font-bold text-sm text-center ">
-                No history found
+                No transaction history found
               </h2>
             </div>
 
@@ -19,7 +19,7 @@ export const TransComp = ({trans, transHis, userData, option}) => {
             trans &&
             trans.map((transaction) =>
               userData && userData._id === transaction.sender._id ? (
-                <div className="text-sm bg-white p-[14px] mx-[20px] md:mx-[0px] rounded-[10px] my-2">
+                <div className="text-sm bg-white p-[14px] mx-[20px] md:mx-[0px] rounded-[10px] my-[6px]">
                   <p>
                     <div className="flex w-full">
                       <h2 className="font-bold text-xs">Money Sent</h2>
@@ -44,12 +44,12 @@ export const TransComp = ({trans, transHis, userData, option}) => {
                   </p>
                 </div>
               ) : (
-                <div className="text-sm bg-white p-[14px] mx-[20px] md:mx-[0px] rounded-[10px] my-3">
+                <div className="text-sm bg-white p-[14px] mx-[20px] md:mx-[0px] rounded-[10px] my-[6px]">
                   <p>
                     <div className="flex w-full">
                       <h2 className="font-bold text-xs">Bank Deposit</h2>
-                      <h2 className="ml-auto font-bold">
-                        -₦{transaction.amount}.00
+                      <h2 className="ml-auto font-bold text-private">
+                        +₦{transaction.amount}.00
                       </h2>
                     </div>
                     <div className="flex">

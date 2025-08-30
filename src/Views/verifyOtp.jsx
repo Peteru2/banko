@@ -1,6 +1,28 @@
 import React from 'react'
+import { useState } from 'react';
+  
+const VerifyOtp = () => {
+    const [otp, setOtp] = useState("");
+    const [userId, setUserId] = useState("");
 
-const VerifyOtp = (userId) => {
+    const handleVerify = async () => {
+    try {
+      const response = await api.post("/verifyOTP", { userId, otp });
+      setUserId("");
+      setOtp("");
+      toast.success(response.data.message, {
+        position: "top-right",
+      });
+      setTimeout(() => {
+        navigate("/Login");
+      }, 1500);
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Something went wrong", {
+        position: "top-right",
+      });
+    }
+  };
+  
   return (
     <div>
 
