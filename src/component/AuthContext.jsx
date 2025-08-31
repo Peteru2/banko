@@ -8,14 +8,7 @@ export const AuthContextProvider = ({ children }) => {
   const [userData, setUserData] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  useEffect(() => {
-    if (!token) {
-      navigate("/login");
-    }
-    else {
-      fetch(); 
-    }
-  }, [token]);
+
 
     const fetchData = async () => {
       try {
@@ -32,10 +25,18 @@ export const AuthContextProvider = ({ children }) => {
         }
       }
     };
-    fetchData();
+    // fetchData();
   
 
-  
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+    else {
+      fetchData(); 
+    }
+  }, [token]);
+
   const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");

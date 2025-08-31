@@ -23,8 +23,6 @@ const UpdateKyc = ({ onClose }) => {
       });
     } else {
       try {
-
-
         setUserData((prev) => ({
       ...prev,
       bvn: bvn,
