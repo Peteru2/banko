@@ -14,7 +14,6 @@ const TransactionForm = () => {
   const [icon, setIcon] = useState(false);
 
   const handleSubmitVal = async (e) => {
-
     e.preventDefault();
     try {
       // Send a request to transfer funds
@@ -23,18 +22,21 @@ const TransactionForm = () => {
         amount,
       });
       setUserData(response.data.user);
-      if (response.data.mes == "success") {
+      
+      console.log(userData)
+
+      if (response.data.message == "success") {
         setTrans(true);
       }
     } catch (error) {
       toast.error(error.response.data.error);
+
     }
   };
-  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIcon(true)
     try {
-      // Send a request to transfer funds
       const response = await api.post("/transfer", {
         recipientAccountNumber,
         amount,
@@ -56,6 +58,8 @@ const TransactionForm = () => {
       // Clear the form after successful transaction
     } catch (error) {
       toast.error(error.response.data.error);
+        setIcon(false);
+
     }
   };
 
@@ -79,7 +83,7 @@ const TransactionForm = () => {
                 onChange={(e) => setRecipientAcctNumber(e.target.value)}
                 required
                 className="border-[1px] w-full text-sm rounded-[8px] p-2 outline-none border-gray"
-                placeholder="Acct No"
+                placeholder="Account Number"
               />
             </div>
           </div>
@@ -99,7 +103,7 @@ const TransactionForm = () => {
                 onChange={(e) => setAmount(e.target.value)}
                 required
                 className="border-[1px] w-full text-sm rounded-[8px] p-2 outline-none border-gray"
-                placeholder="Minimum 50"
+                placeholder="Minimum of ₦50"
               />
             </div>
           </div>
@@ -141,6 +145,7 @@ const TransactionForm = () => {
                 <button
                   onClick={handleSubmit}
                   className="w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white"
+                  disabled={icon}
                 >
                   {icon ? (
                     <span>
@@ -157,6 +162,7 @@ const TransactionForm = () => {
           <button
             onClick={handleSubmitVal}
             className="w-full text-center bg-private mt-4 rounded-[8px] py-2 text-white"
+            
           >
             Pay
           </button>

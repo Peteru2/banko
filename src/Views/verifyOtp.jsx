@@ -4,10 +4,12 @@ import { useState } from 'react';
 const VerifyOtp = () => {
     const [otp, setOtp] = useState("");
     const [userId, setUserId] = useState("");
+    const [loading, setLoading] = useState(false)
 
     const handleVerify = async () => {
     try {
       const response = await api.post("/verifyOTP", { userId, otp });
+      setLoading(true)
       setUserId("");
       setOtp("");
       toast.success(response.data.message, {
@@ -20,6 +22,8 @@ const VerifyOtp = () => {
       toast.error(error.response?.data?.error || "Something went wrong", {
         position: "top-right",
       });
+      // setLoading(false)
+
     }
   };
   
@@ -42,7 +46,12 @@ const VerifyOtp = () => {
                       onChange={(e) => setOtp(e.target.value)}
                     />
                     <div className="bg-private rounded-[8px] cursor-pointer text-center mt-4 py-2 text-white">
-                      <button onClick={handleVerify}>Verify OTP</button>
+                      <button 
+                      onClick={handleVerify}
+                      disabled={loading}
+                      >
+                        {loading?(<span>Verifying <i className='fas fa-spinner fa-spin'></i></span>):(<span>Verify OTP</span>)}
+                      </button>
                     </div>
                   </div>
                 </div>

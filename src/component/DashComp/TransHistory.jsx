@@ -53,7 +53,7 @@ const TransHistory = () => {
   return (
     <>
       <div className="flex justify-center font-roboto">
-        <div className="justify-center  w-full max-w-[600px] ">
+        <div className="justify-center  w-full max-w-[560px] ">
           <div className=" flex text my-2 text-black text-opacity-60  items-center h-[48px] text-[18px]">
             <h2 className="cursor-pointer md:px-[10px] pl-[20px] pr-[0px]" onClick={() => navigate(-1)}>
               <i className="fa fa-arrow-left"> </i>
@@ -65,7 +65,7 @@ const TransHistory = () => {
           {transHis ? (
             <>
             {transHis.length === 0? (<>
-             <div className="bg-white py-4">
+             <div className="bg-white mx-[20px] py-4 rounded-[10px]">
               <h2 className="font-bold text-sm text-center ">
                 No transaction history found
               </h2>
@@ -75,7 +75,7 @@ const TransHistory = () => {
               <>
             {Object.entries(groupedTrans).map(([date, txs]) => (
                 <div key={date} className>
-                  <h3 className="font-semibold text-[12px] mt-[10px] md:pl-[0px] pl-[20px] text-black text-opacity-60">
+                  <h3 className="font-semibold text-[12px] mt-[10px]  md:pl-[0px] pl-[20px] text-black text-opacity-60">
                     {date}
                   </h3>
                   {txs.map((tx, idx) => (

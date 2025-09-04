@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import api from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import io from "socket.io-client";
 import { useAuth } from "../AuthContext.jsx";
 
-
 const UpdateKyc = ({ onClose }) => {
-  const {fetchData, setUserData} = useAuth()
+  const { fetchData, setUserData } = useAuth();
   const [bvn, setBVN] = useState("");
 
   const handleSubmit = async (e) => {
@@ -23,29 +21,15 @@ const UpdateKyc = ({ onClose }) => {
       });
     } else {
       try {
-        setUserData((prev) => ({
-      ...prev,
-      bvn: bvn,
-    }));
-         await api.put("/updatekyc", { bvn });
-
+        const response = await api.put("/updatekyc", { bvn });
+        if (response.data.user) {
+          setUserData(response.data.user);
+        } else {
+          await fetchData();
+        }
         onClose();
-
-        // const response = await api.put("/updatekyc", { bvn });
-        // const userResponse = await api.get("/");
-        // toast.success(response.data.message, {
-        //   position: "top-right",
-        // });
-    //     toast.success("Transaction Pin updated", {
-    //   position: "top-right",
-    // });
         console.log("KYC Level Upgraded");
         setBVN("");
-       
-        // setTimeout(() => {
-        //   window.location.href = "/";
-        // }, 1200);
-
       } catch (error) {
         if (error.response.status === 401) {
           toast.error(error.response.data.error, {

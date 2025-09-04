@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { TransComp } from "./TransComp.jsx";
 import { useAuth } from "../AuthContext.jsx";
 import { Link } from "react-router-dom";
+import Cards from "../../Views/Cards.jsx";
 
 // const socket = io.connect('http://localhost:8000');
 
@@ -93,6 +94,8 @@ const AccDetails = ({ userData, setUserData }) => {
               <TransPinForm onSubmit={handleSubmitPin} />
             </div>
           </form>
+
+          <Cards />
           <div className="flex items-center ">
             <h4 className="bg-private text-[20px] mr-4 px-3 rounded-[2px]">
               ₦
@@ -127,7 +130,7 @@ const AccDetails = ({ userData, setUserData }) => {
               </div>
             )}
           </div>
-
+           
           <div className={`modal font-roboto ${bvn ? "modal-show" : ""}`}>
             <UpdateKyc onClose={() => setBvn(false)} />
           </div>
@@ -135,7 +138,7 @@ const AccDetails = ({ userData, setUserData }) => {
           <div className={`${showPinInput || bvn ? "overlay" : ""} `}></div>
 
           <div>
-            <div className="flex justify-between w-full">
+            <div className="flex justify-between w-full max-w-[560px] mx-[20px]">
               <p className="text-[20px] text-black text-opacity-70 ">Latest transactions</p>
                <Link to="/History"><p className="text-private">View all</p></Link>
             </div>

@@ -14,6 +14,8 @@ const Login = () => {
   const [icon, setIcon] = useState(false);
   const [userId, setUserId] = useState("");
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false)
+  
   const { setUserData } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -105,6 +107,7 @@ const Login = () => {
   };
   const handleVerify = async () => {
     try {
+      setLoading(true)
       const response = await api.post("/verifyOTP", { userId, otp });
       setUserId("");
       setOtp("");
@@ -116,6 +119,7 @@ const Login = () => {
       toast.error(error.response?.data?.error, {
         position: "top-right",
       });
+      setLoading(false)
     }
   };
   return (
@@ -222,9 +226,15 @@ const Login = () => {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                 />
-                <div className="bg-private rounded-[8px] cursor-pointer text-center mt-4 py-2 text-white">
-                  <button onClick={handleVerify}>Verify OTP</button>
-                </div>
+            
+                  <button 
+                      onClick={handleVerify}
+                      disabled={loading}
+                      className="bg-private w-full rounded-[8px] text-center mt-4 py-2 text-white"
+                      >
+                        {loading?(<span>Verifying <i className='fas fa-spinner fa-spin'></i></span>):(<span>Verify OTP</span>)}
+                      </button>
+              
               </div>
             </div>
           </div>

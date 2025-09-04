@@ -340,9 +340,13 @@ const handleVerify = async () => {
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
                     />
-                    <div className="bg-private rounded-[8px] cursor-pointer text-center mt-4 py-2 text-white">
-                      <button onClick={handleVerify}>Verify OTP</button>
-                    </div>
+                    <button 
+                      onClick={handleVerify}
+                      disabled={loading}
+                      className="bg-private w-full rounded-[8px] text-center mt-4 py-2 text-white"
+                      >
+                        {loading?(<span>Verifying <i className='fas fa-spinner fa-spin'></i></span>):(<span>Verify OTP</span>)}
+                      </button>
                   </div>
                 </div>
                 {/* <VerifyOtp  userId={userId} otp={otp}/> */}
