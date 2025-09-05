@@ -14,8 +14,4 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-api.getSocket = () => {
-  return socket;
-};
-
 export default api;

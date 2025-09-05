@@ -14,6 +14,8 @@ const SignUp = () => {
   const [formMessage, setFormMessage] = useState("chess");
   const [userId, setUserId] = useState("");
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false)
+  
 
   const handleSuccess = () => {
     setSuccess(false);
@@ -58,7 +60,7 @@ const SignUp = () => {
     if (formData.firstname.trim() === "") {
       newErrors.firstname = "First name is required";
     } else if (formData.lastname.trim() === "") {
-      newErrors.lastname = " Las tname is required";
+      newErrors.lastname = " Lastname is required";
     } else if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!emailRegex.test(formData.email)) {
@@ -118,6 +120,7 @@ const SignUp = () => {
   };
 const handleVerify = async () => {
     try {
+      setLoading(true)
       const response = await api.post("/verifyOTP", { userId, otp });
       setUserId("");
       setOtp("");
@@ -126,11 +129,13 @@ const handleVerify = async () => {
       });
       setTimeout(() => {
         navigate("/Login");
-      }, 1500);
+      }, 1100);
     } catch (error) {
       toast.error(error.response?.data?.error || "Something went wrong", {
         position: "top-right",
       });
+      setLoading(false)
+
     }
   };
   
@@ -275,7 +280,7 @@ const handleVerify = async () => {
                 </label>
                 <div className="flex items-center bg-white rounded-[5px] px-3 mt-1  py-2">
                   <input
-                    type="text"
+                    type="password"
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}

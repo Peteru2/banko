@@ -179,7 +179,7 @@ const Login = () => {
                 </label>
                 <div className="flex items-center bg-white border-gray rounded-[5px] px-3 mt-1  py-2">
                   <input
-                    type="text"
+                    type="password"
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}

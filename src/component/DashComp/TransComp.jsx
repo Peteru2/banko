@@ -47,7 +47,10 @@ export const TransComp = ({trans, transHis, userData, option}) => {
                 <div className="text-sm bg-white p-[14px] mx-[20px] md:mx-[0px] rounded-[10px] my-[6px]">
                   <p>
                     <div className="flex w-full">
-                      <h2 className="font-bold text-xs">Bank Deposit</h2>
+                      <h2 className="font-bold text-xs">Bank Deposit from {" "}
+                        
+                        {transaction.sender.firstname}{" "}
+                        {transaction.sender.lastname}{" "} </h2>
                       <h2 className="ml-auto font-bold text-private">
                         +₦{transaction.amount}.00
                       </h2>

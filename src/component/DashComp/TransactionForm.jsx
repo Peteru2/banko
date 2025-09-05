@@ -3,27 +3,34 @@ import api from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext.jsx";
 
 
 const TransactionForm = () => {
+  const { fetchData, setUserData } = useAuth()
   const [recipientAccountNumber, setRecipientAcctNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [transPin, setTransPin] = useState("");
   const [trans, setTrans] = useState(false);
-  const [userData, setUserData] = useState("");
+  const [userTransferData, setUserTransferData] = useState("");
   const [icon, setIcon] = useState(false);
+  const [accountBalance, setAccountBalance] = useState(false);
+
 
   const handleSubmitVal = async (e) => {
     e.preventDefault();
     try {
-      // Send a request to transfer funds
+     
       const response = await api.post("/val_transfer", {
         recipientAccountNumber,
         amount,
       });
-      setUserData(response.data.user);
+      if (response){
+        
+      }
+      setUserTransferData(response.data.user);
       
-      console.log(userData)
+      console.log(userTransferData)
 
       if (response.data.message == "success") {
         setTrans(true);
@@ -55,6 +62,8 @@ const TransactionForm = () => {
           } , 1000); 
         
       }
+      const balResponse = await api.get("/balance");
+      setAccountBalance(balResponse.data.balance);
       // Clear the form after successful transaction
     } catch (error) {
       toast.error(error.response.data.error);
@@ -108,7 +117,7 @@ const TransactionForm = () => {
             </div>
           </div>
 
-          {userData && (
+          {userTransferData && (
             <div
               className={`modal font-roboto w-[350px] ${trans ? "modal-show" : ""}`}
             >
@@ -117,7 +126,7 @@ const TransactionForm = () => {
                   <h2 className=" mb-2 text-sm text-black text-opacity-30">
                     Recipient Name:{" "}
                     <span className="text-private font-bold uppercase">
-                      {userData.firstname + " " + userData.lastname}
+                      {userTransferData.firstname + " " + userTransferData.lastname}
                     </span>
                   </h2>
                   <span
