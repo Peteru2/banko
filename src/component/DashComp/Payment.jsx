@@ -25,6 +25,7 @@ const Payment = () => {
       title2: "Payment",
       url: "/",
       img: TopUp,
+      func:""
     },
 
     {
@@ -32,12 +33,16 @@ const Payment = () => {
       title2: "Airtime",
       url: "/",
       img: MakeAPayment,
+      func:""
+
     },
     {
       title1: "Mobile",
       title2: "Payment",
       url: "/",
       img: MobilePayment,
+      func:""
+
     },
     
   ];
@@ -49,7 +54,7 @@ const Payment = () => {
             <>
             <div className=" max-w-[600px]">
               <div
-                className="flex cursor-pointer  justify-center"
+                className={`${item.func===""?"":"cursor-pointer"} "flex   justify-center"`}
                 onClick={item.func}
               >
                 <div className="flex flex-col items-center">

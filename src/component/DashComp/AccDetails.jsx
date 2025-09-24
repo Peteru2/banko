@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { TransComp } from "./TransComp.jsx";
 import { useAuth } from "../AuthContext.jsx";
 import { Link } from "react-router-dom";
-import Cards from "../../Views/Cards.jsx";
+import Cards from "./Cards.jsx";
 
 // const socket = io.connect('http://localhost:8000');
 

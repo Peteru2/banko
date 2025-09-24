@@ -7,15 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import api from "../component/api";
 import { useNavigate } from "react-router-dom";
-import VerifyOtp from "./verifyOtp";
+// import VerifyOtp from "./verifyOtp";
 
 const SignUp = () => {
   const [icon, setIcon] = useState(false);
   const [formMessage, setFormMessage] = useState("chess");
   const [userId, setUserId] = useState("");
-  const [otp, setOtp] = useState("");
-  const [loading, setLoading] = useState(false)
-  
+  const [emailVerificationCode, setEmailVerificationCode] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSuccess = () => {
     setSuccess(false);
@@ -118,12 +117,16 @@ const SignUp = () => {
       setErrors({});
     }
   };
-const handleVerify = async () => {
+  const handleVerify = async () => {
     try {
-      setLoading(true)
-      const response = await api.post("/verifyOTP", { userId, otp });
+      setLoading(true);
+      console.log(emailVerificationCode);
+      const response = await api.post("/verifyEmail", {
+        userId,
+        emailVerificationCode,
+      });
       setUserId("");
-      setOtp("");
+      setEmailVerificationCode("");
       toast.success(response.data.message, {
         position: "top-right",
       });
@@ -134,11 +137,9 @@ const handleVerify = async () => {
       toast.error(error.response?.data?.error || "Something went wrong", {
         position: "top-right",
       });
-      setLoading(false)
-
+      setLoading(false);
     }
   };
-  
 
   return (
     <>
@@ -219,9 +220,7 @@ const handleVerify = async () => {
 
               <div className="mb-3">
                 <label className="  mt-4 label flex text-[14px] font-bold">
-                  <span>
-                    {/* <span className="text-red">*</span> Email */}
-                  </span>{" "}
+                  <span>{/* <span className="text-red">*</span> Email */}</span>{" "}
                   <span
                     className={`ml-auto text-red text-[14px] ${errors.email ? "blink-error" : ""}`}
                   >
@@ -269,8 +268,7 @@ const handleVerify = async () => {
                 <label className="  mt-4 label flex text-[14px] font-bold">
                   <span>
                     {/* <span className="text-red">*</span> Password */}
-                  </span>
-                  {" "}
+                  </span>{" "}
                   <span
                     className={`ml-auto text-red text-[14px] ${errors.password ? "blink-error" : ""}`}
                   >
@@ -335,23 +333,29 @@ const handleVerify = async () => {
                 >
                   <div className="w-[400px]">
                     <h2 className="my-2">
-                      Please enter your OTP to verify your account
+                      Please enter your Email verification Code
                     </h2>
 
                     <input
                       type="text"
                       className=" w-full  py-2 px-2 outline-none rounded-[8px] border-[1px] border-private "
-                      placeholder="Your OTP"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="Your Code"
+                      value={emailVerificationCode}
+                      onChange={(e) => setEmailVerificationCode(e.target.value)}
                     />
-                    <button 
+                    <button
                       onClick={handleVerify}
                       disabled={loading}
                       className="bg-private w-full rounded-[8px] text-center mt-4 py-2 text-white"
-                      >
-                        {loading?(<span>Verifying <i className='fas fa-spinner fa-spin'></i></span>):(<span>Verify OTP</span>)}
-                      </button>
+                    >
+                      {loading ? (
+                        <span>
+                          Verifying <i className="fas fa-spinner fa-spin"></i>
+                        </span>
+                      ) : (
+                        <span>Verify Email</span>
+                      )}
+                    </button>
                   </div>
                 </div>
                 {/* <VerifyOtp  userId={userId} otp={otp}/> */}

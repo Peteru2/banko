@@ -11,14 +11,11 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
     const verifyToken = async () => {
       try {
         const response = await api.get('/');
-        // Assuming your API returns a valid response if the token is valid
         setIsLoading(false);
       } catch (error) {
         if (error && error.response && error.response.status === 401) {
-          // Token expired or invalid, redirect to login page
           navigate('/login');
         } else {
-          // Handle other errors
         }
       }
     };

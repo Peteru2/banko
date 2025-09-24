@@ -13,9 +13,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [icon, setIcon] = useState(false);
   const [userId, setUserId] = useState("");
-  const [otp, setOtp] = useState("");
-  const [loading, setLoading] = useState(false)
-  
+  const [emailVerificationCode, setEmailVerificationCode] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const { setUserData } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -107,10 +107,14 @@ const Login = () => {
   };
   const handleVerify = async () => {
     try {
-      setLoading(true)
-      const response = await api.post("/verifyOTP", { userId, otp });
+      setLoading(true);
+      console.log(emailVerificationCode);
+      const response = await api.post("/verifyEmail", {
+        userId,
+        emailVerificationCode,
+      });
       setUserId("");
-      setOtp("");
+      setEmailVerificationCode("");
       toast.success(response.data.message, {
         position: "top-right",
       });
@@ -119,7 +123,7 @@ const Login = () => {
       toast.error(error.response?.data?.error, {
         position: "top-right",
       });
-      setLoading(false)
+      setLoading(false);
     }
   };
   return (
@@ -153,7 +157,7 @@ const Login = () => {
 
               <div className="mb-6 mt-10">
                 <label className=" text-opacity- label flex text-[14px] font-bold">
-                  <span ></span>{" "}
+                  <span></span>{" "}
                   <span
                     className={`ml-auto text-red text-[14px] ${errors.email ? "blink-error" : ""}`}
                   >
@@ -175,7 +179,13 @@ const Login = () => {
 
               <div className="mb-6">
                 <label className=" label flex text-[14px] font-bold">
-                  <span></span> <span className={`ml-auto text-red text-[14px] ${errors.password? "blink-error":""}`}> {errors.password}</span>
+                  <span></span>{" "}
+                  <span
+                    className={`ml-auto text-red text-[14px] ${errors.password ? "blink-error" : ""}`}
+                  >
+                    {" "}
+                    {errors.password}
+                  </span>
                 </label>
                 <div className="flex items-center bg-white border-gray rounded-[5px] px-3 mt-1  py-2">
                   <input
@@ -222,19 +232,24 @@ const Login = () => {
                 <input
                   type="text"
                   className=" w-full  py-2 px-2 outline-none rounded-[8px] border-[1px] border-private "
-                  placeholder="Your OTP"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Your Code"
+                  value={emailVerificationCode}
+                  onChange={(e) => setEmailVerificationCode(e.target.value)}
                 />
-            
-                  <button 
-                      onClick={handleVerify}
-                      disabled={loading}
-                      className="bg-private w-full rounded-[8px] text-center mt-4 py-2 text-white"
-                      >
-                        {loading?(<span>Verifying <i className='fas fa-spinner fa-spin'></i></span>):(<span>Verify OTP</span>)}
-                      </button>
-              
+
+                <button
+                  onClick={handleVerify}
+                  disabled={loading}
+                  className="bg-private w-full rounded-[8px] text-center mt-4 py-2 text-white"
+                >
+                  {loading ? (
+                    <span>
+                      Verifying <i className="fas fa-spinner fa-spin"></i>
+                    </span>
+                  ) : (
+                    <span>Verify Email</span>
+                  )}
+                </button>
               </div>
             </div>
           </div>
